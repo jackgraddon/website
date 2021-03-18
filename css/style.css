@@ -8,7 +8,6 @@
     color: white !important;
   }
 
-  .card-body,
   .card,
   .jumbotron,
   .navbar {
@@ -43,7 +42,6 @@
     color: black !important;
   }
 
-  .card-body,
   .card,
   .jumbotron,
   .navbar {
@@ -84,6 +82,10 @@
   #menu_text_bar {
     background-color: black;
   }
+}
+
+.card-body {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 /*body adjustments*/

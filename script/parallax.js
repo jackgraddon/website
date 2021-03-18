@@ -1,5 +1,5 @@
 const backgrounds = document.querySelectorAll("#background");
-const header = document.querySelectorAll("main");
+const header = document.querySelectorAll(".container");
 const range = 20;
 
 const calcValue = (a, b) => ((a / b) * range - range / 2).toFixed(1);
@@ -17,8 +17,8 @@ document.addEventListener(
       const xValue = calcValue(x, window.innerWidth);
 
       [].forEach.call(header, (header) => {
-        header.style.transform = `translateX(${xValue * 0.5}px) translateY(${
-          yValue * 0.5
+        header.style.transform = `translateX(${xValue * 0.3}px) translateY(${
+          yValue * 0.3
         }px)`;
         // header.style.transform = `translateX(0) translateY(0)`;
       });
