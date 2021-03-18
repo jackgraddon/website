@@ -17,9 +17,9 @@ document.addEventListener(
       const xValue = calcValue(x, window.innerWidth);
 
       [].forEach.call(header, (header) => {
-        header.style.transform = `translateX(${xValue * 0.3}px) translateY(${
-          yValue * 0.3
-        }px)`;
+        // header.style.transform = `translateX(${xValue * 0.3}px) translateY(${
+        //   yValue * 0.3
+        // }px)`;
         // header.style.transform = `translateX(0) translateY(0)`;
       });
 
