@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Jack Graddon | Photoshop</title>
-    <link rel="icon" href="images/HTML5.svg">
+    <title>Jack Graddon | Websites</title>
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -14,7 +13,26 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <!-- Personal CSS -->
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../css/style.css" rel="stylesheet" type="text/css" />
+
+
+    <!-- Custom Moving Icon -->
+    <script type="text/javascript">
+        let count = 1;
+        let href;
+        setInterval(function () {
+            if (count == 1) {
+                href = `../images/faviconmiror.ico`;
+                count = 0;
+            } else if (count == 0) {
+                href = `../images/favicon.ico`;
+                count = 1;
+            }
+            $('#page-icon').attr('href', href);
+            // console.log('icon set.')
+        }, 3000);
+    </script>
+    <link id="page-icon" rel="icon" href="../images/favicon.ico">
 </head>
 
 <body>
@@ -50,8 +68,6 @@
         <div class="mt-5">
             <h1>Jack Graddon</h1>
             <p class="lead">Web Design and Development</p>
-            <p class="text-sm">This Page is a tad broken at this current point in time, but it does get the job done.
-                Working on it!</p>
         </div>
         <div class="text-justify-center">
             <p>These are some websites I have made!</p>
@@ -68,11 +84,10 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Culinary Arts Website (Personal)</h5>
-                    <p class="card-text">For this new Remove Learning thing, I decided to make a website for my Culinary
-                        Arts class to keep everything in the same spot, easy to read and see, etc. This is how it looks!
-                    </p><br>
-                    <a href="https://jackgraddon.github.io/culinary/" class="btn btn-primary" target="_blank">View</a>
+                    <h5 class="card-title">FBLA 2021 Web Design Project</h5>
+                    <p class="card-text">A project I made for the FBLA 2021 Business Achievement Awards competition.</p>
+                    <a href="https://jackgraddon.github.io/fblaproject/" class="btn btn-primary"
+                        target="_blank">View</a>
                 </div>
             </div>
     </main>

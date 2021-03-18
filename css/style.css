@@ -3,167 +3,167 @@
 @import "menutoggle.css";
 
 @media (prefers-color-scheme: dark) {
-    body {
-        background-color: #26292c !important;
-        color: white !important;
-    }
+  body {
+    background-color: #26292c !important;
+    color: white !important;
+  }
 
-    .card-body,
-    .card,
-    .jumbotron,
-    .navbar {
-        background-color: #343a40 !important;
-        border-color: #373e44 !important;
-        color: white !important;
-    }
+  .card-body,
+  .card,
+  .jumbotron,
+  .navbar {
+    background-color: #343a40 !important;
+    border-color: #373e44 !important;
+    color: white !important;
+  }
 
-    .nav-link {
-        color: rgb(150, 150, 150) !important;
-    }
+  .nav-link {
+    color: rgb(150, 150, 150) !important;
+  }
 
-    .nav-link:hover {
-        color: rgba(255, 255, 255, 0.5);
-    }
+  .nav-link:hover {
+    color: rgba(255, 255, 255, 0.5);
+  }
 
-    .nav-item .active {
-        color: white !important;
-    }
+  .nav-item .active {
+    color: white !important;
+  }
 
-    .navbar-brand {
-        color: white;
-    }
-    #webapp_cover {
-        background-color: rgba(255, 255, 255, 0);
-    }
+  .navbar-brand {
+    color: white;
+  }
+  #webapp_cover {
+    background-color: rgba(255, 255, 255, 0);
+  }
 }
 
 @media (prefers-color-scheme: light) {
-    body {
-        background-color: rgb(219, 219, 219) !important;
-        color: black !important;
-    }
+  body {
+    background-color: rgb(219, 219, 219) !important;
+    color: black !important;
+  }
 
-    .card-body,
-    .card,
-    .jumbotron,
-    .navbar {
-        background-color: white !important;
-        border-color: white !important;
-        color: black !important;
-    }
+  .card-body,
+  .card,
+  .jumbotron,
+  .navbar {
+    background-color: white !important;
+    border-color: white !important;
+    color: black !important;
+  }
 
-    .nav-link {
-        color: gray;
-    }
+  .nav-link {
+    color: gray;
+  }
 
-    .nav-link:hover {
-        color: black;
-    }
+  .nav-link:hover {
+    color: black;
+  }
 
-    .active {
-        color: black !important;
-    }
+  .active {
+    color: black !important;
+  }
 
-    .navbar-brand {
-        color: black;
-    }
-    .navbar-brand:hover {
-        color: rgba(0, 0, 0, 0.5);
-    }
-    .navbar-brand:active {
-        color: rgba(0, 0, 0, 0.25);
-    }
-    #webapp_cover {
-        background-color: rgba(255, 255, 255, 0);
-    }
-    #menu_text_bar:before{
-        color: black !important;
-    }
-    #menu_label:before, #menu_label:after, #menu_text_bar {
-        background-color: black;
-    }
-
+  .navbar-brand {
+    color: black;
+  }
+  .navbar-brand:hover {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .navbar-brand:active {
+    color: rgba(0, 0, 0, 0.25);
+  }
+  #webapp_cover {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  #menu_text_bar:before {
+    color: black !important;
+  }
+  #menu_label:before,
+  #menu_label:after,
+  #menu_text_bar {
+    background-color: black;
+  }
 }
 
 /*body adjustments*/
 body {
-    cursor: default;
-    /*disables text selection*/
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  cursor: default;
+  /*disables text selection*/
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /*Hides scrollbars on webKit browsers*/
 body::-webkit-scrollbar {
-    display: none
+  display: none;
 }
 .navbar-toggler {
-    background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.25);
 }
 #background {
-    z-index: 0;
-    width: 105vw;
-    height: 105vh;
-    background-image: url(../images/palms.jpeg);
-    background-repeat: repeat;
-    background-blend-mode: overlay;
-    background-position: center;
-    background-size: 110%;
-    background-color: #17181a;
-    position: fixed;
-    top: -2.5vh;
-    left: -2.5vw;
+  z-index: 0;
+  width: 105vw;
+  height: 105vh;
+  background-image: url(../images/png/background.png);
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+  background-position: center;
+  background-size: 110%;
+  background-color: #383a3f;
+  position: fixed;
+  top: -2.5vh;
+  left: -2.5vw;
 }
 
 #name {
-    z-index: 2;
-    display: block;
-    transform: translateX(0) translateY(0);
+  z-index: 2;
+  display: block;
+  transform: translateX(0) translateY(0);
 }
 
 nav {
-    z-index: 3;
+  z-index: 3;
 }
 
 .nav-link {
-    color: gray;
+  color: gray;
 }
 
-
 .container {
-    z-index: 1;
-    transition: 0.3s;
+  z-index: 1;
+  transition: 0.3s;
 }
 
 .text-sm {
-    font-size: 8pt
+  font-size: 8pt;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .card {
-    border: #fff 1px solid;
+  border: #fff 1px solid;
 }
 
 /*media adjustments*/
 img {
-    border-radius: 5px;
-    transition: 0.3s
+  border-radius: 5px;
+  transition: 0.3s;
 }
 
 img:hover {
-    transform: scale(1.005);
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+  transform: scale(1.005);
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
 }
 
 #divider {
-    height: 1px;
-    border-radius: 100%;
-    background-color: rgb(255, 255, 255, 0.5);
+  height: 1px;
+  border-radius: 100%;
+  background-color: rgb(255, 255, 255, 0.5);
 }
