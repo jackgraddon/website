@@ -167,3 +167,13 @@ img:hover {
   border-radius: 100%;
   background-color: rgb(255, 255, 255, 0.5);
 }
+
+/* Badge */
+.badge-primary {
+  background: rgb(70, 91, 229);
+  background: linear-gradient(
+    -137deg,
+    rgba(70, 91, 229, 1) 0%,
+    rgba(205, 0, 0, 1) 100%
+  );
+}
