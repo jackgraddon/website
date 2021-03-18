@@ -1,8 +1,4 @@
 # My Personal Website
-
-Removed Theme Button:
-- It is now set by your device's theme setting.
-
 ----------------------------------
 You do not have permission to:
 - Fork the Repository
@@ -14,6 +10,6 @@ You have permission to:
 - Let me know if my code can be better
 - Ask me to edit or use my code
 
-Please be respectful of my reequests.
+Please be respectful of my requests.
 
 # This work is Copyright Jackson Graddon 2020
