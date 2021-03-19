@@ -160,7 +160,7 @@ img.hoverable {
 }
 
 img.hoverable:hover {
-  transform: scale(1.005);
+  transform: scale(1.01);
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
 }
 
