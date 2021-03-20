@@ -1,6 +1,6 @@
 function testMobile() {
     if (/Android|webOS|iPhone|iPod|iPad|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-      window.location.href = "mobile.html";
+      window.location.href = "./mobile/";
     }
   }
   function testPC() {
