@@ -1,5 +1,7 @@
-# My Personal Website
+# My Personal Website (Beta)
 ----------------------------------
+This is the beta version of my live site. This is used to experiment and try new/different things and not have consequence if it breaks everything.
+
 You do not have permission to:
 - Fork the Repository
 - Edit my code
@@ -12,4 +14,4 @@ You have permission to:
 
 Please be respectful of my requests.
 
-# This work is Copyright Jackson Graddon 2021
+# This work is Copyright Jackson Graddon 2020 - 2022
