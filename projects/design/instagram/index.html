@@ -12,7 +12,7 @@
     <meta name="og:image" content="./img/ogImage.jpg">
 
     <!-- Favicon -->
-    <link rel="icon" href="../../images/png/favicon/favicon.png">
+    <link rel="icon" href="../../../images/png/favicon/favicon.png">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
@@ -23,7 +23,9 @@
     <!-- FontAwesome Icons -->
     <script src="https://kit.fontawesome.com/c2793fb33f.js" crossorigin="anonymous"></script>
     <!-- Personal CSS -->
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <!-- Reset scroll to top -->
+    <script>history.scrollRestoration = "manual"</script>
 </head>
 
 <body style="opacity: 0;">
@@ -38,11 +40,10 @@
             id="titleContainer">
             <div class="d-flex flex-column container align-items-center"
                 style="height: fit-content; width: fit-content;" id="headerText">
-                <p class="m-sm-auto" id="condition"><i class="bi bi-globe2"></i></i>
+                <p class="m-sm-auto" id="condition"><i class="bi bi-instagram" aria-hidden="true"></i>
                 </p>
-                <h1 class="m-sm-auto title" id="title">Web Projects</h1>
-                <p class="m-sm-auto subtitle" id="subtitle">Websites I have built or been a part
-                    of.</p>
+                <h1 class="m-sm-auto title" id="title">Instagram Posts</h1>
+                <p class="m-sm-auto subtitle" id="subtitle">Designs I have posted to Instagram</p>
                 <a class="m-auto d-flex flex-column" id="scrollDown"
                     onclick="javascript:document.getElementById('sectionOne').scrollIntoView({ behavior: 'smooth' });">
                     <p class="scroll m-auto">
@@ -57,9 +58,30 @@
     </div>
 
     <!-- Script for Main Page -->
+    <!-- Mobile Detection -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
     <script>
+        var md;
+        // Get Device
+        window.addEventListener("DOMContentLoaded", function () {
+            md = new MobileDetect(window.navigator.userAgent);
+            // console.log(md.mobile()); // null if not mobile device
+            // console.log(md.phone()); // null if not smartphone
+            // console.log(md.tablet()); // null if not tablet
+            // console.log(md.userAgent()); // Browser used
+            // console.log(md.os()); // Operating System
+            // console.log(md.version('Webkit')); // Webkit version
+            // console.log(md.versionStr('Build')); // Build
 
-        window.onunload = function () { window.scrollTo(0, 0); }
+            if (md.mobile() != null) {
+                document.getElementById('cloudContainer').style.width = '200%';
+                document.getElementById('cloudContainer').style.left = '-20%';
+                // Get orientation on Mobile devices (fixes off-center padding for title)
+                if ((Math.abs(window.orientation) == 90) || (Math.abs(window.orientation) == -90)) {
+                    document.getElementById('titleContainer').style.paddingTop = "2rem";
+                }
+            }
+        });
     </script>
     <!-- Mobile Detection -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
@@ -88,44 +110,18 @@
     </script>
 
     <main class="container mb-5" id="sectionOne" style="z-index: 3;">
-        <!-- <div class="mb-4 d-flex flex-column justify-content-center align-items-center">
-                    <h1>Showcase</h1>
-                    <div class="project-deck">
-                        <div class="project-tile" style="background-color: #FFE9C1;">
-                            <img src="../../images/jpg/projects/lyndenITWebsite.jpg"
-                                alt="Lynden High School IT - Discover help, learn how to use, and develop your skills with technology."
-                                style="border-bottom: #F8D1AE 1px dashed;">
-                            <a href="./web/lhs/it/" class="btn" style="color: #FFCA09; border-color: #FFCA09;">Learn
-                                More</a>
-                        </div>
-                        <div class="project-tile" style="background-color: #432534;">
-                            <img src="../../images/jpg/projects/fblaProject22.jpg"
-                                alt="Future Business Leaders of America 2020/21 Competition - Website Design."
-                                style="border-bottom: #C44900 1px dashed;">
-                            <a href="./web/fbla2022/" class="btn" style="color: #C44900; border-color: #C44900;">Learn
-                                More</a>
-                        </div>
-                    </div>
-                </div> -->
-        <div class="mb-4 d-flex flex-column justify-content-center align-items-center">
-            <h1>Showcase</h1>
-            <div class="project-deck">
-                <div class="project-tile" style="background-color: #432534;">
-                    <img src="../../images/jpg/projects/fblaProject22.jpg"
-                        alt="Future Business Leaders of America 2020/21 Competition - Website Design."
-                        style="border-bottom: #C44900 1px dashed;">
-                    <a href="../web/fbla/2022/" class="btn" style="color: #C44900; border-color: #C44900;">Learn
-                        More</a>
-                </div>
-                <div class="project-tile" style="background-color: #FFE9C1;">
-                    <img src="../../images/jpg/projects/lyndenITWebsite.jpg"
-                        alt="Lynden High School IT - Discover help, learn how to use, and develop your skills with technology."
-                        style="border-bottom: #F8D1AE 1px dashed;">
-                    <a href="../web/lhs/it/" class="btn disabled" style="color: #FFCA09; border-color: #FFCA09;">Learn
-                        More</a>
-                </div>
-            </div>
-        </div>
+        <!-- Curator Feed -->
+        <div id="instagram-feed"><a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by
+                Curator.io</a></div>
+        <!-- Feed Javascript -->
+        <script type="text/javascript">
+            /* instagram-feed */
+            (function () {
+                var i, e, d = document, s = "script"; i = d.createElement("script"); i.async = 1; i.charset = "UTF-8";
+                i.src = "https://cdn.curator.io/published/169f80ad-4e4d-42a2-a34d-dadd25ce4d53.js";
+                e = d.getElementsByTagName(s)[0]; e.parentNode.insertBefore(i, e);
+            })();
+        </script>
     </main>
     <!-- Scroll to Top button -->
     <div class="p-2" style="position: sticky; bottom: env(safe-area-inset-bottom); overflow-y: hidden; opacity: 0;"
@@ -146,19 +142,19 @@
         <div style="width: fit-content;" class="m-auto">
             <ul class="nav justify-content-center">
                 <li class="nav-item">
-                    <a class="nav-link" href="../../">Home</a>
+                    <a class="nav-link" href="../../../">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../about/">About</a>
+                    <a class="nav-link" href="../../../about/">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../projects/">Projects</a>
+                    <a class="nav-link" href="../../../projects/">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../contact/">Contact</a>
+                    <a class="nav-link" href="../../../contact/">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../legal/">Legal</a>
+                    <a class="nav-link" href="../../../legal/">Legal</a>
                 </li>
             </ul>
         </div>
@@ -166,8 +162,8 @@
 
     </script>
     <!-- Script for Landing Page -->
-    <script src="../../js/theming.js"></script>
-    <script src="../../js/hiddenMenu.js"></script>
+    <script src="../../../js/theming.js"></script>
+    <script src="../../../js/hiddenMenu.js"></script>
     <!-- Bootstrap 5 Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -198,6 +194,7 @@
             duration: 2,
         });
     </script>
+    <script src="../../../js/hiddenMenu.js"></script>
 
 </body>
 
