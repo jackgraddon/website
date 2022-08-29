@@ -87,8 +87,8 @@
         <div class="d-flex flex-md-row flex-column">
             <div class="d-flex flex-column text-md-end m-md-3">
                 <h1 class="title text-md-end">About</h1>
-                <p>I am a <span id="age"></span> year old self-tought HTML web developer, Honors Student, and
-                    Regents Scholar at Washington State University, and <span id="begintense"></span> studying Web
+                <p>I am a <span id="age"></span> year old self-taught HTML web developer, Honors Student, and
+                    Regents Scholar at Washington State University, and began studying Web
                     Design and Development with a major in Digital Technology and Culture in August 2022.
                 </p>
                 <p>I've always desired to make technology more accessible by developing user interfaces that are
@@ -116,23 +116,8 @@
                     ageTarget.innerHTML = currentAge;
                 }
 
-                function setTense() {
-                    let tenseTarget = document.getElementById('begintense');
-                    let today = new Date; // Get today's date
-                    if (today.getFullYear() == 2022) { // If the current year is 2022
-                        if (today.getMonth() < 8) { // Check if it is before August
-                            tenseTarget.textContent = "will begin"; // If so, set tense to "will begin"
-                        } else {
-                            tenseTarget.textContent = "began"; // If not, set tense to "began"
-                        }
-                    } else {
-                        tenseTarget.textContent = "began"; // If the current year is not 2022, set tense to "began"
-                    }
-                }
-
                 window.addEventListener("DOMContentLoaded", function () {
                     getAge();
-                    setTense();
                 });
             </script>
         </div>
@@ -186,9 +171,6 @@
         </script>
     <!-- Pollyfills -->
     <script src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
-    <script>smoothscroll.polyfill();</script>
-    <!-- ^ For Smooth Scrolling on Unsupported Browsers ^ -->
-
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/CSSRulePlugin.min.js"></script>
