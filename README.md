@@ -1,6 +1,6 @@
-# My Personal Website (Beta)
+# My Personal Website
 ----------------------------------
-This is the beta version of my live site. This is used to experiment and try new/different things and not have consequence if it breaks everything.
+This is my personal portfolio website!
 
 You do not have permission to:
 - Fork the Repository

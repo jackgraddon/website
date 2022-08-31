@@ -25,7 +25,7 @@ gsap.registerPlugin(ScrollTrigger);
 let tl = gsap.timeline({
   defaults: { duration: 1 },
   scrollTrigger: {
-    trigger: "#vidcontainer",
+    trigger: "#video-container",
     start: "center center",
     endTrigger: "#footer",
     end: "bottom bottom",
