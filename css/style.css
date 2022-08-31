@@ -12,13 +12,23 @@
   --danger: #d1495b;
   --danger-hover: #ff7d8f;
 }
-
-#help-ukraine {
+.footer-causes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+.footer-causes a {
   cursor: pointer;
   transition: 300ms;
+  text-decoration: none;
+  font-size: 1.7rem;
+  padding: 0 0.5rem;
 }
-#help-ukraine:hover {
-  transform: scale(1.1);
+.footer-causes a:hover {
+  transform: scale(1.15);
 }
 
 #alerts {
@@ -243,12 +253,12 @@ a.nav-link.active {
   text-align: center;
   text-decoration: none;
   transition: 200ms ease-out;
-  border-radius: 0.5rem;
+  border-radius: 7pt;
   background-color: #faf9f9;
 }
 .btn:hover {
   transform: scale(1.1);
-  background-color: #faf9f9;
+  background-color: #faf9f9 !important;
 }
 .btn:active {
   transform: scale(0.95);
@@ -280,9 +290,9 @@ a.nav-link.active {
 }
 
 /* Images */
-/* img {
-  border-radius: 0.7rem;
-} */
+img {
+  border-radius: 7pt;
+}
 #cloudContainer {
   overflow-x: hidden;
   overflow-y: visible;
@@ -292,16 +302,17 @@ div.image-container {
   width: 100%;
   overflow: hidden;
   display: flex;
-  border-radius: 0.7rem;
+  border-radius: 7pt;
 }
 div.image-center {
   justify-content: center;
 }
 
-div.portrait {
+div.portrait,
+div.logo {
   width: 100%;
   overflow: hidden;
-  border-radius: 0.7rem;
+  border-radius: 7pt;
 }
 div.portrait.portrait-landing {
   min-width: 40vw;
@@ -313,19 +324,30 @@ div.portrait.portrait-about {
   display: flex;
   justify-content: center;
 }
+div.logo.logo-about {
+  min-width: 30vw;
+  max-height: 50%;
+  aspect-ratio: 1 !important;
+  display: flex;
+  justify-content: end;
+}
 
 /* Cards */
 .card {
   border: none;
-  border-radius: 0.5rem !important;
+  border-radius: 7pt !important;
   color: black;
   padding: 0 0 0.4rem 0;
+  transform: scale(0.9);
+}
+.card-img-top {
+  transform: scale(1.1);
 }
 .card-footer {
   border: none;
   background-color: white;
   color: black;
-  border-radius: 0 0 0.5rem 0.5rem !important;
+  border-radius: 0 0 7pt 7pt !important;
 }
 .card .card-footer .btn {
   margin: 0 !important;
@@ -378,7 +400,7 @@ div.portrait.portrait-about {
 }
 .project-tile {
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 7pt;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -401,11 +423,11 @@ div.portrait.portrait-about {
     width: auto !important;
     max-width: none !important;
     max-height: none !important;
-    margin: 0.5rem 0rem !important;
+    margin: 7pt 0rem !important;
   }
 }
 .project-tile img {
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 7pt 7pt 0 0;
   width: 100%;
   aspect-ratio: 1.6;
 }
@@ -419,11 +441,7 @@ div.portrait.portrait-about {
   height: 100%;
 }
 
-#containerwrapper {
-  height: 200vh;
-}
-
-#vidcontainer {
+#video-container {
   height: 100vh;
   position: sticky;
   top: 0;
@@ -436,11 +454,21 @@ div.portrait.portrait-about {
 /* Contact Form */
 #form-card {
   width: 100%;
+  margin: 2rem auto !important;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: 0;
+  outline-width: 0px;
+  box-shadow: 0;
+  -moz-box-shadow: 0;
+  -webkit-box-shadow: 0;
 }
 @media (min-width: 768px) {
   #form-card {
     width: 75%;
-    margin: auto;
   }
 }
 
