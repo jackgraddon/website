@@ -291,13 +291,15 @@
     <main class="container mb-5" id="sectionOne" style="z-index: 3;">
         <div id="alerts" style="opacity: 0;">
             <!-- Cookie Alert -->
-            <div class="shadow alert alert-primary alert-dismissible fade show" id="alertUntracked" role="alert">
+            <div class="shadow alert alert-primary alert-dismissible fade show" id="alertUntracked" role="alert"
+                ondblclick="window.open('https://epic.org')">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true"></span>
                 </button>
                 <h3 style="font-size: medium;">🍪 Cookies</h3>
                 <p style="font-size: x-small;" class="mb-1">This website does not use cookies! You are free to browse
-                    with the peace of mind that you are not being tracked.
+                    with the peace of mind that you are not being tracked. Double click me to learn more about data
+                    privacy.
                 </p>
             </div>
         </div>
@@ -329,7 +331,7 @@
                         More</a>
                 </div>
             </div>
-            <p class="mt-1">Check out some of my favourite projects above!</p>
+            <p class="mt-1">Check out some of my favorite projects above!</p>
             <div class="d-flex flex-md-row flex-column w-100 mt-2">
                 <div class="portrait portrait-landing">
                     <img src="./images/jpg/portraits/Jack-01.jpg" height="100%"
@@ -372,8 +374,10 @@
 
     <!-- Footer -->
     <nav class="d-flex flex-column p-3">
-        <h3 style="width: fit-content;" class="m-auto" id="help-ukraine"
-            onclick="window.open('https://help.rescue.org/donate/ukraine-web')">🇺🇦</h3>
+        <div class="footer-causes">
+            <a id="data-rights" href='https://epic.org' target="_blank">🔒</a>
+            <a id="help-others" href='https://rescue.org/' target="_blank">⛑️</a>
+        </div>
         <h3 style="width: fit-content;" class="m-auto">Jack Graddon</h3>
         <p style="width: fit-content; font-size: small;" class="m-auto">Website &copy; Jack Graddon 2022</p>
         <div style="width: fit-content;" class="m-auto">
@@ -411,7 +415,6 @@
     </script>
     <!-- Pollyfill (for Smooth Scrolling on Unsupported Browsers) -->
     <script src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
-    <script>smoothscroll.polyfill();</script>
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/CSSRulePlugin.min.js"></script>
@@ -434,6 +437,17 @@
             ease: "none",
             duration: 2,
         });
+        gsap.to("#scrollToTop", {
+            scrollTrigger: {
+                trigger: "#cloudContainer",
+                id: "scrollTopButton",
+                start: "top 40%",
+                end: "top 10%",
+                scrub: 1,
+            },
+            opacity: 1,
+            duration: 1
+        })
         gsap.to("#title", {
             scrollTrigger: {
                 trigger: "#cloudContainer",

@@ -115,7 +115,7 @@ let hidden,
 window.addEventListener("keydown", (e) => {
   // console.log(e.key);
   if (e.key == "Escape") {
-    console.log("yo");
+    // console.log("yo");
     clearTimeout(hidden);
     let nav = document.querySelector("#floatingNav");
 
@@ -191,3 +191,34 @@ window.addEventListener("scroll", () => {
   let nav = document.getElementById("floatingNav");
   gsap.to(nav, { opacity: 0, duration: 0.3, ease: "power1" });
 });
+
+// Alerts
+let alertContainer = document.querySelector("#alerts");
+if (alertContainer != null) {
+  console.log("alerts found");
+} else {
+  console.log("alerts not found");
+  try {
+    alertContainer = document.createElement("div");
+    alertContainer.id = "alerts";
+    alertContainer.style.opacity = 0;
+    document.body.appendChild(alertContainer);
+  } catch (e) {
+    console.log("alerts not appended");
+  }
+}
+
+let alert = document.createElement("div");
+alert.classList = "shadow alert alert-primary alert-dismissible fade show";
+alert.id = "alertMenu";
+alert.role = "alert";
+alert.innerHTML = `
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true"></span>
+  </button>
+  <h3 style="font-size: medium;">🍔 Hidden Menu</h3>
+  <p style="font-size: x-small;" class="mb-1">
+    Did you know that you can press the escape key (or tap and hold on touchscreens) to open the hidden menu? Give it a try!
+  </p>`;
+
+if (Math.random() > 0.9) alertContainer.appendChild(alert);
