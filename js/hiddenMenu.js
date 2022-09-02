@@ -23,7 +23,7 @@ window.addEventListener("load", () => {
   title.classList.add("mx-auto");
   title.classList.add("my-2");
   title.style.width = "fit-content";
-  title.innerHTML = "Go To";
+  title.textContent = "Go To";
   title.onclick = () => {
     window.location = mainURL;
   };
@@ -43,27 +43,27 @@ window.addEventListener("load", () => {
   let contactLink = document.createElement("a");
   contactLink.classList.add("nav-link");
   contactLink.href = mainURL + "/contact/";
-  contactLink.innerHTML = "Contact";
+  contactLink.textContent = "Contact";
 
   let aboutLink = document.createElement("a");
   aboutLink.classList.add("nav-link");
   aboutLink.href = mainURL + "/about/";
-  aboutLink.innerHTML = "About";
+  aboutLink.textContent = "About";
 
   let projectsLink = document.createElement("a");
   projectsLink.classList.add("nav-link");
   projectsLink.href = mainURL + "/projects/";
-  projectsLink.innerHTML = "Projects";
+  projectsLink.textContent = "Projects";
 
-  let legalsLink = document.createElement("a");
-  legalsLink.classList.add("nav-link");
-  legalsLink.href = mainURL + "/legal/";
-  legalsLink.innerHTML = "Legals";
+  let blogLink = document.createElement("a");
+  blogLink.classList.add("nav-link");
+  blogLink.href = mainURL + "/blog/";
+  blogLink.textContent = "Blog";
 
   linkContainers[0].appendChild(contactLink);
   linkContainers[1].appendChild(aboutLink);
   linkContainers[2].appendChild(projectsLink);
-  linkContainers[3].appendChild(legalsLink);
+  linkContainers[3].appendChild(blogLink);
 
   for (let i = 0; i < 4; i++) {
     if (i < 2) {
