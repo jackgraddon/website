@@ -28,7 +28,7 @@
   padding: 0 0.5rem;
 }
 .footer-causes a:hover {
-  transform: scale(1.15);
+  scale: 1.15;
 }
 
 #alerts {
@@ -216,7 +216,7 @@ a.nav-link.active {
   transition: 300ms ease;
 }
 #floatingNav .nav-link:hover {
-  transform: scale(1.1);
+  scale: 1.1;
 }
 .nav-link {
   cursor: pointer !important;
@@ -257,11 +257,11 @@ a.nav-link.active {
   background-color: #faf9f9;
 }
 .btn:hover {
-  transform: scale(1.1);
+  scale: 1.1;
   background-color: #faf9f9 !important;
 }
 .btn:active {
-  transform: scale(0.95);
+  scale: 0.95;
 }
 .btn.disabled {
   opacity: 0.8;
@@ -338,10 +338,10 @@ div.logo.logo-about {
   border-radius: 7pt !important;
   color: black;
   padding: 0 0 0.4rem 0;
-  transform: scale(0.9);
+  scale: 0.9;
 }
 .card-img-top {
-  transform: scale(1.1);
+  scale: 1.1;
 }
 .card-footer {
   border: none;
