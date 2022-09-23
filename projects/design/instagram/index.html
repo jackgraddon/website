@@ -83,31 +83,6 @@
             }
         });
     </script>
-    <!-- Mobile Detection -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
-    <script>
-        var md;
-        // Get Device
-        window.addEventListener("DOMContentLoaded", function () {
-            md = new MobileDetect(window.navigator.userAgent);
-            // console.log(md.mobile()); // null if not mobile device
-            // console.log(md.phone()); // null if not smartphone
-            // console.log(md.tablet()); // null if not tablet
-            // console.log(md.userAgent()); // Browser used
-            // console.log(md.os()); // Operating System
-            // console.log(md.version('Webkit')); // Webkit version
-            // console.log(md.versionStr('Build')); // Build
-
-            if (md.mobile() != null) {
-                document.getElementById('cloudContainer').style.width = '200%';
-                document.getElementById('cloudContainer').style.left = '-20%';
-                // Get orientation on Mobile devices (fixes off-center padding for title)
-                if ((Math.abs(window.orientation) == 90) || (Math.abs(window.orientation) == -90)) {
-                    document.getElementById('titleContainer').style.paddingTop = "2rem";
-                }
-            }
-        });
-    </script>
 
     <main class="container mb-5" id="sectionOne" style="z-index: 3;">
         <!-- Curator Feed -->

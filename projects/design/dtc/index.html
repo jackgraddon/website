@@ -83,44 +83,20 @@
             }
         });
     </script>
-    <!-- Mobile Detection -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
-    <script>
-        var md;
-        // Get Device
-        window.addEventListener("DOMContentLoaded", function () {
-            md = new MobileDetect(window.navigator.userAgent);
-            // console.log(md.mobile()); // null if not mobile device
-            // console.log(md.phone()); // null if not smartphone
-            // console.log(md.tablet()); // null if not tablet
-            // console.log(md.userAgent()); // Browser used
-            // console.log(md.os()); // Operating System
-            // console.log(md.version('Webkit')); // Webkit version
-            // console.log(md.versionStr('Build')); // Build
-
-            if (md.mobile() != null) {
-                document.getElementById('cloudContainer').style.width = '200%';
-                document.getElementById('cloudContainer').style.left = '-20%';
-                // Get orientation on Mobile devices (fixes off-center padding for title)
-                if ((Math.abs(window.orientation) == 90) || (Math.abs(window.orientation) == -90)) {
-                    document.getElementById('titleContainer').style.paddingTop = "2rem";
-                }
-            }
-        });
-    </script>
 
     <main class="container mb-5" id="sectionOne" style="z-index: 3;">
         <div>
-            <h2>Coming Soon!</h2>
-            <p>
-                This portfolio is a work in progress, as the class is still in progress. However, you can view my other
-                work <a href="../../../projects/">here</a>!
-            </p>
-            <p>
-                In the meantime, you can check out the blog that I've been writing for the class <a
-                    href="../../../blog/">here</a>! Otherwise, feel free to check out some of my favorite projects
-                below!
-            </p>
+            <h2>Classwork</h2>
+            <div class="project-deck">
+                <div class="project-tile" style="background-color: #fff5dcff;">
+                    <img src="./dtc101/project1/images/ogImage.png" alt="DTC 101 Project 1 'Data'"
+                        style="border-bottom: #5474ffff 1px dashed;">
+                    <a href="./dtc101/project1/" class="btn" style="color: #ff6338ff; border-color: #ff6338ff;">Learn
+                        More</a>
+                </div>
+            </div>
+
+            <h2>Other Work</h2>
             <div class="project-deck">
                 <div class="project-tile" style="background-color: #432534;">
                     <img src="../../../images/jpg/projects/fblaProject22.jpg"
