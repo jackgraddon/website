@@ -853,7 +853,7 @@
                 trigger: "#section3",
                 start: "top+=1800 bottom",
                 end: "+=400",
-                markers: true,
+                markers: toggleMarker,
                 onLeave: () => {
                     if (charts.logs.generated || charts.concerning.generated) return;
                     for (let i = 0; i < charts.logs.data.length; i++) {
