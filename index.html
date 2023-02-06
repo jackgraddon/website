@@ -249,7 +249,7 @@
                 <p class="m-sm-auto" id="condition"><i class="fa fa-heart" aria-hidden="true"></i></p>
                 <h1 class="m-sm-auto title" id="title">Hello!</h1>
                 <p class="m-sm-auto subtitle" id="subtitle">Have a great day!</p>
-                <a onclick="document.querySelector('#sectionOne').scrollIntoView({behavior: 'smooth'});"
+                <a onclick="document.querySelector('#sectionOne').scrollIntoView({behavior: 'smooth'});" tabindex="0"
                     class="m-sm-auto d-flex flex-column" id="scrollDown">
                     <p class="scroll m-auto">
                         Scroll Down</p>
@@ -295,7 +295,7 @@
         <div id="alerts" style="opacity: 0;">
             <!-- Cookie Alert -->
             <div class="shadow alert alert-primary alert-dismissible fade show" id="alertUntracked" role="alert"
-                ondblclick="window.open('https://epic.org')">
+                tabindex="none" ondblclick="window.open('https://epic.org')">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true"></span>
                 </button>
