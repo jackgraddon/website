@@ -380,7 +380,7 @@
                 <p>And you're not the only one.</p>
             </div>
         </section>
-        <section id="section2" class="hidden">
+        <section id="section2">
             <p>Sites use cookies to track you across sites. These cookies are often powered by third parties, such
                 as Google and Facebook. Users are now considered unpaid 'digital labors', as one pays for 'free'
                 services through the loss of their privacy.</p>
@@ -440,7 +440,7 @@
                     </div>
                 </div>
         </section>
-        <section id="section3" class="hidden">
+        <section id="section3">
             <h2>What DO they know?</h2>
             <p>To find out what information is out there on me, I used Google's <a href="https://takeout.google.com/"
                     target="_blank">Takeout</a> service, which allows you to download a copy of your data from Google. I
@@ -471,7 +471,7 @@
                 </div>
             </div>
         </section>
-        <section id="section4" class="hidden">
+        <section id="section4">
             <p>As shown, excluding my file uploads, around two thirds of the data Google has on me are log files. I went
                 through each of them to find out what they contained, and this is the breakdown:</p>
             <div class="row" id="charts-logs">
@@ -583,7 +583,7 @@
             </script>
 
         </section>
-        <section id="section5" class="hidden">
+        <section id="section5">
             <!-- A short reflection on both what your data says about your habits, and how individualized data is
                 related to how our digital technologies operate and function.   -->
             <h2>Reflection</h2>
@@ -809,7 +809,7 @@
             scrollTrigger: {
                 trigger: ".card",
                 start: "center center",
-                end: "+=400",
+                end: "center+=1600",
                 pin: true,
                 scrub: true,
                 markers: toggleMarker,
@@ -827,7 +827,7 @@
             opacity: 0
         }, {
             opacity: 1,
-            delay: 0.4,
+            delay: 0.7,
             duration: 0.1
         })
 
@@ -835,7 +835,7 @@
         let foldersChartTrigger = gsap.timeline({
             scrollTrigger: {
                 trigger: "#section2",
-                start: "top+=450 center",
+                start: "center center",
                 end: "+=400",
                 markers: false,
                 onLeave: () => {
