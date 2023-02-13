@@ -14,12 +14,10 @@
     <!-- Favicon -->
     <link rel="icon" href="../../../images/png/favicon/favicon.png">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+			integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <!-- FontAwesome Icons -->
     <script src="https://kit.fontawesome.com/c2793fb33f.js" crossorigin="anonymous"></script>
     <!-- Personal CSS -->
@@ -83,39 +81,43 @@
             }
         });
     </script>
-    <!-- Mobile Detection -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
-    <script>
-        var md;
-        // Get Device
-        window.addEventListener("DOMContentLoaded", function () {
-            md = new MobileDetect(window.navigator.userAgent);
-            // console.log(md.mobile()); // null if not mobile device
-            // console.log(md.phone()); // null if not smartphone
-            // console.log(md.tablet()); // null if not tablet
-            // console.log(md.userAgent()); // Browser used
-            // console.log(md.os()); // Operating System
-            // console.log(md.version('Webkit')); // Webkit version
-            // console.log(md.versionStr('Build')); // Build
-
-            if (md.mobile() != null) {
-                document.getElementById('cloudContainer').style.width = '200%';
-                document.getElementById('cloudContainer').style.left = '-20%';
-                // Get orientation on Mobile devices (fixes off-center padding for title)
-                if ((Math.abs(window.orientation) == 90) || (Math.abs(window.orientation) == -90)) {
-                    document.getElementById('titleContainer').style.paddingTop = "2rem";
-                }
-            }
-        });
-    </script>
 
     <main class="container mb-5" id="sectionOne" style="z-index: 3;">
         <div>
-            <h2>Coming Soon!</h2>
-            <p>
-                This portfolio is a work in progress, as the class is still in progress. However, you can view my other
-                work <a href="../../../projects/">here</a>!
-            </p>
+            <h2>Classwork</h2>
+            <div class="project-deck">
+                <div class="project-tile" style="background-color: #fff5dcff;">
+                    <img src="./dtc101/project1/images/ogImage.png" alt="DTC 101 Project 1 'Data'"
+                        style="border-bottom: #5474ffff 1px dashed;">
+                    <a href="./dtc101/project1/" class="btn" style="color: #ff6338ff; border-color: #ff6338ff;">Learn
+                        More</a>
+                </div>
+            </div>
+
+            <h2>Other Work</h2>
+            <div class="project-deck">
+                <div class="project-tile" style="background-color: #432534;">
+                    <img src="../../../images/jpg/projects/fblaProject22.jpg"
+                        alt="Future Business Leaders of America 2020/21 Competition - Website Design."
+                        style="border-bottom: #C44900 1px dashed;">
+                    <a href="../../web/fbla/2022/" class="btn" style="color: #C44900; border-color: #C44900;">Learn
+                        More</a>
+                </div>
+                <div class="project-tile" style="background-color: #C837AB;">
+                    <img src="../../../images/jpg/projects/instagram.jpg"
+                        alt="Instagram logo with the word 'posts' on its right."
+                        style="border-bottom: #3771C8 1px dashed;">
+                    <a href="../../design/instagram/" class="btn" style="color: #3771C8; border-color: #3771C8;">Learn
+                        More</a>
+                </div>
+                <div class="project-tile" style="background-color: #FFE9C1;">
+                    <img src="../../../images/jpg/projects/lyndenITWebsite.jpg"
+                        alt="Lynden High School IT - Discover help, learn how to use, and develop your skills with technology."
+                        style="border-bottom: #F8D1AE 1px dashed;">
+                    <a href="../../web/lyndenit/" class="btn" style="color: #FFCA09; border-color: #FFCA09;">Learn
+                        More</a>
+                </div>
+            </div>
         </div>
     </main>
     <!-- Scroll to Top button -->
@@ -133,6 +135,7 @@
         <div class="footer-causes">
             <a id="data-rights" href='https://epic.org' target="_blank">🔒</a>
             <a id="help-others" href='https://rescue.org/' target="_blank">⛑️</a>
+            <a id="help-me" href='https://ko-fi.com/jackgraddon' target="_blank">🪙</a>
         </div>
         <h3 style="width: fit-content;" class="m-auto">Jack Graddon</h3>
         <p style="width: fit-content; font-size: small;" class="m-auto">Website &copy; Jack Graddon 2022</p>

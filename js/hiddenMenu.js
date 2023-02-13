@@ -1,3 +1,4 @@
+// Create hidden menu
 window.addEventListener("load", () => {
   let nav = document.createElement("nav");
   nav.id = "floatingNav";
@@ -23,7 +24,7 @@ window.addEventListener("load", () => {
   title.classList.add("mx-auto");
   title.classList.add("my-2");
   title.style.width = "fit-content";
-  title.innerHTML = "Go To";
+  title.textContent = "Go To";
   title.onclick = () => {
     window.location = mainURL;
   };
@@ -43,27 +44,27 @@ window.addEventListener("load", () => {
   let contactLink = document.createElement("a");
   contactLink.classList.add("nav-link");
   contactLink.href = mainURL + "/contact/";
-  contactLink.innerHTML = "Contact";
+  contactLink.textContent = "Contact";
 
   let aboutLink = document.createElement("a");
   aboutLink.classList.add("nav-link");
   aboutLink.href = mainURL + "/about/";
-  aboutLink.innerHTML = "About";
+  aboutLink.textContent = "About";
 
   let projectsLink = document.createElement("a");
   projectsLink.classList.add("nav-link");
   projectsLink.href = mainURL + "/projects/";
-  projectsLink.innerHTML = "Projects";
+  projectsLink.textContent = "Projects";
 
-  let legalsLink = document.createElement("a");
-  legalsLink.classList.add("nav-link");
-  legalsLink.href = mainURL + "/legal/";
-  legalsLink.innerHTML = "Legals";
+  let blogLink = document.createElement("a");
+  blogLink.classList.add("nav-link");
+  blogLink.href = mainURL + "/blog/";
+  blogLink.textContent = "Blog";
 
   linkContainers[0].appendChild(contactLink);
   linkContainers[1].appendChild(aboutLink);
   linkContainers[2].appendChild(projectsLink);
-  linkContainers[3].appendChild(legalsLink);
+  linkContainers[3].appendChild(blogLink);
 
   for (let i = 0; i < 4; i++) {
     if (i < 2) {
@@ -85,86 +86,102 @@ window.addEventListener("load", () => {
   gsap.registerPlugin(ScrollTrigger);
 });
 
-// Hidden Menu
-document.addEventListener("mousemove", (e) => {
-  handleMouseMove(e);
-});
-let mousePos = {
+// Activate hidden menu
+let mouse = {
   x: 0,
   y: 0,
 };
-function handleMouseMove(e) {
-  mousePos = {
+// Store mouse position on page
+document.onmousemove = (e) => {
+  mouse = {
     x: e.clientX,
     y: e.clientY,
   };
-}
+};
 
-function getmousePos() {
+// Outdated function (to be removed, still needed in touch events)
+function getmouse() {
   let elemWidth = document.getElementById("floatingNav").clientWidth;
   let elemHeight = document.getElementById("floatingNav").clientHeight;
   gsap.to("#floatingNav", {
-    y: mousePos.y - elemHeight / 2,
-    x: mousePos.x - elemWidth / 2,
+    y: mouse.y - elemHeight / 2,
+    x: mouse.x - elemWidth / 2,
     duration: 0,
   });
 }
-let hidden,
-  firstNavTrigger = true;
 
-window.addEventListener("keydown", (e) => {
-  // console.log(e.key);
-  if (e.key == "Escape") {
-    // console.log("yo");
-    clearTimeout(hidden);
-    let nav = document.querySelector("#floatingNav");
+let move = {
+    xTo: 0,
+    yTo: 0,
+    xFrom: 0,
+    yFrom: 0,
+  }, // Stores the current position of the menu as well as where it will be going to (modified by triggerMenu)
+  elem, // Stores information on the hidden menu, including itself and its dimensions
+  hidden, // Timeout for hiding menu
+  timer, // Timer for touch events
+  firstNavTrigger = true; // If it is a first trigger (unused)
 
-    nav.style.display = "block";
-    if (firstNavTrigger) {
-      getmousePos();
-      gsap.to(nav, { opacity: 1, duration: 1, ease: "power1" });
-      firstNavTrigger = false;
-    } else {
-      gsap.to(nav, { opacity: 0, duration: 0.3, ease: "power1" });
-      setTimeout(() => {
-        getmousePos();
-        gsap.to(nav, { opacity: 1, duration: 1, ease: "power1" });
-      }, 300);
-    }
-    hidden = setTimeout(() => {
-      gsap.to(nav, { opacity: 0, duration: 1, ease: "power1" });
-      setTimeout(() => {
-        nav.style.display = "none";
-      }, 1000);
-    }, 5000);
-  }
-});
-function onLongTouch() {
+window.onload = () => {
+  gsap.set(document.getElementById("floatingNav"), {
+    opacity: 0,
+    display: "block",
+  });
+  elem = {
+    self: document.getElementById("floatingNav"),
+    width: document.getElementById("floatingNav").clientWidth,
+    height: document.getElementById("floatingNav").clientHeight,
+  };
+  gsap.set(document.getElementById("floatingNav"), {
+    display: "none",
+  });
+};
+
+// Triggers the menu when called
+function triggerMenu() {
   clearTimeout(hidden);
-  let nav = document.getElementById("floatingNav");
-
-  nav.style.display = "block";
-  if (firstNavTrigger) {
-    getmousePos();
-    gsap.to(nav, { opacity: 1, duration: 1, ease: "power1" });
-    firstNavTrigger = false;
+  if (move.xFrom == 0 || move.yFrom == 0) {
+    console.log("new trigger");
+    move.xFrom = mouse.x - elem.width / 2;
+    move.yFrom = mouse.y - elem.height / 2;
   } else {
-    gsap.to(nav, { opacity: 0, duration: 0.3, ease: "power1" });
-    setTimeout(() => {
-      getmousePos();
-      gsap.to(nav, { opacity: 1, duration: 1, ease: "power1" });
-    }, 300);
+    move.xFrom = move.xTo;
+    move.yFrom = move.yTo;
   }
+  move.xTo = mouse.x - elem.width / 2;
+  move.yTo = mouse.y - elem.height / 2;
+
+  gsap.to(elem.self, {
+    opacity: 1,
+    display: "block",
+    duration: 1,
+    ease: "power1.inOut",
+  });
+  gsap.fromTo(
+    elem.self,
+    { x: move.xFrom, y: move.yFrom },
+    { x: move.xTo, y: move.yTo, duration: 0.5, ease: "power1.inOut" }
+  );
+
   hidden = setTimeout(() => {
-    gsap.to(nav, { opacity: 0, duration: 1, ease: "power1" });
-    setTimeout(() => {
-      nav.style.display = "none";
-    }, 1000);
+    gsap.to(elem.self, {
+      opacity: 0,
+      duration: 1,
+      display: "none",
+      ease: "power1",
+    });
+    move.xFrom = 0;
+    move.yFrom = 0;
   }, 5000);
 }
 
-var timer;
+// Escape keypress
+window.addEventListener("keydown", (e) => {
+  if (e.key == "Escape") {
+    triggerMenu();
+  }
+});
 
+// Touch events
 window.addEventListener("touchstart", (e) => {
   if (
     e.type == "touchstart" ||
@@ -174,45 +191,42 @@ window.addEventListener("touchstart", (e) => {
   ) {
     var evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
     var touch = evt.touches[0] || evt.changedTouches[0];
-    mousePos.x = touch.clientX;
-    mousePos.y = touch.clientY;
+    mouse.x = touch.clientX;
+    mouse.y = touch.clientY;
   }
-  timer = setTimeout(onLongTouch, 600);
+  timer = setTimeout(triggerMenu, 600);
 });
-window.addEventListener("touchend", touchend);
-
-function touchend() {
-  console.log("touch end");
-  // Stops short touches from firing the event
+window.addEventListener("touchend", () => {
   clearTimeout(timer);
-}
+}); // Stops short touches from firing the event)
 
+// Hides menu on scroll
 window.addEventListener("scroll", () => {
-  let nav = document.getElementById("floatingNav");
-  gsap.to(nav, { opacity: 0, duration: 0.3, ease: "power1" });
+  gsap.to(elem.self, { opacity: 0, duration: 0.3, ease: "power1" });
 });
 
 // Alerts
 let alertContainer = document.querySelector("#alerts");
-if (alertContainer != null) {
-  console.log("alerts found");
-} else {
-  console.log("alerts not found");
-  try {
-    alertContainer = document.createElement("div");
-    alertContainer.id = "alerts";
-    alertContainer.style.opacity = 0;
-    document.body.appendChild(alertContainer);
-  } catch (e) {
-    console.log("alerts not appended");
-  }
-}
-
-let alert = document.createElement("div");
-alert.classList = "shadow alert alert-primary alert-dismissible fade show";
-alert.id = "alertMenu";
-alert.role = "alert";
-alert.innerHTML = `
+// if (alertContainer !== null) {
+//   console.log("alerts found");
+// } else {
+//   console.log("alerts not found");
+//   try {
+//     alertContainer = document.createElement("div");
+//     alertContainer.id = "alerts";
+//     alertContainer.style.opacity = 0;
+//     document.body.appendChild(alertContainer);
+//     console.log("alerts appended");
+//   } catch (e) {
+//     console.log("alerts not appended");
+//   }
+// }
+try {
+  let alert = document.createElement("div");
+  alert.classList = "shadow alert alert-primary alert-dismissible fade show";
+  alert.id = "alertMenu";
+  alert.role = "alert";
+  alert.innerHTML = `
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
     <span aria-hidden="true"></span>
   </button>
@@ -221,4 +235,7 @@ alert.innerHTML = `
     Did you know that you can press the escape key (or tap and hold on touchscreens) to open the hidden menu? Give it a try!
   </p>`;
 
-if (Math.random() > 0.9) alertContainer.appendChild(alert);
+  if (Math.random() > 0.9) alertContainer.appendChild(alert);
+} catch (e) {
+  console.log("alert not appended");
+}

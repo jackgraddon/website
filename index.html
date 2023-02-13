@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Beta | Jack Graddon</title>
+    <title>Home | Jack Graddon</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport"
@@ -14,12 +14,10 @@
     <!-- Favicon -->
     <link rel="icon" href="./images/png/favicon/favicon.png">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+			integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <!-- FontAwesome Icons -->
     <script src="https://kit.fontawesome.com/c2793fb33f.js" crossorigin="anonymous"></script>
     <!-- Personal CSS -->
@@ -74,7 +72,7 @@
 
 
         function colorSchemeSet() {
-            // date.hour = 19;
+            // date.hour = 7;
             if ((date.hour >= 5) && (date.hour < 9)) {
                 elems.title.innerHTML = "Good morning!";
                 elems.subtitle.innerHTML = "It's going to be a great day.";
@@ -113,6 +111,7 @@
                 elems.background.style.backgroundImage = 'linear-gradient(0deg, rgba(255,177,177,1) 0%, rgba(226,218,187,1) 25%, rgba(184,214,228,1) 40%, rgba(42,108,161,1) 100%)';
                 metadata.theme.setAttribute('content', '#2a6ca1')
             } else if ((date.hour >= 22) || (date.hour < 5)) {
+                document.addEventListener("mousemove", parallax);
                 elems.title.innerHTML = "Good night!";
                 elems.subtitle.innerHTML = "The moon shines bright outside tonight.";
                 elems.condition.innerHTML = "<img src=\"./images/svg/icon/moon.svg\" height=\"20pt\">";
@@ -131,6 +130,7 @@
             }
 
             if (matched && ((date.hour < 22) && (date.hour > 5))) {
+                document.addEventListener("mousemove", parallax);
                 elems.title.innerHTML = "Good night!";
                 elems.subtitle.innerHTML = "It isn't night yet, but your computer told me it is.";
                 elems.body.style.backgroundColor = '#13001d';
@@ -154,6 +154,7 @@
         }
 
         function setDarkMode() {
+            document.addEventListener("mousemove", parallax);
             let title = document.getElementById('title');
             let subtitle = document.getElementById('subtitle');
             let body = document.getElementById('background');
@@ -246,7 +247,7 @@
                 <p class="m-sm-auto" id="condition"><i class="fa fa-heart" aria-hidden="true"></i></p>
                 <h1 class="m-sm-auto title" id="title">Hello!</h1>
                 <p class="m-sm-auto subtitle" id="subtitle">Have a great day!</p>
-                <a onclick="document.querySelector('#sectionOne').scrollIntoView({behavior: 'smooth'});"
+                <a onclick="document.querySelector('#sectionOne').scrollIntoView({behavior: 'smooth'});" tabindex="0"
                     class="m-sm-auto d-flex flex-column" id="scrollDown">
                     <p class="scroll m-auto">
                         Scroll Down</p>
@@ -292,7 +293,7 @@
         <div id="alerts" style="opacity: 0;">
             <!-- Cookie Alert -->
             <div class="shadow alert alert-primary alert-dismissible fade show" id="alertUntracked" role="alert"
-                ondblclick="window.open('https://epic.org')">
+                tabindex="none" ondblclick="window.open('https://epic.org')">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true"></span>
                 </button>
@@ -377,6 +378,7 @@
         <div class="footer-causes">
             <a id="data-rights" href='https://epic.org' target="_blank">🔒</a>
             <a id="help-others" href='https://rescue.org/' target="_blank">⛑️</a>
+            <a id="help-me" href='https://ko-fi.com/jackgraddon' target="_blank">🪙</a>
         </div>
         <h3 style="width: fit-content;" class="m-auto">Jack Graddon</h3>
         <p style="width: fit-content; font-size: small;" class="m-auto">Website &copy; Jack Graddon 2022</p>
@@ -494,6 +496,28 @@
                 duration: 1
             })
         }, 1000);
+    </script>
+    <!-- Script for Night Sky (Moving Stars) -->
+    <script>
+        function parallax(e) {
+            if (md.mobile() == null) {
+                const speed = 0.5;
+                const x = (window.innerWidth / 2 - e.pageX * speed) / 100
+                const y = (window.innerHeight / 2 - e.pageY * speed) / 100
+                gsap.to("#cloud", {
+                    x: -x / 2,
+                    y: -y / 2,
+                    duration: 0.1,
+                    ease: "none"
+                })
+                gsap.to("#headerText", {
+                    x: -x * 1.5,
+                    y: -y * 1.5,
+                    duration: 0.5,
+                    ease: "none"
+                })
+            }
+        }
     </script>
     <script src="./js/hiddenMenu.js"></script>
 </body>

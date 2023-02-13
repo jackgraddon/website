@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>DTC 101 - Project 1 - Jack Graddon</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- OG Tags -->
+    <link rel="./images/ogImage.png" property="og:image" />
+    <meta property="og:title" content="DTC 101 - Project 1 - Jack Graddon" />
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/c2793fb33f.js" crossorigin="anonymous"></script>
+
+    <!-- Personal Styles -->
+    <style>
+        @font-face {
+            font-family: 'Fluro';
+            src: url('./fluro-font/fluro-bold-outline.woff') format('woff'),
+                url('./fluro-font/fluro-bold-outline.woff2') format('woff2');
+            font-weight: 900;
+        }
+
+        @font-face {
+            font-family: 'Fluro';
+            src: url('./fluro-font/fluro-bold.woff') format('woff'),
+                url('./fluro-font/fluro-bold.woff2') format('woff2');
+            font-weight: 800;
+        }
+
+        @font-face {
+            font-family: 'Fluro';
+            src: url('./fluro-font/fluro-regular.woff') format('woff'),
+                url('./fluro-font/fluro-regular.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Fluro';
+            src: url('./fluro-font/fluro-semibold.woff') format('woff'),
+                url('./fluro-font/fluro-semibold.woff2') format('woff2');
+            font-weight: 700;
+        }
+
+        :root {
+            --cornsilk: #fff5dcff;
+            --portland-orange: #ff6338ff;
+            --neon-blue: #5474ffff;
+            --dark-pastel-green: #0cca4aff;
+            --black: #000000;
+
+            --bg-color: var(--cornsilk);
+            --bg-alt: var(--black);
+            --text-color: var(--black);
+            --text-alt: var(--cornsilk);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: var(--black);
+                --bg-alt: var(--cornsilk);
+                --text-color: var(--cornsilk);
+                --text-alt: var(--black);
+            }
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Fluro', sans-serif;
+        }
+
+        main {
+            height: auto;
+            width: 50%;
+            min-width: 400px;
+            margin: 5rem auto;
+            color: var(--text-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-weight: 800;
+            color: var(--portland-orange);
+            margin: 1rem 0 0.2rem 0;
+        }
+
+        h4,
+        h5,
+        h6 {
+            font-weight: 900;
+            color: var(--portland-orange);
+            margin: 1rem 0 0.2rem 0;
+        }
+
+        h1 {
+            font-size: 5rem;
+        }
+
+        h1.title {
+            font-size: 10rem;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 3rem;
+        }
+
+        h3 {
+            font-size: 2rem;
+        }
+
+        h4 {
+            font-size: 4.2rem;
+        }
+
+        h5 {
+            font-size: 2.5rem;
+        }
+
+        h6 {
+            font-size: 2rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--neon-blue);
+        }
+
+        a.btn {
+            display: inline-block;
+            padding: 7px 14px;
+            border: 3px solid var(--dark-pastel-green);
+            box-shadow: 10px 10px 0 0 var(--dark-pastel-green);
+            background-color: var(--bg-color);
+            color: var(--portland-orange);
+            font-size: 1.5rem;
+            font-weight: bolder;
+            margin: 10px 0;
+            transition: all 150ms ease;
+            cursor: pointer;
+        }
+
+        a.btn:hover {
+            background-color: var(--dark-pastel-green);
+            color: var(--bg-color);
+            box-shadow: 0 0 0 0 var(--dark-pastel-green);
+        }
+
+        a.btn:active {
+            background-color: var(--portland-orange);
+            border-color: var(--portland-orange);
+            color: var(--bg-color);
+        }
+
+        p {
+            font-size: 1.3rem;
+            margin: 0 0 1rem 0;
+        }
+
+        section {
+            margin: 2rem 0;
+        }
+
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        #stars h1 {
+            position: absolute;
+            color: var(--neon-blue);
+            font-size: 7rem;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: auto;
+        }
+
+        #subtitle {
+            font-size: 2rem;
+            font-weight: bolder;
+            color: var(--dark-pastel-green);
+            margin: 0;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        canvas {
+            margin: 2rem 0;
+        }
+
+        .card {
+            background-color: var(--bg-color);
+            color: var(--portland-orange);
+            border: 3px solid var(--dark-pastel-green);
+            box-shadow: 10px 10px 0 0 var(--dark-pastel-green);
+            width: 100%;
+            /* min-width: 400px; */
+            margin: 0;
+            padding: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+            left: 0;
+            top: 0;
+        }
+
+        .card-header {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .window-controls i {
+            font-size: 1.5rem;
+        }
+
+        .card-footer {
+            margin-top: auto;
+        }
+
+        .cards-horizontal {
+            height: 210px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            /* overflow-x: scroll; */
+        }
+
+        .cards-horizontal .card {
+            height: calc(100% - 10px - 20px - 6px) !important;
+            margin: 0 calc(1rem + 10px) 0 0;
+        }
+
+        .card#terminal-filesystem .card-body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #terminal-filesystem .card-body table {
+            width: 100%;
+            border-spacing: 0;
+        }
+
+        #terminal-filesystem .card-body th {
+            font-family: 'Fluro', sans-serif;
+            font-weight: 900;
+            text-align: start;
+            font-size: 1.3rem;
+        }
+
+        #terminal-filesystem .card-body td {
+            font-size: 1.1rem;
+            padding: 0.8rem;
+            border: 0.5px dashed var(--portland-orange)
+        }
+
+        #terminal-filesystem .card-footer a {
+            font-size: 1rem;
+            margin-left: 13px;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                width: calc(100vw - 2rem);
+                margin: 0;
+                padding: 1rem;
+                max-width: 768px;
+            }
+
+            h1.title {
+                font-size: 7rem;
+                margin: 0;
+            }
+
+            .row {
+                flex-direction: column;
+            }
+
+            .card {
+                width: calc(100% - 2rem);
+                min-width: none;
+            }
+
+            .card-header {
+                height: fit-content;
+            }
+
+            .cards-horizontal {
+                width: 100%;
+                height: fit-content;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .cards-horizontal .card {
+                width: calc(100% - 2rem -10px -6px);
+                margin: 0 0 calc(1rem + 10px) 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stars">
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="-2" style="top: 2vh; left: 10vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="2" style="top: 75vh; left: 10vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="1" style="top: 45vh; left: 25vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="-1" style="top: 62vh; left: 68vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="2" style="top: 33vh; left: 79vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="-2" style="top: 152vh; left: 8vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="3" style="top: 143vh; left: 79vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="-2" style="top: 102vh; left: 88vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="3" style="top: 133vh; left: 39vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="-2" style="top: 1782vh; left: 18vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="3" style="top: 190vh; left: 89vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="-2" style="top: 202vh; left: 68vw;">*</h1>
+        <h1 class="rellax" data-rellax-percentage="0.5" data-rellax-speed="3" style="top: 185vh; left: 25vw;">*</h1>
+    </div>
+    <header>
+        <h1 class="title">{ Data }</h1>
+        <p id="subtitle">*/!&#@b ^s$(%1?3*d *@ &\*!</p>
+    </header>
+    <main>
+        <section id="section1">
+            <h2>Digital Privacy</h2>
+            <p>Ever had a popup that looks like this?</p>
+            <div class="card" id="cookie-card">
+                <div class="card-header">
+                    <h3>Cookie Consent</h3>
+                    <div class="window-controls">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    By clicking Accept, you agree to our and our partners' use of cookies and other technologies to
+                    process your personal data to personalize your experience and deliver tailored advertising to
+                    you, on and off our sites.*
+                </div>
+                <div class="card-footer">
+                    <a class="btn">Accept</a>
+                </div>
+            </div>
+            <div id="beingtracked">
+                <p>You're being tracked,</p>
+                <p>And you're not the only one.</p>
+            </div>
+        </section>
+        <section id="section2">
+            <p>Sites use cookies to track you across sites. These cookies are often powered by third parties, such
+                as Google and Facebook. Users are now considered unpaid 'digital labors', as one pays for 'free'
+                services through the loss of their privacy.</p>
+            <p>Between 2005 and 2011, the levels of disclosure for profile information on Facebook
+                have been decreasing, showing that people want to keep more information private. However, in the
+                same time, Facebook gained a profit of $100 billion through the collection and sharing of their
+                users' data to third-party advertisers.</p>
+            <h3>Types of Privacy</h3>
+            <p>There are three types of privacy: <strong>Information</strong>, <strong>Communication</strong>, and
+                <strong>Individual</strong>.
+            </p>
+            <div class="cards-horizontal">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Information Privacy</h3>
+                        <div class="window-controls">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Individuals should have the freedom to decide how their digital information is collected,
+                        processed, and used.
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn" href="">Learn More <i class="fa-solid fa-angle-right"></i></a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Communication Privacy</h3>
+                        <div class="window-controls">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Individuals should have the freedom to communicate information online safely and securely at
+                        all times.
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn" href="">Learn More <i class="fa-solid fa-angle-right"></i></a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Individual Privacy</h3>
+                        <div class="window-controls">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        Individuals should have the freedom to exist freely on the internet, meaning they can
+                        choose what type of information they share, are exposed to, and that unwanted information
+                        should not interrupt them.
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn" href="">Learn More <i class="fa-solid fa-angle-right"></i></a>
+                    </div>
+                </div>
+        </section>
+        <section id="section3">
+            <h2>What DO they know?</h2>
+            <p>To find out what information is out there on me, I used Google's <a href="https://takeout.google.com/"
+                    target="_blank">Takeout</a> service, which allows you to download a copy of your data from Google. I
+                have to be honest, I am a bit skeptical if this is <i>all</i> of the data they have on me, but it's
+                worth looking at regardless.
+            </p>
+            <p>Depending on how much data they have saved, it can take a while to download. I had to wait about a
+                day or so for the download links to become available. When I downloaded and extracted the files, I
+                was surprised to see how much data they had on me. The extracted zip file was around 15GB, and it
+                contained a lot of data. I was able to find my search history, location history, YouTube history,
+                and more.
+            </p>
+            <p>Below is the breakdown of what data was inside the Takeout export. Including YouTube videos I have
+                uploaded, I downloaded 18.93GB of data on myself. Excluding the files I uploaded on Drive, YouTube, and
+                Google Photos (which is the majority of the data I downloaded, as they total 17.86GB) there was 0.51GB
+                of other data I generated (From using Gmail, adding contacts, etc). The remaining 1.03GB of files that
+                Google had generated on me by tracking my internet history, which are all text files.</p>
+            <canvas id="chart-folders" width="100%" height="100"></canvas>
+            <div class="card" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <h3>Pro Tip</h3>
+                    <div class="window-controls">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>You can tap or click on the data labels to show or hide them in the doughnut chart.</p>
+                </div>
+            </div>
+        </section>
+        <section id="section4">
+            <p>As shown, excluding my file uploads, around two thirds of the data Google has on me are log files. I went
+                through each of them to find out what they contained, and this is the breakdown:</p>
+            <div class="row" id="charts-logs">
+                <canvas id="chart-logs" width="100%" height="100"></canvas>
+                <canvas id="chart-concerning" width="100%" height="100"></canvas>
+            </div>
+            <p>A few of the folders are empty, as I never used those services from Google, so they are barely visible on
+                the chart. The few folders I am more concerned about, however, are the 'Hangouts', 'Location History',
+                'My Activity', and the 'Google Chat' folders. </p>
+            <div class="card" id="terminal-filesystem">
+                <div class="card-header">
+                    <h3>File Breakdown // <span id="breakdown-filefolder">Choose Folder</span></h3>
+                    <div class="window-controls">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="breakdown-fileinfo">
+                        <tr>
+                            <th style="width: 25%;">Filename</th>
+                            <th style="width: 25%;">Size</th>
+                            <th style="width: 100%;">Contents</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">No file selected</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a onclick="breakdown('hangouts')" class="btn">Hangouts</a>
+                    <a onclick="breakdown('locationhistory')" class="btn">Location History</a>
+                    <a onclick="breakdown('myactivity')" class="btn">My Activity</a>
+                    <a onclick="breakdown('chat')" class="btn">Google Chat</a>
+                </div>
+            </div>
+            <div id="breakdown-why" style="opacity: 0;">
+                <h3>Why This Concerns Me</h3>
+                <p></p>
+            </div>
+            <script>
+                let filesystem = {
+                    elem: document.querySelector('#terminal-filesystem'),
+                    folder: document.querySelector('#breakdown-filefolder'),
+                    container: document.querySelector('#breakdown-fileinfo'),
+                    why: document.querySelector('#breakdown-why')
+                }, file;
+
+                function breakdown(folder) {
+                    gsap.to(filesystem.why, { opacity: 1, duration: 1 })
+                    let rows = document.querySelectorAll('#breakdown-fileinfo tr');
+                    for (let i = 1; i < rows.length; i++) {
+                        rows[i].remove();
+                    }
+                    filesystem.why.getElementsByTagName('p')[0].textContent = "";
+
+                    switch (folder) {
+                        case 'hangouts':
+                            filesystem.folder.textContent = 'Hangouts';
+                            file = {
+                                length: 2,
+                                name: ['Hangouts.json', 'Photos'],
+                                size: ['27KB', '769.6MB'],
+                                contents: ['Json file containing identifier information.', 'Every attachment you ever sent in Hangouts.']
+                            }
+                            filesystem.why.getElementsByTagName('p')[0].textContent = "Is it really necessary for Google to keep a record of every photo I have ever sent in Hangouts, long after I have deleted the conversations they were sent in? I don't think so, especially since I haven't used Hangouts in years, and it is no longer supported as of November 2022."
+                            break;
+                        case 'locationhistory':
+                            filesystem.folder.textContent = 'Location History';
+                            file = {
+                                length: 3,
+                                name: ['Location History.json', 'Semantic Location History', 'Settings.json'],
+                                size: ['56.9MB', '4.8MB', '771B'],
+                                contents: ['Json file containing location history, including exact coordinates, activity, and timestamp to the millisecond.', 'Folder containing a by month breakdown of named locations you visited.', 'Json file containing device information.']
+                            }
+                            filesystem.why.getElementsByTagName('p')[0].textContent = "Location history is a useful feature, but keeping an extremely detailed record of everywhere I have been as far back as 2016? Especially exact coordinates, which can be used to pinpoint my location to within a few feet? That feels like a bit much, don't you think?"
+                            break;
+                        case 'myactivity':
+                            filesystem.folder.textContent = 'My Activity';
+                            file = {
+                                length: 30,
+                                name: ['Ads', 'Android', 'Assistant', 'Assistant Memory', 'Books', 'Developers', 'Discover', 'Drive', 'Gmail', 'Google Analytics', 'Google Apps', 'Google Lens', 'Google News', 'Google Pay', 'Google Play Books', 'Google Play Store', 'Google Store', 'Google Translate', 'Help', 'Image Search', 'Maps', 'News', 'Podcasts', 'Search', 'Shopping', 'Sound Search', 'Stadia', 'Takeout', 'Video Search', 'YouTube'],
+                                size: ['583KB', '1.9MB', '682KB', '143KB', '143KB', '175KB', '218KB', '180KB', '150KB', '180KB', '154KB', '165KB', '152KB', '143KB', '144KB', '1.3MB', '145KB', '479KB', '332KB', '6.2MB', '2MB', '164KB', '155KB', '14.8MB', '156KB', '149KB', '143KB', '144KB', '406KB', '20.3MB'],
+                                contents: ['An html file containing info on your Advertising data.', 'An html file containing info on your Android device usage.', 'An html file containing info on your Google Assistant data, and mp3 files of your voice saying \'Ok\'/\'Hey Google\'.', 'An html file containing info on your Google Assistant Memory.', 'An html file containing info on your Google Books data.', 'An html file containing info on your Google Developers data.', 'An html file containing info on your Discover data.', 'An html file containing info on your Google Drive upload/download history .', 'An html file containing info on your Gmail search history.', 'An html file containing info on sites you visit as it pertains to your Google Analytics data.', 'An html file containing info about your search history inside various Google Apps.', 'An html file containing all of your Google Lens search history.', 'An html file containing all of your Google News history, including every article you have read.', 'An html file containing all of your Google Pay history.', 'An html file containing info on your Google Play Books data.', 'An html file containing all of your Google Play Store history, including when you installed and uninstalled apps, your search history,  and when apps management notifications were shown.', 'An html file containing all of your Google Store history .', 'An html file containing all of your Google Translate history.', 'An html file containing all of your Google Help history.', 'An html file containing all of your searches for images on Google.', 'An html file containing every time you used Maps to look up location information or get directions.', 'An html file containing every time you visited a news site.', 'An html file containing your search and listen history on Google Podcasts.', 'An html file containing your Google Search history.', 'An html file containing your Shopping history.', 'An html file containing all of your Sound Search history, including mp3 files of the sounds recorded.', 'An html file containing all of your Stadia history.', 'An html file containing info on your Takeout data.', 'An html file containing all of your searches for videos on Google.', 'An html file containing all of your YouTube watch, search, like, and save history.']
+                            }
+                            filesystem.why.getElementsByTagName('p')[0].textContent = "Sure, you need logs. But what is concerning is the fact that they have logs of every single action you have ever taken on Google: Pages visited, articles read, Drive files downloaded, and all of my search history. And here we were, thinking clearing your browser history was safe.";
+                            break;
+                        case 'chat':
+                            filesystem.folder.textContent = 'Google Chat';
+                            file = {
+                                length: 2,
+                                name: ['Groups', 'Users'],
+                                size: ['676KB', '8KB'],
+                                contents: ['Folder containing folders for each chat you\'ve had, each with a json file containing member and chat history of that chat.', 'Information on your account, and what chats you have been in.']
+                            }
+                            filesystem.why.getElementsByTagName('p')[0].textContent = "Again, similarly to the Hangouts Photos, keeping a record of every chat message sent in your conversations, even after the chat has been deleted on your end, is not something I am comfortable with.";
+                            break;
+                    }
+
+                    for (let i = 0; i < file.length; i++) {
+                        let row = document.createElement('tr');
+                        row.innerHTML = `
+                                <td>${file.name[i]}</td>
+                                <td>${file.size[i]}</td>
+                                <td>${file.contents[i]}</td>
+                            `;
+                        filesystem.container.appendChild(row);
+                    }
+                }
+            </script>
+
+        </section>
+        <section id="section5">
+            <!-- A short reflection on both what your data says about your habits, and how individualized data is
+                related to how our digital technologies operate and function.   -->
+            <h2>Reflection</h2>
+            <p>Some user data is required to make services usable. I get that, and understand that. What makes me uneasy
+                is the fact that the default settings for what they keep on you is 'Anything and Everything.' With
+                Takeout, it is nice to be able to see most of the data they have on you, though it definitely isn't a
+                comforting kind of nice.</p>
+            <p>This data allows Google, or the companies it sells its services to, to create a profile on you that can
+                learn your habits. They can then use this for whatever they conceivably want. This individualized data
+                is what allows companies to personalize your experience on their platforms, tailoring what you see on
+                their service so you stay on their platform longer.</p>
+            <p>There have also been many complaints over Google Takeout, one such criticism is that keeping the takeout
+                data available for too short a time for many users with large files to easily download everything before
+                the batch expires, in essence "trapping" users with large data and slow bandwidth in Google's services.
+                I don't use Google services much, so this didn't affect me much, but I can see how this would be a
+                problem for many.</p>
+        </section>
+    </main>
+
+
+    <!-- Rellax.js -->
+    <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
+    <script>
+        var rellax = new Rellax('.rellax', {
+            speed: -2,
+            center: true,
+            wrapper: null,
+            round: true,
+            vertical: true,
+            horizontal: true
+        });
+    </script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"
+        integrity="sha256-+8RZJua0aEWg+QVVKg4LEzEEm/8RFez5Tb4JBNiV5xA=" crossorigin="anonymous"></script>
+    <script>
+        // Chart functions
+        function addData(chart, label, data) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.push(data);
+            });
+            chart.update();
+        }
+
+        function removeData(chart) {
+            chart.data.labels.pop();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.pop();
+            });
+            chart.update();
+        }
+
+        // Charts object
+        let charts = {
+            "folders": {
+                "id": "chart-folders",
+                "generated": false,
+                "labels": ['Files Uploaded (Drive, YouTube, etc)', 'Other Given Data (Mail, Contacts, etc)', 'Data Collected or Generated (Log files, etc)',],
+                "data": [17.86, 0.51, 1.03],
+                "element": document.getElementById('chart-folders'),
+                "chart": ""
+            },
+            "logs": {
+                "id": "chart-logs",
+                "generated": false,
+                "labels": ['Access Log Activity', 'Android Device Configuration Service', 'Chrome', 'Cloud Print', 'Google Account', 'Google Business Profile', 'Google Chat', 'Google Developers', 'Google Pay', 'Google Play Movies', 'Google Play Store', 'Google Shopping', 'Google Workspace Marketplace', 'Groups', 'Hangouts', 'Home App', ' Location History', 'Maps', 'My Activity', 'News', 'Search Contributions', 'Tasks', 'Voice', 'YouTube'],
+                "data": [3.5, 0.038, 0.074, 0.000111, 0.025, 0.098, 0.684, 0.005, 0.222, 0.305, 0.160, 0.008, 0.375, 0.045, 796.6, 0.002, 61.6, 100.7, 51.9, 0.0000001, 0.000391, 0.002, 0.093, 41.2],
+                "element": document.getElementById('chart-logs'),
+                "chart": ""
+            },
+            "concerning": {
+                "id": "chart-concerning",
+                "generated": false,
+                "labels": ['Hangouts', 'Location History', 'My Activity', 'Google Chat'],
+                "data": [796.6, 61.6, 51.9, 0.684],
+                "element": document.getElementById('chart-concerning'),
+                "chart": ""
+            }
+        };
+        // All Folders
+        charts.folders.chart = new Chart(charts.folders.element.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: '',
+                datasets: [{
+                    label: "Size of Folders (in GB)",
+                    data: "",
+                    backgroundColor: [
+                        '#ff6338ff',
+                        '#5474ffff',
+                        '#0cca4aff',
+                    ],
+                    borderColor: [
+                        '#000',
+                    ],
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                font: { family: 'Fluro' },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Size of Folders (in GB)'
+                    }
+                },
+            },
+        });
+        // charts.folders.element.style.display = 'none';
+        // Log Folders
+        charts.logs.chart = new Chart(charts.logs.element.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: "",
+                datasets: [{
+                    label: "Size of Log Folders (in MB)",
+                    data: "",
+                    backgroundColor: [
+                        '#ff6338ff',
+                        '#5474ffff',
+                        '#0cca4aff',
+                    ],
+                    borderColor: [
+                        '#000',
+                    ],
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                font: { family: 'Fluro' },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Size of Log Folders (in MB)'
+                    }
+                },
+            },
+        });
+        // Concerning Log Folders
+        charts.concerning.chart = new Chart(charts.concerning.element.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: "",
+                datasets: [{
+                    label: "Most Concerning Log Folders (in MB)",
+                    data: "",
+                    backgroundColor: [
+                        '#0cca4aff',
+                        '#5474ffff',
+                        '#ff6338ff',
+                    ],
+                    borderColor: [
+                        '#000',
+                    ],
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                font: { family: 'Fluro' },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Most Concerning Log Folders (in MB)'
+                    }
+                },
+            },
+        });
+    </script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/TextPlugin.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.registerPlugin(ScrollToPlugin);
+        gsap.registerPlugin(MotionPathPlugin);
+        gsap.registerPlugin(TextPlugin);
+
+        let toggleMarker = false;
+
+        let header = gsap.timeline({
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "+=1000",
+                pin: true,
+                scrub: true,
+                markers: toggleMarker,
+            }
+        });
+        header.set(
+            '#subtitle', {
+            opacity: 1
+        })
+        header.to(
+            '#subtitle', {
+            text: {
+                value: "What's collected on you?",
+                speed: 2
+            },
+            duration: 0.3
+        }
+        )
+
+        let dataPrivacyTypes;
+
+        let cookieCard = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".card",
+                start: "center center",
+                end: "center+=1600",
+                pin: true,
+                scrub: true,
+                markers: toggleMarker,
+                onLeave: () => {
+                    acceptMuffins();
+                }
+            }
+        });
+        cookieCard.set(
+            '#beingtracked', {
+            y: -300,
+        })
+        cookieCard.fromTo(
+            '#beingtracked', {
+            opacity: 0
+        }, {
+            opacity: 1,
+            delay: 0.7,
+            duration: 0.1
+        })
+
+        // Scroll trigger to generate graphs
+        let foldersChartTrigger = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section2",
+                start: "center center",
+                end: "+=400",
+                markers: false,
+                onLeave: () => {
+                    if (charts.folders.generated) return;
+                    for (let i = 0; i < charts.folders.data.length; i++) {
+                        addData(charts.folders.chart, charts.folders.labels[i], charts.folders.data[i])
+                    }
+                    charts.folders.generated = true;
+                },
+            }
+        });
+        // generateChartData("logs-breakdown");
+        // generateChartData("most-concerning");
+        let logsChartTrigger = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section3",
+                start: "top+=1800 bottom",
+                end: "+=400",
+                markers: toggleMarker,
+                onLeave: () => {
+                    if (charts.logs.generated || charts.concerning.generated) return;
+                    for (let i = 0; i < charts.logs.data.length; i++) {
+                        addData(charts.logs.chart, charts.logs.labels[i], charts.logs.data[i]);
+                    }
+                    for (let i = 0; i < charts.concerning.data.length; i++) {
+                        addData(charts.concerning.chart, charts.concerning.labels[i], charts.concerning.data[i]);
+                    }
+                    charts.logs.generated = true;
+                    charts.concerning.generated = true;
+                },
+            }
+        });
+
+
+
+    </script>
+    <!-- Assorted Page Script -->
+    <script>
+        function acceptMuffins() {
+            let sections = document.querySelectorAll('section.hidden');
+            sections.forEach(section => {
+                section.classList.remove('hidden');
+            });
+            gsap.fromTo(sections,
+                { opacity: 0 },
+                {
+                    opacity: 1,
+                    duration: 1
+                })
+            if (window.innerWidth > 768) {
+                let mainWidth = document.querySelector("main").offsetWidth - 32;
+                document.querySelectorAll(".cards-horizontal .card").forEach(card => {
+                    card.style.minWidth = mainWidth + "px";
+                    card.style.width = mainWidth + "px";
+                });
+
+                dataPrivacyTypes = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#section2",
+                        start: "top+=450 center+=300",
+                        end: "+=550",
+                        markers: toggleMarker,
+                        scrub: true,
+                        pin: false,
+                    }
+                });
+                dataPrivacyTypes.to(
+                    '.cards-horizontal .card', {
+                    x: -(mainWidth + 52) * 2,
+                    duration: 3,
+                    ease: "power2.inOut",
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>
