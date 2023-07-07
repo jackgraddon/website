@@ -2,43 +2,179 @@
 <html lang="en">
 
 <head>
-  <title>Jack Graddon</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Jack Graddon</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Optional meta tags -->
+    <meta name="theme-color">
+    <meta name="og:title" content="Jack Graddon">
+    <meta name="og:image" content="./images/jpg/ogImage.jpg">
 
-  <!-- Bootstrap CSS v5.3 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Favicon -->
+    <link rel="icon" href="./images/png/favicon/favicon.png">
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Bootstrap CSS v5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="./css/style.new.css">
 
-  <!-- Site CSS -->
-  <link rel="stylesheet" href="./css/style.new.css">
+    <!-- Reset scroll to top -->
+    <script>history.scrollRestoration = "manual"</script>
 </head>
 
 <!-- Background object -->
 <background></background>
 
 <!-- Page content -->
-<body data-jg-theme="evening">
-  <header>
-    <!-- place navbar here -->
-  </header>
 
-  <main>
+<body data-jg-theme="">
+    <header>
+        <!-- place navbar here -->
+    </header>
 
-  </main>
+    <!-- Splash -->
+    <div class="splash">
+        <span class="splash-title" id="first-load">
+            <h1></h1>
+            <p></p>
+        </span>
+    </div>
 
-  <footer>
-    <!-- place footer here -->
-  </footer>
+    <!-- Transition -->
+    <div class="splash-transition">
+        <img id="cloud" width="100%" alt="A cloud that covers the entire width of the screen." src="./images/png/front/cloud1.png">
+    </div>
 
-  <!-- Theme JavaScript -->
-  <script src="jg-theme.js"></script>
+    <!-- Main Content -->
+    <main>
+        <div id="alerts" style="opacity: 0;">
+            <!-- Cookie Alert -->
+            <div class="shadow alert alert-primary alert-dismissible fade show" id="alertUntracked" role="alert"
+                tabindex="none" ondblclick="window.open('https://epic.org')">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <h3 style="font-size: medium;">🍪 Cookies</h3>
+                <p style="font-size: x-small;" class="mb-1">This website does not use cookies! You are free to browse
+                    with the peace of mind that you are not being tracked. Double click me to learn more about data
+                    privacy.
+                </p>
+            </div>
+        </div>
+        <!-- Main Page -->
+        <div class="d-flex flex-column align-items-center">
+            <h1 class="title" id="pageTitle">Hello!</h1>
+            <p class="subtitle">I'm Jack, a freelance Web Developer and Graphic Designer.</p>
+            <div class="project-deck">
+                <div class="project-tile" style="background-color: #432534;">
+                    <img src="./images/jpg/projects/fblaProject22.jpg"
+                        alt="Future Business Leaders of America 2020/21 Competition - Website Design."
+                        style="border-bottom: #C44900 1px dashed;">
+                    <a href="./projects/web/fbla/2022/" class="btn" style="color: #C44900; border-color: #C44900;">Learn
+                        More</a>
+                </div>
+                <div class="project-tile" style="background-color: #C837AB;">
+                    <img src="./images/jpg/projects/instagram.jpg"
+                        alt="Instagram logo with the word 'posts' on its right."
+                        style="border-bottom: #3771C8 1px dashed;">
+                    <a href="./projects/design/instagram/" class="btn"
+                        style="color: #3771C8; border-color: #3771C8;">Learn
+                        More</a>
+                </div>
+                <div class="project-tile" style="background-color: #4D4D4D;">
+                    <img src="./images/jpg/projects/dtc.jpg"
+                        alt="WSU Logo with the letters DTC, which stand for Digital Technology and Culture."
+                        style="border-bottom: #fff 1px dashed;">
+                    <a href="./projects/design/dtc/" class="btn" style="color: #A60F2D; border-color: #A60F2D;">Learn
+                        More</a>
+                </div>
+            </div>
+            <p class="mt-1">Check out some of my favorite projects above!</p>
+            <div class="d-flex flex-md-row flex-column w-100 mt-2">
+                <div class="portrait portrait-landing">
+                    <img src="./images/jpg/portraits/Jack-01.jpg" height="100%"
+                        alt="Jack Graddon sitting in front of the camera">
+                </div>
+                <div class="m-md-3 mt-3 text-md-start text-center">
+                    <h2>About</h2>
+                    <p>I'm a freelance Web Developer and Graphic Designer. I've worked on projects and designs for my
+                        local school, growing influencers, companies, and competitions.</p>
+                    <p>I've always desired to make technology more accessible by developing user interfaces that are
+                        simple to navigate and visually engaging.</p>
+                    <p>Want to learn more about me?</p>
+                    <a href="./about/" class="btn btn-primary">Click Here</a>
+                </div>
+            </div>
+            <div class="d-flex flex-md-row flex-column text-center w-100 mt-2">
+                <div class="m-md-3 mb-3 w-100">
+                    <h2>Contact</h2>
+                    <p>Have any questions, comments, or just want to reach out? Feel free to contact me by
+                        <a href="mailto:contact@jackgraddon.com">email <i class="bi bi-box-arrow-up-right"></i></a> or
+                        by using the form below.
+                    </p>
+                    <a href="./contact/" class="btn btn-primary">Open Form</a>
+                </div>
+                <!-- <div class="image-container image-center">
+                  <img src="./images/png/placeholder.png" alt="Placeholder image">
+              </div> -->
+            </div>
+    </main>
 
-  <!-- Bootstrap JavaScript Library -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+
+    <!-- Theme JavaScript -->
+    <script src="./js/jg-theme.js"></script>
+
+    <!-- Bootstrap JavaScript Library -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+    <!-- GSAP JavaScript -->
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/TextPlugin.min.js"></script>
+
+    <!-- Scripting -->
+    <script>
+        // Register Plugins
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, MotionPathPlugin, TextPlugin);
+
+        // Create timeline for animations
+        var tl = gsap.timeline();
+
+        // Add animations to timeline
+        tl.to(".splash-title", {
+            duration: 0.5,
+            scale: 0.9,
+            filter: 'blur(10px)',
+            opacity: 0,
+            ease: "power1.inOut",
+            onComplete: function () {
+                document.querySelector(".splash-title#first-load").id = "second-load";
+            }
+        })
+
+        // As the user scrolls, the timeline will progress
+        ScrollTrigger.create({
+            animation: tl,
+            trigger: "body",
+            start: "top top",
+            end: "bottom center",
+            scrub: true,
+            markers: true,
+        });
+        
+    </script>
 
 </body>
 
