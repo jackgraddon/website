@@ -163,15 +163,26 @@
                 document.querySelector(".splash-title#first-load").id = "second-load";
             }
         })
+        .fromTo(".project-deck .project-tile", {
+            opacity: 0,
+            y: 50
+        }, {
+            duration: 0.5,
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            ease: "power1.inOut"
+        })
 
         // As the user scrolls, the timeline will progress
         ScrollTrigger.create({
             animation: tl,
-            trigger: "body",
+            trigger: document.body,
             start: "top top",
-            end: "bottom center",
+            end: "bottom top",
             scrub: true,
             markers: true,
+            maxHeight: () => document.documentElement.scrollHeight - window.innerHeight,
         });
         
     </script>

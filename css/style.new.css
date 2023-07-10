@@ -156,7 +156,41 @@ body {
     width: 100vw;
 }
 
+/* Main */
+main {
+    /* Spacing */
+    margin: 0 auto;
+    padding: 0 2vw;
+    max-width: 1000px;
+}
+
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Sunflower', serif;
+}
+
+/* Cards */
+
+/* Project Deck */
+.project-deck {
+    /* Sizing */
+    width: 100%;
+    /* Display */
+    display: grid;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.project-tile {
+    /* Sizing */
+    width: 100%;
+    border-radius: 7pt;
+    /* View */
+    overflow: hidden;
+}
+.project-tile>img {
+    /* Sizing */
+    width: 100%;
+    /* View */
+    object-fit: cover;
 }
