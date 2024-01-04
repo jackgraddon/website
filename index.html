@@ -2,343 +2,89 @@
 <html lang="en">
 
 <head>
-    <title>Home | Jack Graddon</title>
+    <title>Jack Graddon</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport"
-        content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1, minimum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Optional meta tags -->
     <meta name="theme-color">
     <meta name="og:title" content="Jack Graddon">
     <meta name="og:image" content="./images/jpg/ogImage.jpg">
 
     <!-- Favicon -->
     <link rel="icon" href="./images/png/favicon/favicon.png">
-    <!-- Bootstrap CSS -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-			integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-		<!-- Bootstrap Icons -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <!-- Personal CSS -->
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="">
+    <!-- Site CSS -->
     <link rel="stylesheet" href="./css/style.css">
+
     <!-- Reset scroll to top -->
     <script>history.scrollRestoration = "manual"</script>
+
+    <!-- GSAP JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/TextPlugin.min.js"></script>
 </head>
 
-<body>
-    <!-- Script for Root Landing Page -->
-    <script>
-        var dateFull = new Date();
-        var date = {
-            year: dateFull.getFullYear(),
-            month: dateFull.getMonth() + 1,
-            calDay: dateFull.getDate(),
-            day: dateFull.getUTCDay(),
-            hour: dateFull.getHours(),
-        }
-        console.log(date.year, date.month, date.calDay, date.day, date.hour);
+<!-- Background object -->
+<background></background>
 
-        let elems, metadata, matched;
+<!-- Page content -->
+<body data-jg-theme="" style="opacity: 0;">
+    <!-- Splash -->
+    <div class="splash">
+        <span class="splash-title" id="first-load">
+            <h1></h1>
+            <p></p>
+        </span>
+    </div>
 
-        window.addEventListener("DOMContentLoaded", function () {
-            elems = {
-                "body": document.querySelector('body'),
-                "title": document.querySelector("#title"),
-                "subtitle": document.querySelector("#subtitle"),
-                "background": document.querySelector("#background"),
-                "condition": document.querySelector("#condition"),
-                "cloud": document.querySelector("#cloud"),
-                "stars": {
-                    "morning": document.querySelector("#stars-morning"),
-                    "night": document.querySelector("#stars-night"),
-                }
-            }
+    <!-- Transition -->
+    <div class="splash-transition">
+        <img id="cloud" width="100%" alt="A cloud that covers the entire width of the screen." src="./images/png/front/cloud1.png">
+    </div>
 
-            metadata = {
-                "styles": document.querySelector('link[href="./css/style.css"]'),
-                "theme": document.querySelector('meta[name="theme-color"]'),
-            }
+    <!-- Header -->
+    <header>
+        <!-- place navbar here -->
+    </header>
 
-            matched = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            gsap.to(elems.body, {
-                opacity: 1,
-							duration: 0.25,
-                ease: "power3.out",
-							delay: 0
-            });
-        });
-
-
-        function colorSchemeSet() {
-            // date.hour = 7;
-            if ((date.hour >= 5) && (date.hour < 9)) {
-                elems.title.innerHTML = "Good morning!";
-                elems.subtitle.innerHTML = "It's going to be a great day.";
-                elems.condition.innerHTML = "<img src=\"./images/svg/icon/sunrise.svg\" height=\"20pt\">";
-                elems.body.style.backgroundColor = '#33004f';
-                elems.background.style.backgroundImage = 'linear-gradient(180deg, rgba(51,0,79,1) 0%, rgba(177,72,38,1) 100%)';
-                metadata.theme.setAttribute('content', '#33004f');
-                gsap.fromTo(elems.stars.morning, {
-                    display: 'none',
-                    opacity: 0,
-                }, {
-                    display: 'block',
-                    opacity: 1,
-                    duration: 6,
-                    ease: "power3.out"
-                });
-            } else if ((date.hour >= 9) && (date.hour < 12)) {
-                elems.title.innerHTML = "Good morning!";
-                elems.subtitle.innerHTML = "It's going to be a great day.";
-                elems.condition.innerHTML = "<img src=\"./images/svg/icon/sunny.svg\" height=\"20pt\">";
-                elems.body.style.backgroundColor = '#067bbb';
-                elems.background.style.backgroundImage = 'linear-gradient(180deg, rgba(6,123,187,1) 0%, rgba(174,207,219,1) 100%)';
-                metadata.theme.setAttribute('content', '#067bbb')
-            } else if ((date.hour >= 12) && (date.hour < 18)) {
-                elems.title.innerHTML = "Good afternoon!";
-                elems.subtitle.innerHTML = "What a beautiful day it is.";
-                elems.condition.innerHTML = "<img src=\"./images/svg/icon/sunny.svg\" height=\"20pt\">";
-                elems.body.style.backgroundColor = '#067bbb';
-                elems.background.style.backgroundImage = 'linear-gradient(180deg, rgba(6,123,187,1) 0%, rgba(174,207,219,1) 100%)';
-                metadata.theme.setAttribute('content', '#067bbb')
-            } else if ((date.hour >= 18) && (date.hour < 22)) {
-                elems.title.innerHTML = "Good evening!";
-                elems.subtitle.innerHTML = "Don't miss the sunset.";
-                elems.condition.innerHTML = "<img src=\"./images/svg/icon/sunset.svg\" height=\"20pt\">";
-                elems.body.style.backgroundColor = '#2a6ca1';
-                elems.background.style.backgroundImage = 'linear-gradient(0deg, rgba(255,177,177,1) 0%, rgba(226,218,187,1) 25%, rgba(184,214,228,1) 40%, rgba(42,108,161,1) 100%)';
-                metadata.theme.setAttribute('content', '#2a6ca1')
-            } else if ((date.hour >= 22) || (date.hour < 5)) {
-                document.addEventListener("mousemove", parallax);
-                elems.title.innerHTML = "Good night!";
-                elems.subtitle.innerHTML = "The moon shines bright outside tonight.";
-                elems.condition.innerHTML = "<img src=\"./images/svg/icon/moon.svg\" height=\"20pt\">";
-                elems.body.style.backgroundColor = '#13001d';
-                elems.background.style.backgroundImage = 'linear-gradient(180deg, rgba(19,0,29,1) 0%, rgba(51,0,79,1) 100%)';
-                gsap.fromTo(elems.stars.night, {
-                    display: 'none',
-                    opacity: 0,
-                }, {
-                    display: 'block',
-                    opacity: 1,
-                    duration: 6,
-                    ease: "power3.out"
-                });
-                metadata.theme.setAttribute('content', '#13001d');
-            }
-
-            if (matched && ((date.hour < 22) && (date.hour > 5))) {
-                document.addEventListener("mousemove", parallax);
-                elems.title.innerHTML = "Good night!";
-                elems.subtitle.innerHTML = "It isn't night yet, but your computer told me it is.";
-                elems.body.style.backgroundColor = '#13001d';
-                elems.background.style.backgroundImage = 'linear-gradient(180deg, rgba(19,0,29,1) 0%, rgba(51,0,79,1) 100%)';
-                metadata.theme.setAttribute('content', '#13001d');
-                gsap.fromTo(elems.stars.night, {
-                    display: 'none',
-                    opacity: 0,
-                }, {
-                    display: 'block',
-                    opacity: 1,
-                    duration: 6,
-                    ease: "power3.out"
-                });
-                console.log('Browser in dark mode, night color scheme applied.')
-            } else if (matched) {
-                console.log('Browser in dark mode, but the default color scheme was applied.')
-            } else {
-                console.log('Browser in light mode, default color scheme applied.');
-            }
-        }
-
-        function setDarkMode() {
-            document.addEventListener("mousemove", parallax);
-            let title = document.getElementById('title');
-            let subtitle = document.getElementById('subtitle');
-            let body = document.getElementById('background');
-            let condition = document.getElementById('condition');
-            let meta = document.querySelector('meta[name="theme-color"]')
-            if ((date.hour < 22) && (date.hour > 5)) {
-                elems.title.innerHTML = "Good night!";
-                elems.subtitle.innerHTML = "It isn't night yet, but your computer told me it is.";
-                elems.condition.innerHTML = "<img src=\"./images/svg/icon/moon.svg\" height=\"20pt\">";
-                elems.body.style.backgroundColor = '#13001d';
-                elems.background.style.backgroundImage = 'linear-gradient(180deg, rgba(19,0,29,1) 0%, rgba(51,0,79,1) 100%)';
-                metadata.theme.setAttribute('content', '#13001d');
-                gsap.fromTo(elems.stars.night, {
-                    display: 'none',
-                    opacity: 0,
-                }, {
-                    display: 'block',
-                    opacity: 1,
-                    duration: 0.4,
-                    ease: "power3.out"
-                });
-                console.log('Browser in dark mode during the day, so the night color scheme applied.')
-            } else {
-                elems.title.innerHTML = "Good night!";
-                elems.subtitle.innerHTML = "The moon shines bright outside tonight.";
-                elems.condition.innerHTML = "<img src=\"./images/svg/icon/moon.svg\" height=\"20pt\">";
-                elems.body.style.backgroundColor = '#13001d';
-                elems.background.style.backgroundImage = 'linear-gradient(180deg, rgba(19,0,29,1) 0%, rgba(51,0,79,1) 100%)';
-                metadata.theme.setAttribute('content', '#13001d');
-                gsap.fromTo(elems.stars.night, {
-                    display: 'none',
-                    opacity: 0,
-                }, {
-                    display: 'block',
-                    opacity: 1,
-                    duration: 0.4,
-                    ease: "power3.out"
-                });
-                console.log('Browser in light mode at night, so the night color scheme was applied.')
-            }
-        }
-        function setLightMode() {
-            colorSchemeSet();
-            elems.stars.night.fadeOut(400);
-        }
-
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => e.matches && setDarkMode());
-        window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", e => e.matches && setLightMode());
-
-        window.addEventListener('DOMContentLoaded', (event) => {
-            colorSchemeSet()
-
-            let mainURL = window.location.protocol + "//" + window.location.hostname;
-            if (window.location.port) {
-                mainURL = mainURL + ":" + window.location.port;
-            }
-            try {
-                elems.cloud.src = `${mainURL}/images/png/front/cloud${Math.floor(Math.random() * 3) + 1}.png`;
-                console.log(elems.cloud.src)
-            } catch (e) {
-                console.log(e);
-            }
-        });
-        window.addEventListener("DOMContentLoaded", () => {
-            window.scrollTo(0, 0);
-            let loadtl = gsap.timeline({ delay: 0.5 });
-            loadtl.fromTo("#background", { opacity: 0 }, { opacity: 1, duration: 4 });
-            // loadtl.fromTo("#scrollDown", { opacity: 0 }, { opacity: 1, duration: 2 }, "<");
-            // loadtl.to("#header", { overflow: "hidden", duration: 0 }, "<");
-            loadtl.fromTo("#title, #subtitle, #condition, #cloudContainer, #scrollDown", { opacity: 0, filter: 'blur(20px)', transform: 'scale(1.1)', y: 0 }, { opacity: 1, filter: 'blur(0px)', transform: 'scale(1)', y: 0, duration: 2, ease: "power3.out" }, "<");
-
-            window.addEventListener("scroll", finishAnimation, false);
-            function finishAnimation() {
-							loadtl.timeScale(20);
-                console.log("Finishing animation...");
-                window.removeEventListener("scroll", finishAnimation, false);
-            }
-        });
-    </script>
-    <!-- Begin Page -->
-    <div id="background"></div>
-    <div class="d-flex flex-column justify-content-center align-content-center" id="header"
-        style="height: fit-content; z-index: 1; overflow: hidden;">
-        <div id="stars-night" style="display: none;"></div>
-        <div id="stars-morning" style="display: none;"></div>
-        <div class="d-flex justify-content-center align-items-center w-100 rellax" style="padding-top: 35vh;"
-            id="titleContainer">
-            <div class="d-flex flex-column container align-items-center"
-                style="height: fit-content; width: fit-content;" id="headerText">
-                <p class="m-sm-auto" id="condition"><i class="fa fa-heart" aria-hidden="true"></i></p>
-                <h1 class="m-sm-auto title" id="title">Hello!</h1>
-                <p class="m-sm-auto subtitle" id="subtitle">Have a great day!</p>
-                <a onclick="document.querySelector('#sectionOne').scrollIntoView({behavior: 'smooth'});" tabindex="0"
-                    class="m-sm-auto d-flex flex-column" id="scrollDown">
-                    <p class="scroll m-auto">
-                        Scroll Down</p>
-                    <i class="bi-chevron-down m-auto"></i>
-                </a>
-            </div>
-        </div>
-        <div id="cloudContainer" style="height: fit-content;">
-            <img id="cloud" width="100%" alt="A cloud that covers the entire width of the screen."
-                src="./images/png/front/cloud1.png">
+    <!-- Modal Alerts -->
+    <div id="alerts" style="opacity: 0; display: none;">
+        <!-- Cookie Alert -->
+        <div class="shadow alert alert-primary alert-dismissible fade show" id="alertUntracked" role="alert"
+            tabindex="none" ondblclick="window.open('https://epic.org')">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+            <h3 style="font-size: medium;">🍪 Cookies</h3>
+            <p style="font-size: x-small;" class="mb-1">This website does not use cookies! You are free to browse
+                with the peace of mind that you are not being tracked. Double click me to learn more about data
+                privacy.
+            </p>
         </div>
     </div>
 
-    <!-- Script for Main Page -->
-    <!-- Mobile Detection -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
-    <script>
-        var md;
-        // Get Device
-        window.addEventListener("DOMContentLoaded", function () {
-            md = new MobileDetect(window.navigator.userAgent);
-            // console.log(md.mobile()); // null if not mobile device
-            // console.log(md.phone()); // null if not smartphone
-            // console.log(md.tablet()); // null if not tablet
-            // console.log(md.userAgent()); // Browser used
-            // console.log(md.os()); // Operating System
-            // console.log(md.version('Webkit')); // Webkit version
-            // console.log(md.versionStr('Build')); // Build
-
-            if (md.mobile() != null) {
-                document.getElementById('cloudContainer').style.width = '200%';
-                document.getElementById('cloudContainer').style.left = '-20%';
-                // Get orientation on Mobile devices (fixes off-center padding for title)
-                if ((Math.abs(window.orientation) == 90) || (Math.abs(window.orientation) == -90)) {
-                    document.getElementById('titleContainer').style.paddingTop = "2rem";
-                }
-            }
-        });
-    </script>
-
-
-    <main class="container mb-5" id="sectionOne" style="z-index: 3;">
-        <div id="alerts" style="opacity: 0;">
-            <!-- Cookie Alert -->
-            <div class="shadow alert alert-primary alert-dismissible fade show" id="alertUntracked" role="alert"
-                tabindex="none" ondblclick="window.open('https://epic.org')">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true"></span>
-                </button>
-                <h3 style="font-size: medium;">🍪 Cookies</h3>
-                <p style="font-size: x-small;" class="mb-1">This website does not use cookies! You are free to browse
-                    with the peace of mind that you are not being tracked. Double click me to learn more about data
-                    privacy.
-                </p>
+    <!-- Main Content -->
+    <main>
+        <div class="main-section">
+            <h1 id="title">Hello!</h1>
+            <p id="subtitle">I'm Jack, a freelance Web Developer and Graphic Designer.</p>
+            <div class="project-deck">
+                <!-- Filled by script -->
             </div>
         </div>
-        <!-- Main Page -->
-        <div class="d-flex flex-column align-items-center">
-            <h1 class="title" id="pageTitle">Hello!</h1>
-            <p class="subtitle">I'm Jack, a freelance Web Developer and Graphic Designer.</p>
-            <div class="project-deck">
-                <div class="project-tile" style="background-color: #432534;">
-                    <img src="./images/jpg/projects/fblaProject22.jpg"
-                        alt="Future Business Leaders of America 2020/21 Competition - Website Design."
-                        style="border-bottom: #C44900 1px dashed;">
-                    <a href="./projects/web/fbla/2022/" class="btn" style="color: #C44900; border-color: #C44900;">Learn
-                        More</a>
-                </div>
-                <div class="project-tile" style="background-color: #C837AB;">
-                    <img src="./images/jpg/projects/instagram.jpg"
-                        alt="Instagram logo with the word 'posts' on its right."
-                        style="border-bottom: #3771C8 1px dashed;">
-                    <a href="./projects/design/instagram/" class="btn"
-                        style="color: #3771C8; border-color: #3771C8;">Learn
-                        More</a>
-                </div>
-                <div class="project-tile" style="background-color: #4D4D4D;">
-                    <img src="./images/jpg/projects/dtc.jpg"
-                        alt="WSU Logo with the letters DTC, which stand for Digital Technology and Culture."
-                        style="border-bottom: #fff 1px dashed;">
-                    <a href="./projects/design/dtc/" class="btn" style="color: #A60F2D; border-color: #A60F2D;">Learn
-                        More</a>
-                </div>
-            </div>
-            <p class="mt-1">Check out some of my favorite projects above!</p>
-            <div class="d-flex flex-md-row flex-column w-100 mt-2">
+        <div class="main-section">
+            <div class="flex">
                 <div class="portrait portrait-landing">
                     <img src="./images/jpg/portraits/Jack-01.jpg" height="100%"
-                        alt="Jack Graddon sitting in front of the camera">
+                        alt="Jack Graddon sitting in front of the camera" loading="lazy">
                 </div>
-                <div class="m-md-3 mt-3 text-md-start text-center">
+                <div>
                     <h2>About</h2>
                     <p>I'm a freelance Web Developer and Graphic Designer. I've worked on projects and designs for my
                         local school, growing influencers, companies, and competitions.</p>
@@ -348,6 +94,8 @@
                     <a href="./about/" class="btn btn-primary">Click Here</a>
                 </div>
             </div>
+        </div>
+        <div class="main-section" style="display: none;">
             <div class="d-flex flex-md-row flex-column text-center w-100 mt-2">
                 <div class="m-md-3 mb-3 w-100">
                     <h2>Contact</h2>
@@ -358,32 +106,144 @@
                     <a href="./contact/" class="btn btn-primary">Open Form</a>
                 </div>
                 <!-- <div class="image-container image-center">
-                    <img src="./images/png/placeholder.png" alt="Placeholder image">
-                </div> -->
-            </div>
+                <img src="./images/png/placeholder.png" alt="Placeholder image">
+            </div> -->
+        </div>
     </main>
-    <!-- Scroll to Top button -->
-    <div class="p-2" style="position: sticky; bottom: env(safe-area-inset-bottom); overflow-y: hidden; opacity: 0;"
-        id="scrollToTop">
-        <a class="m-sm-auto d-flex flex-column justify-content-center align-content-center"
-            onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
-            <i class="bi-chevron-bar-up m-auto"></i>
-            <p class="scroll m-auto" style="font-size: smaller;">Scroll to top
-            </p>
-        </a>
+
+    <!-- Modals -->
+    <script defer>
+        // Hide modal on load
+        document.addEventListener("DOMContentLoaded", function() {
+            gsap.set(".modal", {
+                autoAlpha: 0,
+            });
+        });
+
+        // Function to open a modal
+        function openModal(type, id) {
+            // Get the modal element
+            let modal = document.querySelector("div.modal");
+
+            // Get the content elements
+            let modalBody = modal.querySelector("div.modal-body");
+
+            // Get the button elements
+            let closeButton = modal.querySelector("button.btn-close");
+            let fullscreenButton = modal.querySelector("button.btn-fullscreen");
+
+            // If the modal is not already open
+            if (modal.style.opacity != 1) {
+                // If the type is a project
+                if (type == "project") {
+                    // Get the project
+                    let project = projects[id];
+
+                    // Create the project modal content
+                    modalBody.innerHTML = `
+                        <iframe src="${project.link}" frameborder="0" allowfullscreen style="width: 100%; height: 100%;"></iframe>
+                    `;
+
+                    // Set fullscreen button destination
+                    fullscreenButton.onclick = function() {
+                        gsap.to('.modal-content', {
+                            width: window.innerWidth,
+                            height: window.innerHeight,
+                            duration: 0.5,
+                            ease: "ease.in",
+                            onComplete: function() {
+                                gsap.set('.modal-content', {
+                                    width: "100%",
+                                    height: "100%",
+                                });
+                                gsap.set('.modal', {
+                                    autoAlpha: 0,
+                                });
+                                window.open(project.link, "_blank");
+                            }
+                        })
+                    }
+                }
+
+                // Open the modal with GSAP
+                gsap.fromTo(modal, {
+                    autoAlpha: 0
+                },
+                {
+                    autoAlpha: 1,
+                    duration: 0.15,
+                    ease: "ease",
+                    onComplete: function() {
+                        // Tell body modal is open
+                        document.body.classList.add = "modal-open";
+                    }
+                });
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            closeButton.onclick = function() {
+                // Close the modal with GSAP
+                gsap.fromTo(modal, {
+                    autoAlpha: 1
+                },
+                {
+                    autoAlpha: 0,
+                    duration: 0.15,
+                    ease: "ease",
+                    onComplete: function() {
+                        // Tell body modal is closed
+                        document.body.classList.remove = "modal-open";
+                    }
+                });
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    // Close the modal with GSAP
+                    gsap.fromTo(modal, {
+                        autoAlpha: 1
+                    },
+                    {
+                        autoAlpha: 0,
+                        duration: 0.15,
+                        ease: "ease",
+                        onComplete: function() {
+                            // Tell body modal is closed
+                            document.body.classList.remove = "modal-open";
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+
+    <!-- Project Modal -->
+    <div class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn-fullscreen" aria-label="Open">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
     </div>
 
-    <!-- Footer -->
-    <nav class="d-flex flex-column p-3">
+    <footer>
         <div class="footer-causes">
             <a id="data-rights" href='https://epic.org' target="_blank">🔒</a>
             <a id="help-others" href='https://rescue.org/' target="_blank">⛑️</a>
             <a id="help-me" href='https://ko-fi.com/jackgraddon' target="_blank">🪙</a>
         </div>
-        <h3 style="width: fit-content;" class="m-auto">Jack Graddon</h3>
-        <p style="width: fit-content; font-size: small;" class="m-auto">Website &copy; Jack Graddon 2022</p>
-        <div style="width: fit-content;" class="m-auto">
-            <ul class="nav justify-content-center">
+        <h3>Jack Graddon</h3>
+        <p>Website &copy; Jack Graddon 2022</p>
+        <div>
+            <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link active">Home</a>
                 </li>
@@ -401,125 +261,21 @@
                 </li>
             </ul>
         </div>
-    </nav>
+    </footer>
 
-    <!-- Bootstrap 5 Script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    <!-- Theme JavaScript -->
+    <script src="./js/jg-theme.js"></script>
+
+    <!-- Bootstrap JavaScript Library -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
-    <script>
-        // Alerts
-        var alertList = document.querySelectorAll('.alert')
-        var alerts = [].slice.call(alertList).map(function (element) {
-            return new bootstrap.Alert(element)
-        })
 
-    </script>
-    <!-- Pollyfill (for Smooth Scrolling on Unsupported Browsers) -->
-    <script src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
-    <!-- GSAP -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/CSSRulePlugin.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/TextPlugin.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    <script>
-        gsap.to("#headerText", {
-            scrollTrigger: {
-                trigger: "#headerText",
-                id: "header",
-                start: "top 35%",
-				end: "bottom 35%",
-                pin: true,
-            	scrub: true,
-                markers: true,
-            },
-			opacity: 0,
-            transform: "scale(0.9)",
-            filter: "blur(10px)",
-            ease: "none",
-            duration: 2,
-        });
-        gsap.to("#scrollToTop", {
-            scrollTrigger: {
-                trigger: "#cloudContainer",
-                id: "scrollTopButton",
-                start: "top 40%",
-                end: "top 10%",
-                scrub: 1,
-            },
-            opacity: 1,
-            duration: 1
-        })
-        gsap.to("#title", {
-            scrollTrigger: {
-                trigger: "#cloudContainer",
-                id: "titleText",
-                start: "top 15%",
-                end: "top 10%",
-            },
-            text: "Jack Graddon",
-            duration: 0.1,
-        });
-        gsap.to("#subtitle", {
-            scrollTrigger: {
-                trigger: "#cloudContainer",
-                id: "subtitleText",
-                start: "top 15%",
-                end: "top 10%",
-            },
-            text: "Graphic Designer | Web Developer",
-            duration: 0.1,
-        });
-        gsap.to("#scrollToTop", {
-            scrollTrigger: {
-                trigger: "#cloudContainer",
-                id: "scrollTopButton",
-                start: "top 40%",
-                end: "top 10%",
-                scrub: 1,
-            },
-            opacity: 1,
-            duration: 1
-        })
-        setTimeout(function () {
-            gsap.to("#alerts", {
-                scrollTrigger: {
-                    trigger: "#pageTitle",
-                    id: "alerts",
-                    start: "center center",
-                    end: "bottom center",
-                    // markers: true,
-                    // scrub: true
-                },
-                opacity: 1,
-                ease: "ease",
-                duration: 1
-            })
-        }, 1000);
-    </script>
-    <!-- Script for Night Sky (Moving Stars) -->
-    <script>
-        function parallax(e) {
-            if (md.mobile() == null) {
-                const speed = 0.5;
-                const x = (window.innerWidth / 2 - e.pageX * speed) / 100
-                const y = (window.innerHeight / 2 - e.pageY * speed) / 100
-                gsap.to("#cloud", {
-                    x: -x / 2,
-                    y: -y / 2,
-                    duration: 0.1,
-                    ease: "none"
-                })
-                gsap.to("#headerText", {
-                    x: -x * 1.5,
-                    y: -y * 1.5,
-                    duration: 0.5,
-                    ease: "none"
-                })
-            }
-        }
-    </script>
-    <script src="./js/hiddenMenu.js"></script>
+    <!-- Scripting -->
+    <script src="js/gsap/index.js"></script> <!-- GSAP animations -->
+
+    <!-- Project Display Data -->
+    <script src="js/projectDisplay.js"></script>
 </body>
 
 </html>

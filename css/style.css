@@ -1,482 +1,528 @@
+/* Imports */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css'); /* Icons */
+@font-face { /* Sunflower */
+    font-family: 'Sunflower';
+    src: url('./fonts/made-sunflower.woff') format('woff'),
+        url('./fonts/made-sunflower.woff2') format('woff2');
+}
+
+/* Theme controls */
+/* Default */
 :root {
-  --primary: #2d5d7b;
-  --primary-hover: #3d7ea7;
-  --secondary: #4594ac;
-  --secondary-hover: #43bee4;
-  --success: #45cb85;
-  --success-hover: #56ffa8;
-  --info: #00798c;
-  --info-hover: #00abc5;
-  --warning: #edae49;
-  --warning-hover: #ffd38c;
-  --danger: #d1495b;
-  --danger-hover: #ff7d8f;
-}
-.footer-causes {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 0;
-}
-.footer-causes a {
-  cursor: pointer;
-  transition: 300ms;
-  text-decoration: none;
-  font-size: 1.7rem;
-  padding: 0 0.5rem;
-}
-.footer-causes a:hover {
-  scale: 1.15;
+    /* Colors */
+    --color-background: rgba(228,228,228,1);
+    --color-background-gradient: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(228,228,228,1) 100%);
+    --intensity-background-gradient: 1;
+    --color-text: #000;
+    /* Greeting */
+    --text-title: "Jack Graddon";
+    --text-subtitle: "Freelance Developer";
 }
 
-#alerts {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  justify-content: baseline;
-  align-items: center;
-  bottom: 0rem;
-  right: 2rem;
-  width: 22vw;
-  height: fit-content;
-  z-index: 5;
-}
-#alerts * {
-  margin: 1rem 0rem;
+/* Morning theme: 5am to 9am */
+:root body[data-jg-theme^="morning"] {
+    /* Colors */
+    --color-background: rgba(196,77,37,1);
+    --color-background-gradient: linear-gradient(0deg, rgba(70,1,107,1) 0%, rgba(196,77,37,1) 100%);
+    --intensity-background-gradient: 1;
+    --color-text: rgba(255,255,255,1);
+    /* Greeting */
+    --text-title: "Good Morning!";
+    --text-subtitle: "It's going to be a great day.";
 }
 
-@media (max-width: 993px) {
-  #alerts {
+/* Afternoon theme: 9am to 6pm */
+:root body[data-jg-theme^="afternoon"] {
+    /* Colors */
+    --color-background: #aecfdb;
+    --color-background-gradient: linear-gradient(0deg, rgba(6,123,187,1) 0%, rgba(174,207,219,1) 100%);
+    --intensity-background-gradient: 1;
+    --color-text: rgba(255,255,255,1);
+    /* Greeting */
+    --text-title: "Good Afternoon!";
+    --text-subtitle: "What a beautiful day it is.";
+}
+
+/* Evening theme: 6pm to 10pm */
+:root body[data-jg-theme^="evening"] {
+    /* Colors */
+    --color-background: rgba(184,214,228,1);
+    --color-background-gradient: linear-gradient(0deg, rgba(255,177,177,1) 0%, rgba(226,218,187,1) 25%, rgba(184,214,228,1) 40%, rgba(42,108,161,1) 100%);
+    --intensity-background-gradient: 1;
+    --color-text: rgba(255,255,255,1);
+    /* Greeting */
+    --text-title: "Good Evening!";
+    --text-subtitle: "Don't miss the sunset tonight.";
+}
+
+/* Night theme: 10pm to 5am */
+:root body[data-jg-theme="night"] {
+    /* Colors */
+    --color-background: rgba(51,0,79,1);
+    --color-background-gradient: linear-gradient(0deg, rgba(19,0,29,1) 0%, rgba(51,0,79,1) 100%);
+    --intensity-background-gradient: 1;
+    --color-text: rgba(255,255,255,1);
+    /* Greeting */
+    --text-title: "Good Night!";
+    --text-subtitle: "Rest well and wake up refreshed.";
+}
+
+/* Dark theme: when overridden by browser */
+:root body[data-jg-theme$="-dark"] {
+    /* Colors */
+    --color-background: #000;
+    --intensity-background-gradient: 0.5;
+    /* Greeting */
+    --text-title: "Relaxing Shade";
+    --text-subtitle: "Enjoy the cool, dark shade."
+}
+
+/* Variables */
+:root {
+    --break-mobile: 480px;
+    --break-tablet: 768px;
+    --break-laptop: 1024px;
+    --break-desktop: 1280px;
+    /* Colors */
+}
+
+/* Control theme background */
+background {
+    /* Background Colors */
+    background-image: var(--color-background-gradient);
+    opacity: var(--intensity-background-gradient);
+    /* Size and Position */
+    height: 100vh;
     width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
     right: 0;
-    bottom: 2rem;
-    flex-direction: row;
-  }
-  #alerts * {
-    margin: 0 1rem;
-  }
+    z-index: -1;
+    transition: 0ms;
 }
 
-/* Font */
-@font-face {
-  font-family: "MADESunflower";
-  src: url("./fonts/made-sunflower.eot");
-  src: url("./fonts/made-sunflower.eot?#iefix") format("embedded-opentype"), url("./fonts/made-sunflower.woff2") format("woff2"), url("./fonts/made-sunflower.woff") format("woff"), url("./fonts/made-sunflower.ttf") format("truetype"), url("./fonts/made-sunflower.svg#youworkforthem") format("svg");
-  font-weight: normal;
-  font-style: normal;
+/* Control theme splash */
+.splash {
+    /* Sizing */
+    width: 100vw;
+    height: 60vh;
+    margin: 0;
+}
+@media screen and (max-width: 768px) { /* Tablet breakpoint */
+    .splash {
+        /* Sizing */
+        height: 100vh;
+    }
+    
 }
 
-@import url(./bootstrap-icons.css);
+.splash .splash-title {
+    /* Text */
+    text-align: center;
+    /* Size and Position */
+    width: 100%;
+    height: fit-content;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    overflow: hidden;
+}
+.splash .splash-title *{
+    /* Spacing */
+    margin: 0;
+    padding: 0;
+}
+.splash .splash-title h1::after {
+    /* Text */
+    font-family: 'Sunflower', serif;
+    font-size: 4rem;
+}
+.splash-title#first-load h1::after {
+    /* Text */
+    content: var(--text-title);
+}
+.splash-title#second-load h1::after {
+    /* Text */
+    content: "Jack Graddon";
+}
 
-/* Body */
+.splash .splash-title p::after {
+    /* Text */
+    font-style: italic;
+    font-weight: lighter;
+    letter-spacing: 0.1rem;
+    font-size: 1.8rem;
+}
+.splash-title#first-load p::after {
+    /* Text */
+    content: var(--text-subtitle);
+}
+.splash-title#second-load p::after {
+    /* Text */
+    content: "Freelance Developer";
+}
+
+.splash-transition {
+    /* Sizing */
+    width: 100vw;
+    height: fit-content;
+    margin: 0;
+    /* View */
+    overflow: hidden;
+}
+@media screen and (max-width: 480px) { /* Mobile breakpoint */
+    .splash-transition {
+        opacity: 0;
+    }
+}
+
+/* General Styles */
 body {
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: white;
-  /* overflow-x: hidden; */
-  scroll-behavior: smooth;
-  cursor: default;
-  /*disables text selection*/
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-* {
-  transition: 300ms all;
-} 
-*:focus {
-  outline: 5px solid var(--danger) !important;
-  border-radius: 7pt;
-  transition: 300ms all;
-}
-#background {
-  position: fixed;
-  top: calc(0 - env(safe-area-inset-top));
-  left: calc(0 - env(safe-area-inset-left));
-  width: 100vw;
-  height: 100vh;
-  z-index: -10;
-}
-#stars-night {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -9;
-  background: url(./images/stars.png) no-repeat top center;
-  background-size: cover;
-}
-#stars-morn {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -9;
-  background: url(./images/stars-morning.png) no-repeat top center;
-  background-size: 100vw 100vh;
-}
-.container {
-  padding-top: 2rem;
-}
-#header {
-  width: 100%;
-  transition: 200ms;
+    /* Colors */
+    background: var(--color-background);
+
+    /* Text */
+    color: var(--color-text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    /* Size */
+    width: 100vw;
+    height: fit-content;
+    margin: 0rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
-/* Text */
-.text-primary {
-  color: var(--primary) !important;
+*, ::after, ::before {
+    box-sizing: border-box;
 }
-h1,
-h2,
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    /* Text */
+    font-family: 'Sunflower', serif;
+    font-weight: bold;
+    /* Size */
+    margin: 0;
+}
+h1 {
+    /* Text */
+    font-size: 3rem;
+}
+#title {
+    /* Text */
+    font-size: 4rem;
+}
+h2 {
+    /* Text */
+    font-size: 2.5rem;
+}
 h3 {
-  font-family: "MADESunflower", serif;
+    /* Text */
+    font-size: 2rem;
 }
-a {
-  color: white;
-  text-decoration: underline;
-  fill: white;
+h4 {
+    /* Text */
+    font-size: 1.5rem;
 }
-a:hover {
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
+h5 {
+    /* Text */
+    font-size: 1.25rem;
 }
-a.nav-link {
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
+h6 {
+    /* Text */
+    font-size: 1rem;
 }
-a.nav-link:hover {
-  color: rgba(255, 255, 255, 1);
-  text-decoration: underline;
+p {
+    margin-top: 0;
 }
-a.nav-link.active {
-  color: rgba(255, 255, 255, 1);
-}
-.title {
-  font-family: "MADESunflower", serif;
-  font-size: 4rem;
-  color: white;
-  text-align: center;
-}
-.subtitle {
-  font-size: 1.25rem;
-  font-weight: 300;
-  color: white;
-}
-.scroll {
-  color: white;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0, white 10%, rgba(255, 255, 255, 0.5) 20%);
-  background-position: 0;
-  background-clip: text;
-  background-color: rgba(255, 255, 255, 0.5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shine 3s infinite linear;
-  animation-fill-mode: forwards;
-  -webkit-text-size-adjust: none;
-  font-weight: 600;
-  font-size: smaller;
-  white-space: nowrap;
-}
-#scrollDown,
-#scrollDown *,
-#scrollToTop,
-#scrollToTop * {
-  color: white;
-  text-decoration: none !important;
+#subtitle {
+    /* Text */
+    font-size: 1.5rem;
+    font-weight: lighter;
+    letter-spacing: 0.1rem;
 }
 
-@keyframes shine {
-  from {
-    background-position: 0%;
-  }
-  to {
-    background-position: 77px;
-  }
-}
-/* Navbar */
-#floatingNav {
-  position: fixed;
-  top: 0 !important;
-  left: 0 !important;
-  width: fit-content;
-  z-index: 10;
-  border-radius: 1em;
-  padding: 1em;
-}
-#floatingNav .nav-link {
-  transition: 300ms ease;
-}
-#floatingNav .nav-link:hover {
-  scale: 1.1;
-}
-.nav-link {
-  cursor: pointer !important;
-}
-.nav-link.active:hover {
-  text-decoration: none !important;
-}
-
-#floatingNavBG {
-  position: fixed;
-  top: -10%;
-  left: 0%;
-  width: 100%;
-  z-index: -5;
-  padding: 0;
-  background-color: rgba(150, 150, 150, 0.5);
-  /* filter: blur(30px); */
-  backdrop-filter: blur(5px) !important;
-  -webkit-backdrop-filter: blur(5px) !important;
-  zoom: 110%;
-  border-radius: 100%;
-  border: 3px solid white;
-  aspect-ratio: 1;
-  transition: 0ms !important;
-}
-
+/* Common Elements */
 /* Buttons */
-.btn {
-  padding: 0.4rem;
-  border-width: 0.3rem;
-  border-style: solid;
-  width: max-content;
-  height: fit-content;
-  text-align: center;
-  text-decoration: none;
-  transition: 200ms ease-out;
-  border-radius: 7pt;
-  background-color: #faf9f9;
+a.btn {
+    /* Sizing */
+    padding: 0.4rem;
+    border: 0.3rem solid;
+    border-radius: 7pt;
+    /* width: max-content;
+    height: fit-content; */
+    /* Text */
+    text-align: center;
+    text-decoration: none;
+    /* View */
+    transition: 200ms ease-out;
+    background-color: #faf9f9;
+    cursor: pointer;
 }
-.btn:hover,
-.btn:focus {
-  scale: 1.1;
-  background-color: #faf9f9 !important;
+
+/* Main */
+main {
+    /* Sizing */
+    max-width: var(--break-desktop);
+    width: 80vw;
+    height: fit-content;
+    margin: auto;
+    padding: 0 0 1rem 0;
+    /* View */
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: relative;
 }
-.btn:active {
-  scale: 0.95;
+@media screen and (max-width: 480px) { /* Mobile breakpoint */
+    main {
+        /* Sizing */
+        width: 95vw;
+        margin: 0, 2.5vw;
+    }
 }
-.btn.disabled {
-  opacity: 0.8;
-  background-color: #faf9f9;
+
+.main-section {
+    /* Sizing */
+    width: 100%;
+    /* height: 50vh; */
+    margin: 0 0 2rem 0;
+    padding: 0;
+    /* Display */
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
 }
-.btn-primary {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary:focus {
-  background-color: var(--primary) !important;
-  border-color: var(--primary) !important;
-  color: #faf9f9;
-}
-.btn-primary.disabled {
-  opacity: 0.8;
-  background-color: #faf9f9;
-  border-color: var(--primary);
-  color: var(--primary);
-}
-.btn-secondary {
-  background-color: var(--secondary);
-  color: var(--secondary);
-}
+/* Try to use GSAP to have some sort of "sticky" effect when scrolling so each section stays on screen for a bit before the next one transitions in */
 
 /* Images */
 img {
-  border-radius: 7pt;
+    /* Sizing */
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-radius: 7pt;
+    overflow-clip-margin: content-box;
+    overflow: clip;
 }
-#cloudContainer {
-  overflow-x: hidden;
-  overflow-y: visible;
+div.portrait {
+    min-width: 40vw;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 1.5 !important;
+}
+div.portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-div.image-container {
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  border-radius: 7pt;
-}
-div.image-center {
-  justify-content: center;
+/* Generic Flex Containers */
+div.flex {
+    /* Display */
+    display: flex;
+    flex-flow: row;
+    gap: 1rem;
 }
 
-div.portrait,
-div.logo {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 7pt;
-}
-div.portrait.portrait-landing {
-  min-width: 40vw;
-  aspect-ratio: 1.5 !important;
-}
-div.portrait.portrait-about {
-  min-width: 25vw;
-  aspect-ratio: 0.667 !important;
-  display: flex;
-  justify-content: center;
-}
-div.logo.logo-about {
-  min-width: 30vw;
-  max-height: 50%;
-  aspect-ratio: 1 !important;
-  display: flex;
-  justify-content: end;
+@media screen and (max-width: 768px) { /* Tablet breakpoint */
+    div.flex {
+        flex-flow: column;
+    }
 }
 
 /* Cards */
-.card {
-  border: none;
-  border-radius: 7pt !important;
-  color: black;
-  padding: 0 0 0.4rem 0;
-  scale: 0.9;
-}
-.card-img-top {
-  scale: 1.1;
-}
-.card-footer {
-  border: none;
-  background-color: white;
-  color: black;
-  border-radius: 0 0 7pt 7pt !important;
-}
-.card .card-footer .btn {
-  margin: 0 !important;
-}
-.card-text a {
-  color: var(--primary);
-}
-.card-text a:hover {
-  color: var(--primary-hover);
-}
 
-/* Modal */
-.modal {
-  color: black;
-}
-.modal-content {
-  border: 5px var(--primary) solid;
-  border-radius: 1rem;
-}
-.modal-header,
-.modal-footer {
-  border: none;
-}
-
-/* Alert */
-.alert {
-  background-color: #faf9f9;
-  border: 5px var(--primary) solid;
-  border-radius: 1rem;
-}
-.alert-primary {
-  color: var(--primary);
-}
-.alert-primary .alert-link {
-  color: var(--primary);
-}
-.alert-primary .alert-link:hover {
-  color: var(--primary-hover);
-}
-
-/* Project Display */
+/* Project Deck */
 .project-deck {
-  width: 100%;
-  display: flex;
-  flex-flow: row;
-  justify-content: center;
-}
-.project-deck {
-  margin-left: none;
+    /* Sizing */
+    width: 100%;
+    /* Display */
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.5rem;
 }
 .project-tile {
-  border: none;
-  border-radius: 7pt;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-content: center;
-  max-height: 45vh;
-  max-width: 32%;
-  margin: 0.3rem;
+    /* Sizing */
+    flex-grow: 1;
+    flex-basis: 32%;
+    min-width: 300px;
+    max-height: 480px;
+    border-radius: 7pt;
+    aspect-ratio: 1.6;
+    /* View */
+    background-size: contain;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    /* Display */
+    display: flex;
+    flex-flow: column;
+    justify-content: end;
+    align-items: flex-start;
 }
-.project-tile:first-child {
-  margin-left: 0;
+
+.project-tile>a.btn {
+    margin: 0.5rem;
 }
-.project-tile:last-child {
-  margin-right: 0;
+
+
+/* Modals */
+body.modal-open {
+    /* View */
+    overflow: hidden !important;
 }
-@media screen and (max-width: 768px) {
-  .project-deck {
-    flex-flow: column !important;
+
+.modal {
+    /* Sizing */
+    width: 100vw;
+    height: 100vh;
+    /* View */
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: 300ms ease;
+    /* Display */
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+.modal .modal-content {
+    /* Sizing */
+    width: 80vw;
+    height: 70vh;
+    position: relative;
+}
+.modal-header button.btn-close {
+    /* Sizing */
+    width: 2.5rem;
+    height: 2.5rem;
+    position: absolute;
+    top: 0;
+    right: -3rem;
+    /* View */
+    cursor: pointer;
+    background-color: #fff;
+    border: 0px;
+    border-radius: 50%;
+    /* Text */
+    text-decoration: none;
+    color: #000;
+    font-size: 2rem;
+    font-weight: bold;
+}
+button.btn-close::after {
+    display: inline-block;
+    content: "\00d7";
+}
+.modal-header button.btn-fullscreen {
+    /* Sizing */
+    width: 2.5rem;
+    height: 2.5rem;
+    position: absolute;
+    top: 3rem;
+    right: -3rem;
+    /* View */
+    cursor: pointer;
+    background-color: #fff;
+    border: 0px;
+    border-radius: 50%;
+    /* Text */
+    text-decoration: none;
+    color: #000;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+button.btn-fullscreen::after {
+    display: inline-block;
+    content: "\26f6";
+}
+.modal-body {
+    /* Sizing */
+    width: 100%;
+    height: 100%;
+    /* View */
+    border-radius: 7pt;
+    overflow: hidden;
+}
+
+
+
+
+
+
+/* Footer */
+footer {
+    /* Sizing */
+    width: fit-content;
+    height: fit-content;
+    margin: 1rem auto;
+    padding: 0;
+    /* Display */
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+footer .footer-causes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
   }
-  .project-tile {
-    width: auto !important;
-    max-width: none !important;
-    max-height: none !important;
-    margin: 7pt 0rem !important;
-  }
+footer .footer-causes a {
+    cursor: pointer;
+    transition: 300ms;
+    text-decoration: none;
+    font-size: 1.7rem;
+    padding: 0 0.5rem;
 }
-.project-tile img {
-  border-radius: 7pt 7pt 0 0;
-  width: 100%;
-  aspect-ratio: 1.6;
-}
-.project-tile .btn {
-  margin: 1rem auto;
+footer .footer-causes a:hover {
+    scale: 1.15;
 }
 
-/* About Classes */
-.videoBackground {
-  width: 100%;
-  height: 100%;
+footer ul.nav {
+    /* Sizing */
+    width: fit-content;
+    height: fit-content;
+    margin: 0;
+    padding: 0;
+    /* Display */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
 }
-
-#video-container {
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+footer ul.nav li {
+    /* Sizing */
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
-
-/* Contact Form */
-#form-card {
-  width: 100%;
-  margin: 2rem auto !important;
+footer ul.nav li>a {
+    /* Text */
+    color: rgba(255,255,255,0.75) !important;
+    text-decoration: none;
+    cursor: pointer;
+    /* View */
+    transition: 150ms ease;
+    /* Sizing */
+    border-radius: 7pt;
+    padding: 0.35rem;
+    margin: 0 0.15rem;
 }
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-  outline: 0;
-  outline-width: 0px;
-  box-shadow: 0;
-  -moz-box-shadow: 0;
-  -webkit-box-shadow: 0;
-}
-@media (min-width: 768px) {
-  #form-card {
-    width: 75%;
-  }
-}
-
-/* Curator.io Styles */
-.crt-logo.crt-tag {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-style: italic;
-  font-size: smaller !important;
-  color: var(--primary) !important;
-  opacity: 0.5 !important;
+footer ul.nav li:hover a{
+    /* Text */
+    color: rgba(255,255,255,1) !important;
+    /* Sizing */
+    background-color: rgba(255,255,255,0.25);
 }

@@ -1,3 +1,5 @@
+// This is old code, will not be used in production.
+
 var dateFull = new Date();
 var date = {
   year: dateFull.getFullYear(),
