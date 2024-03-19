@@ -34,6 +34,7 @@
 <background></background>
 
 <!-- Page content -->
+
 <body data-jg-theme="" style="opacity: 0;">
     <!-- Splash -->
     <div class="splash">
@@ -45,7 +46,7 @@
 
     <!-- Transition -->
     <div class="splash-transition">
-        <img id="cloud" width="100%" alt="A cloud that covers the entire width of the screen." src="./images/png/front/cloud1.png">
+        <img id="cloud" width="100%" alt="A cloud that covers the entire width of the screen.">
     </div>
 
     <!-- Header -->
@@ -108,13 +109,13 @@
                 <!-- <div class="image-container image-center">
                 <img src="./images/png/placeholder.png" alt="Placeholder image">
             </div> -->
-        </div>
+            </div>
     </main>
 
     <!-- Modals -->
     <script defer>
         // Hide modal on load
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             gsap.set(".modal", {
                 autoAlpha: 0,
             });
@@ -145,13 +146,13 @@
                     `;
 
                     // Set fullscreen button destination
-                    fullscreenButton.onclick = function() {
+                    fullscreenButton.onclick = function () {
                         gsap.to('.modal-content', {
                             width: window.innerWidth,
                             height: window.innerHeight,
                             duration: 0.5,
                             ease: "ease.in",
-                            onComplete: function() {
+                            onComplete: function () {
                                 gsap.set('.modal-content', {
                                     width: "100%",
                                     height: "100%",
@@ -169,50 +170,50 @@
                 gsap.fromTo(modal, {
                     autoAlpha: 0
                 },
-                {
-                    autoAlpha: 1,
-                    duration: 0.15,
-                    ease: "ease",
-                    onComplete: function() {
-                        // Tell body modal is open
-                        document.body.classList.add = "modal-open";
-                    }
-                });
+                    {
+                        autoAlpha: 1,
+                        duration: 0.15,
+                        ease: "ease",
+                        onComplete: function () {
+                            // Tell body modal is open
+                            document.body.classList.add = "modal-open";
+                        }
+                    });
             }
 
             // When the user clicks on <span> (x), close the modal
-            closeButton.onclick = function() {
+            closeButton.onclick = function () {
                 // Close the modal with GSAP
                 gsap.fromTo(modal, {
                     autoAlpha: 1
                 },
-                {
-                    autoAlpha: 0,
-                    duration: 0.15,
-                    ease: "ease",
-                    onComplete: function() {
-                        // Tell body modal is closed
-                        document.body.classList.remove = "modal-open";
-                    }
-                });
+                    {
+                        autoAlpha: 0,
+                        duration: 0.15,
+                        ease: "ease",
+                        onComplete: function () {
+                            // Tell body modal is closed
+                            document.body.classList.remove = "modal-open";
+                        }
+                    });
             }
 
             // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
+            window.onclick = function (event) {
                 if (event.target == modal) {
                     // Close the modal with GSAP
                     gsap.fromTo(modal, {
                         autoAlpha: 1
                     },
-                    {
-                        autoAlpha: 0,
-                        duration: 0.15,
-                        ease: "ease",
-                        onComplete: function() {
-                            // Tell body modal is closed
-                            document.body.classList.remove = "modal-open";
-                        }
-                    });
+                        {
+                            autoAlpha: 0,
+                            duration: 0.15,
+                            ease: "ease",
+                            onComplete: function () {
+                                // Tell body modal is closed
+                                document.body.classList.remove = "modal-open";
+                            }
+                        });
                 }
             }
         }
@@ -265,7 +266,7 @@
 
     <!-- Theme JavaScript -->
     <script src="https://jackgraddon.com/js/jg-theme.js"></script>
-    
+
     <!-- Bootstrap JavaScript Library -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
