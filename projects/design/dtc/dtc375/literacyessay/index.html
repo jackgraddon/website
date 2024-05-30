@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Project 1 | DTC 201 | Jack Graddon</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1, minimum-scale=1">
+	<meta name="theme-color">
+	<meta name="og:title" content="Legal Info">
+	<meta name="og:image" content="./img/ogImage.jpg">
+
+	<!-- Favicon -->
+	<link rel="icon" href="../../../../../images/png/favicon/favicon.png">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
+	<!-- FontAwesome Icons -->
+	<script src="https://kit.fontawesome.com/c2793fb33f.js" crossorigin="anonymous"></script>
+	<!-- Personal CSS -->
+	<link rel="stylesheet" href="../../../../../css/style.css">
+	<!-- Reset scroll to top -->
+	<script>history.scrollRestoration = "manual"</script>
+</head>
+
+<body style="opacity: 0;">
+	<!-- Begin Page -->
+	<div id="background"></div>
+
+	<div class="d-flex flex-column justify-content-center align-content-center" id="header"
+		style="height: fit-content; z-index: 1; overflow: hidden;">
+		<div id="stars-night" style="display: none;"></div>
+		<div id="stars-morn" style="display: none;"></div>
+		<div class="d-flex justify-content-center align-items-center w-100 rellax" style="padding-top: 35vh;"
+			id="titleContainer">
+			<div class="d-flex flex-column container align-items-center" style="height: fit-content; width: fit-content;"
+				id="headerText">
+				<p class="m-sm-auto" id="condition"><i class="bi bi-file-image" aria-hidden="true"></i>
+				</p>
+				<h1 class="m-sm-auto title" id="title">Literacy Essay</h1>
+				<p class="m-sm-auto subtitle" id="subtitle">Digital Technology and Culture</p>
+				<a class="m-auto d-flex flex-column" id="scrollDown"
+					onclick="javascript:document.getElementById('sectionOne').scrollIntoView({ behavior: 'smooth' });">
+					<p class="scroll m-auto">
+						Scroll Down</p>
+					<i class="bi-chevron-down m-auto"></i>
+				</a>
+			</div>
+		</div>
+		<div id="cloudContainer" style="height: fit-content;">
+			<img id="cloud" width="100%" alt="A cloud that covers the entire width of the screen.">
+		</div>
+	</div>
+
+	<!-- Script for Main Page -->
+	<!-- Mobile Detection -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
+	<script>
+		var md;
+		// Get Device
+		window.addEventListener("DOMContentLoaded", function () {
+			md = new MobileDetect(window.navigator.userAgent);
+			// console.log(md.mobile()); // null if not mobile device
+			// console.log(md.phone()); // null if not smartphone
+			// console.log(md.tablet()); // null if not tablet
+			// console.log(md.userAgent()); // Browser used
+			// console.log(md.os()); // Operating System
+			// console.log(md.version('Webkit')); // Webkit version
+			// console.log(md.versionStr('Build')); // Build
+
+			if (md.mobile() != null) {
+				document.getElementById('cloudContainer').style.width = '200%';
+				document.getElementById('cloudContainer').style.left = '-20%';
+				// Get orientation on Mobile devices (fixes off-center padding for title)
+				if ((Math.abs(window.orientation) == 90) || (Math.abs(window.orientation) == -90)) {
+					document.getElementById('titleContainer').style.paddingTop = "2rem";
+				}
+			}
+		});
+	</script>
+
+	<main class="container mb-5" id="sectionOne" style="z-index: 3;">
+		<div class="row sm-col">
+			<div class="col">
+				<h1 class="text-center">Literacy Essay</h1>
+				<p>
+					Language is a powerful tool, allowing us to connect with others in ways that no other animal can. It is more than communication; it is a tool that shapes our very existence. Through language, we navigate our emotions, share our stories, and forge other connections with fellow human beings. Unlike instinctive behaviors, we, as humans, must actively learn to wield language as a tool, unlocking its potential to express our innermost thoughts and connect with one another.
+				</p>
+				<p>
+					As I reflect on the role language takes in shaping our lives, I am reminded of my own experience learning this tool. I don’t have any memories outside of what I am told by my parents, and the earliest I can really remember reading specific books was in early elementary school. The experience of learning to understand language is lost to me, but my experience of developing the tool to where I am today I can remember. Reaching a word you’ve never heard before, only being able to make a good enough guess as to what it meant. As I grew up, I learned that I didn’t know some of the words I thought I did. I didn’t have a dictionary, or a phone, or any way to look up what words meant.
+				</p>
+				<p>
+					The first book series I remember reading was “Wings of Fire.” I did have to do some digging to remember the name of the series, but I remember the feelings I had when I read it. It was fun, engaging, and really provoked intense use of imagination. As a side note, while looking this up, I discovered that the author is still writing them, and there are ten more books than I remember having access to at my school library. Young me would have been thrilled! I remember reading The Dragonet Prophecy series, the book cover alone sparks fond memories.
+				</p>
+				<p>
+					The “Percy Jackson” series, much like my early encounter with “Wings of Fire,” ignited a sense of wonder and adventure. As I delved into Percy’s world of gods, demigods, and mythical creatures, I felt the same intensity of imagination. The pages came alive with humor, danger, and unexpected twists. Rick Riordan’s storytelling transported me to Camp Half-Blood, where young heroes grappled with their divine heritage. And just as I discovered more “Wings of Fire” books beyond my school library, I reveled in the expanding Percy Jackson universe—each installment adding layers to the epic saga. The cover art alone evokes fond memories, a visual gateway to realms where ancient myths intertwine with modern challenges.
+				</p>
+				<p>
+					I would choose books to read mostly based on the cover art, then checking out the inner cover to get an idea of what the book was about. Though it isn’t always for the best, that same instinct guides my creative choices. I carry a similar philosophy with me today; choosing things because they look nicer to me, even if they are a little worse on paper. Because beauty, even if a tad impractical, fuels my soul to this day. Whether it’s a novel, a physical good, or a piece of software: aesthetics matter. They stir something within us, transcending mere functionality.
+				</p>
+				<p>
+					As the characters of the stories I read soared through my imagination, little did I know that their fiery tales would ignite my own creative journey. Tucked away in the folds of memory lies a whimsical chapter—a time when my fingers danced across the keyboard of that trusty Windows XP-era computer, a relic bestowed upon me by my grandpa. I’m not sure if it is an experience many people share, but at some point as a kid I was inspired to write a book of my own. I had access to the Microsoft Office Suite for the first time. I could easily put my thoughts onto a page using Word, and sketch out simple designs using Publisher. There, amid pixelated fonts and clip art, I embarked on a literary quest: to immortalize my beloved childhood dog, Angie. I remember it being a tale of superpowers, magic, and boundless adventure. While the story never left my house, it was a fun experience and still made me who I am today.
+				</p>
+				<p>
+					Growing up, my grandpa played a pivotal role in shaping my passion for technology. His influence extended far beyond mere curiosity; he empowered me to explore and tinker with the very things that fascinated me. As a young mind eager to understand how things worked, I found myself drawn to the inner workings of gadgets, software, and digital tools. However, it was my grandpa’s patient guidance that truly ignited my journey into digital literacy. He introduced me to Microsoft Publisher, a gateway into the world of digital design. With his help, I learned the ropes, experimenting with layouts, fonts, and graphics. Suddenly, I wasn’t just a curious observer—I was an active creator, shaping my own digital content.
+				</p>
+				<p>
+					As I delved deeper, I realized that digital literacy wasn’t just about technical skills; it was about empowerment. Armed with knowledge, I could navigate the digital landscape confidently. But my grandpa’s impact extended beyond my personal growth. Inspired by his mentorship, I now strive to pay it forward—helping others bridge the gap between confusion and comprehension. Today, I find myself teaching friends, family, and even strangers the nuances of technology. Whether it’s demystifying smartphone settings or explaining cloud storage, I channel my grandpa’s patient spirit. I share not just the “how,” but also the “why”—because understanding technology isn’t about memorizing steps; it’s about grasping the underlying principles.
+				</p>
+				<p>
+					In the tapestry of life, language weaves intricate patterns. My own journey mirrors this interplay—learning, growing, and creating. As a child, books like “Wings of Fire” ignited my imagination, their covers promising adventure. Today, that same instinct guides my creative choices, favoring beauty over practicality. Yet, it was my grandpa who truly kindled my passion for technology. His patient guidance led me to Microsoft Publisher, where I crafted my first digital tales. Now, armed with knowledge, I pay it forward, bridging the gap for others in this digital landscape.
+				</p>
+			</div>
+		</div>
+	</main>
+	<!-- Scroll to Top button -->
+	<div class="p-2" style="position: sticky; bottom: env(safe-area-inset-bottom); overflow-y: hidden; opacity: 0;"
+		id="scrollToTop">
+		<a class="m-sm-auto d-flex flex-column justify-content-center align-content-center"
+			onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+			<i class="bi-chevron-bar-up m-auto"></i>
+			<p class="scroll m-auto" style="font-size: smaller;">Scroll to top
+			</p>
+		</a>
+	</div>
+	<!-- Footer -->
+	<nav class="d-flex flex-column p-3">
+		<div class="footer-causes">
+			<a id="data-rights" href='https://epic.org' target="_blank">🔒</a>
+			<a id="help-others" href='https://rescue.org/' target="_blank">⛑️</a>
+			<a id="help-me" href='https://ko-fi.com/jackgraddon' target="_blank">🪙</a>
+		</div>
+		<h3 style="width: fit-content;" class="m-auto">Jack Graddon</h3>
+		<p style="width: fit-content; font-size: small;" class="m-auto">Website &copy; Jack Graddon 2022</p>
+		<div style="width: fit-content;" class="m-auto">
+			<ul class="nav justify-content-center">
+				<li class="nav-item">
+					<a class="nav-link" href="../../../../../">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="../../../../../about/">About</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="../../../../../projects/">Projects</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="../../../../../contact/">Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="../../../../../legal/">Legal</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	</script>
+	<!-- Script for Landing Page -->
+	<script src="../../../../../js/jg-theme.js"></script>
+	<!-- Bootstrap 5 Script -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
+	<!-- Pollyfill (for Smooth Scrolling on Unsupported Browsers) -->
+	<script src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
+	<!-- GSAP -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/CSSRulePlugin.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/TextPlugin.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
+	<script>
+		gsap.to("#headerText", {
+			scrollTrigger: {
+				trigger: "#headerText",
+				id: "header",
+				start: "top 35%",
+				end: "bottom 20%",
+				// pin: true,
+				scrub: true,
+			},
+			opacity: 0,
+			y: 170,
+			transform: "scale(0.9)",
+			filter: "blur(10px)",
+			ease: "none",
+			duration: 2,
+		});
+		gsap.to("#scrollToTop", {
+			scrollTrigger: {
+				trigger: "#cloudContainer",
+				id: "scrollTopButton",
+				start: "top 40%",
+				end: "top 10%",
+				scrub: 1,
+			},
+			opacity: 1,
+			duration: 1
+		})
+	</script>
+
+<!-- Temporary -->
+    <script src="https://jackgraddon.com/js/gsap/all-other-temp.js"></script>
+</body>
+
+</html>
