@@ -262,7 +262,24 @@ a.btn {
     /* View */
     transition: 200ms ease-out;
     background-color: #faf9f9;
+    color: #1b1b1b;
     cursor: pointer;
+}
+a.btn:hover,
+a.btn:focus {
+  scale: 1.1;
+  background-color: #faf9f9 !important;
+}
+a.btn:active {
+  scale: 0.95;
+}
+a.btn.disabled {
+  opacity: 0.8;
+  background-color: #faf9f9;
+}
+a.btn.btn-secondary {
+  background-color: var(--secondary);
+  color: var(--secondary);
 }
 
 /* Main */
@@ -453,8 +470,37 @@ button.btn-fullscreen::after {
     overflow: hidden;
 }
 
-
-
+/* Scroll To ___ Button */
+.scroll {
+    color: white;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0, white 10%, rgba(255, 255, 255, 0.5) 20%);
+    background-position: 0;
+    background-clip: text;
+    background-color: rgba(255, 255, 255, 0.5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s infinite linear;
+    animation-fill-mode: forwards;
+    -webkit-text-size-adjust: none;
+    font-weight: 600;
+    font-size: smaller;
+    white-space: nowrap;
+}
+#scrollDown,
+#scrollDown *,
+#scrollToTop,
+#scrollToTop * {
+    color: white;
+    text-decoration: none !important;
+}
+@keyframes shine {
+    from {
+    background-position: 0%;
+    }
+    to {
+    background-position: 77px;
+    }
+}
 
 
 

@@ -13,9 +13,6 @@
 
     <!-- Favicon -->
     <link rel="icon" href="./images/png/favicon/favicon.png">
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="">
     <!-- Site CSS -->
     <link rel="stylesheet" href="./css/style.css">
 
@@ -75,9 +72,7 @@
         <div class="main-section">
             <h1 id="title">Hello!</h1>
             <p id="subtitle">I'm Jack, a freelance Web Developer and Graphic Designer.</p>
-            <div class="project-deck">
-                <!-- Filled by script -->
-            </div>
+            <div class="project-deck"></div>
         </div>
         <div class="main-section">
             <div class="flex">
@@ -92,7 +87,7 @@
                     <p>I've always desired to make technology more accessible by developing user interfaces that are
                         simple to navigate and visually engaging.</p>
                     <p>Want to learn more about me?</p>
-                    <a href="./about/" class="btn btn-primary">Click Here</a>
+                    <a href="./about/" class="btn">Click Here</a>
                 </div>
             </div>
         </div>
@@ -104,7 +99,7 @@
                         <a href="mailto:contact@jackgraddon.com">email <i class="bi bi-box-arrow-up-right"></i></a> or
                         by using the form below.
                     </p>
-                    <a href="./contact/" class="btn btn-primary">Open Form</a>
+                    <a href="./contact/" class="btn">Open Form</a>
                 </div>
                 <!-- <div class="image-container image-center">
                 <img src="./images/png/placeholder.png" alt="Placeholder image">
@@ -238,7 +233,6 @@
     <footer>
         <div class="footer-causes">
             <a id="data-rights" href='https://epic.org' target="_blank">🔒</a>
-            <a id="help-others" href='https://rescue.org/' target="_blank">⛑️</a>
             <a id="help-me" href='https://ko-fi.com/jackgraddon' target="_blank">🪙</a>
         </div>
         <h3>Jack Graddon</h3>
@@ -273,10 +267,26 @@
         crossorigin="anonymous"></script>
 
     <!-- Scripting -->
-    <script src="js/gsap/index.js"></script> <!-- GSAP animations -->
+    <script src="/js/gsap/index.js"></script> <!-- GSAP animations -->
 
     <!-- Project Display Data -->
-    <script src="js/projectDisplay.js"></script>
+    <script src="/js/projectDisplay.js"></script>
+
+    <!-- Vue -->
+    <script type="module">
+        import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+        import ProjectDeck from "/js/components/projects/projectDeck.js"
+      
+        createApp({
+          setup() {
+            const message = ref('Hello Vue!')
+            return {
+              message
+            }
+          }
+        }).mount('main')
+      </script>
 </body>
 
 </html>
