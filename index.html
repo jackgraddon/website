@@ -73,6 +73,7 @@
             <h1 id="title">Hello!</h1>
             <p id="subtitle">I'm Jack, a freelance Web Developer and Graphic Designer.</p>
             <div class="project-deck"></div>
+            <project-deck />
         </div>
         <div class="main-section">
             <div class="flex">
@@ -240,19 +241,19 @@
         <div>
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link active">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./about/">About</a>
+                    <a class="nav-link" href="/about/">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./projects/">Projects</a>
+                    <a class="nav-link" href="/projects/">Projects</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./contact/">Contact</a>
+                    <a class="nav-link" href="/contact/">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./legal/">Legal</a>
+                    <a class="nav-link" href="/legal/">Legal</a>
                 </li>
             </ul>
         </div>
@@ -271,22 +272,6 @@
 
     <!-- Project Display Data -->
     <script src="/js/projectDisplay.js"></script>
-
-    <!-- Vue -->
-    <script type="module">
-        import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-
-        import ProjectDeck from "/js/components/projects/projectDeck.js"
-      
-        createApp({
-          setup() {
-            const message = ref('Hello Vue!')
-            return {
-              message
-            }
-          }
-        }).mount('main')
-      </script>
 </body>
 
 </html>
