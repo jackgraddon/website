@@ -28,7 +28,7 @@ var currentTime = new Date().getHours();
 function setTimeTheme() {
   // Randomly pick a cloud image for the divider
   var cloudImage = Math.floor(Math.random() * 3) + 1;
-  document.querySelector("img#cloud").src =
+  document.body.querySelector("img#cloud").src =
     `https://jackgraddon.com/images/png/front/cloud${cloudImage}.png`;
 
   // Morning theme: 5am to 12pm
