@@ -27,7 +27,7 @@ var currentTime = new Date().getHours();
 // Set the theme based on the time
 function setTimeTheme() {
   // Randomly pick a cloud image for the divider
-  var cloudImage = Math.floor(Math.random() * 3) + 1;
+  var cloudImage = Math.floor(Math.random() * 2) + 1;
   document.body.querySelector("img#cloud").src =
     `https://jackgraddon.com/images/png/front/cloud${cloudImage}.png`;
 
