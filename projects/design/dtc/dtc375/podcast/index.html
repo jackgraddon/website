@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Project 2 | DTC 375 | Jack Graddon</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1, minimum-scale=1">
+	<meta name="theme-color">
+	<meta name="og:title" content="Legal Info">
+	<meta name="og:image" content="./img/ogImage.jpg">
+
+	<!-- Favicon -->
+	<link rel="icon" href="../../../../../images/png/favicon/favicon.png">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
+	<!-- FontAwesome Icons -->
+	<script src="https://kit.fontawesome.com/c2793fb33f.js" crossorigin="anonymous"></script>
+	<!-- Personal CSS -->
+	<link rel="stylesheet" href="../../../../../css/style.css">
+	<!-- Reset scroll to top -->
+	<script>history.scrollRestoration = "manual"</script>
+</head>
+
+<body style="opacity: 0;">
+	<!-- Begin Page -->
+	<div id="background"></div>
+
+	<div class="d-flex flex-column justify-content-center align-content-center" id="header"
+		style="height: fit-content; z-index: 1; overflow: hidden;">
+		<div id="stars-night" style="display: none;"></div>
+		<div id="stars-morn" style="display: none;"></div>
+		<div class="d-flex justify-content-center align-items-center w-100 rellax" style="padding-top: 35vh;"
+			id="titleContainer">
+			<div class="d-flex flex-column container align-items-center" style="height: fit-content; width: fit-content;"
+				id="headerText">
+				<p class="m-sm-auto" id="condition"><i class="bi bi-file-image" aria-hidden="true"></i>
+				</p>
+				<h1 class="m-sm-auto title" id="title">Podcast Episode</h1>
+				<p class="m-sm-auto subtitle" id="subtitle">Digital Technology and Culture</p>
+				<a class="m-auto d-flex flex-column" id="scrollDown"
+					onclick="javascript:document.getElementById('sectionOne').scrollIntoView({ behavior: 'smooth' });">
+					<p class="scroll m-auto">
+						Scroll Down</p>
+					<i class="bi-chevron-down m-auto"></i>
+				</a>
+			</div>
+		</div>
+		<div id="cloudContainer" style="height: fit-content;">
+			<img id="cloud" width="100%" alt="A cloud that covers the entire width of the screen.">
+		</div>
+	</div>
+
+	<!-- Script for Main Page -->
+	<!-- Mobile Detection -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
+	<script>
+		var md;
+		// Get Device
+		window.addEventListener("DOMContentLoaded", function () {
+			md = new MobileDetect(window.navigator.userAgent);
+			// console.log(md.mobile()); // null if not mobile device
+			// console.log(md.phone()); // null if not smartphone
+			// console.log(md.tablet()); // null if not tablet
+			// console.log(md.userAgent()); // Browser used
+			// console.log(md.os()); // Operating System
+			// console.log(md.version('Webkit')); // Webkit version
+			// console.log(md.versionStr('Build')); // Build
+
+			if (md.mobile() != null) {
+				document.getElementById('cloudContainer').style.width = '200%';
+				document.getElementById('cloudContainer').style.left = '-20%';
+				// Get orientation on Mobile devices (fixes off-center padding for title)
+				if ((Math.abs(window.orientation) == 90) || (Math.abs(window.orientation) == -90)) {
+					document.getElementById('titleContainer').style.paddingTop = "2rem";
+				}
+			}
+		});
+	</script>
+
+	<main class="container mb-5" id="sectionOne" style="z-index: 3;">
+		<div class="row sm-col">
+			<div class="col">
+				<h2>Podcast Episode</h2>
+				<p>For this project, I created a podcast episode for my DTC 375 class. The episode is about the history of Machine Translation: how it evolved to where it is today, and where it can take us with new technologies. It also explores ML Speech Synthesis, inviting Warren Weaver as a guest on the show.</p>
+				<p>You can listen to it below, or <a href="./script.odt" >download a transcript</a>.</p>
+				<audio controls>
+					<source src="./podcast.mp3" type="audio">
+					Your browser does not support the audio element.
+				</audio>
+			</div>
+		</div>
+	</main>
+	<!-- Scroll to Top button -->
+	<div class="p-2" style="position: sticky; bottom: env(safe-area-inset-bottom); overflow-y: hidden; opacity: 0;"
+		id="scrollToTop">
+		<a class="m-sm-auto d-flex flex-column justify-content-center align-content-center"
+			onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+			<i class="bi-chevron-bar-up m-auto"></i>
+			<p class="scroll m-auto" style="font-size: smaller;">Scroll to top
+			</p>
+		</a>
+	</div>
+	<!-- Footer -->
+	<footer>
+        <div class="footer-causes">
+            <a id="data-rights" href='https://epic.org' target="_blank">🔒</a>
+            <a id="help-me" href='https://ko-fi.com/jackgraddon' target="_blank">🪙</a>
+        </div>
+        <h3>Jack Graddon</h3>
+        <p>Website &copy; Jack Graddon 2024</p>
+        <div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/projects/">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact/">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/legal/">Legal</a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+	</script>
+	<!-- Script for Landing Page -->
+	<script src="/js/jg-theme.js"></script>
+	<!-- Bootstrap 5 Script -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
+	<!-- Pollyfill (for Smooth Scrolling on Unsupported Browsers) -->
+	<script src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
+	<!-- GSAP -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/CSSRulePlugin.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/TextPlugin.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
+	<script>
+		gsap.to("#headerText", {
+			scrollTrigger: {
+				trigger: "#headerText",
+				id: "header",
+				start: "top 35%",
+				end: "bottom 20%",
+				// pin: true,
+				scrub: true,
+			},
+			opacity: 0,
+			y: 170,
+			transform: "scale(0.9)",
+			filter: "blur(10px)",
+			ease: "none",
+			duration: 2,
+		});
+		gsap.to("#scrollToTop", {
+			scrollTrigger: {
+				trigger: "#cloudContainer",
+				id: "scrollTopButton",
+				start: "top 40%",
+				end: "top 10%",
+				scrub: 1,
+			},
+			opacity: 1,
+			duration: 1
+		})
+	</script>
+
+<!-- Temporary -->
+    <script src="https://jackgraddon.com/js/gsap/all-other-temp.js"></script>
+</body>
+
+</html>
