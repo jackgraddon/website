@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Final Project | DTC 375 | Jack Graddon</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width, viewport-fit=cover, initial-scale=1.0, maximum-scale=1, minimum-scale=1">
+	<meta name="theme-color">
+	<meta name="og:title" content="Legal Info">
+	<meta name="og:image" content="./img/ogImage.jpg">
+
+	<!-- Favicon -->
+	<link rel="icon" href="../../../../../images/png/favicon/favicon.png">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
+	<!-- FontAwesome Icons -->
+	<script src="https://kit.fontawesome.com/c2793fb33f.js" crossorigin="anonymous"></script>
+	<!-- Personal CSS -->
+	<link rel="stylesheet" href="../../../../../css/style.css">
+	<!-- Reset scroll to top -->
+	<script>history.scrollRestoration = "manual"</script>
+</head>
+
+<body style="opacity: 0;">
+	<!-- Begin Page -->
+	<div id="background"></div>
+
+	<div class="d-flex flex-column justify-content-center align-content-center" id="header"
+		style="height: fit-content; z-index: 1; overflow: hidden;">
+		<div id="stars-night" style="display: none;"></div>
+		<div id="stars-morn" style="display: none;"></div>
+		<div class="d-flex justify-content-center align-items-center w-100 rellax" style="padding-top: 35vh;"
+			id="titleContainer">
+			<div class="d-flex flex-column container align-items-center" style="height: fit-content; width: fit-content;"
+				id="headerText">
+				<p class="m-sm-auto" id="condition"><i class="bi bi-file-image" aria-hidden="true"></i>
+				</p>
+				<h1 class="m-sm-auto title" id="title">Text Analysis</h1>
+				<p class="m-sm-auto subtitle" id="subtitle">Digital Technology and Culture</p>
+				<a class="m-auto d-flex flex-column" id="scrollDown"
+					onclick="javascript:document.getElementById('sectionOne').scrollIntoView({ behavior: 'smooth' });">
+					<p class="scroll m-auto">
+						Scroll Down</p>
+					<i class="bi-chevron-down m-auto"></i>
+				</a>
+			</div>
+		</div>
+		<div id="cloudContainer" style="height: fit-content;">
+			<img id="cloud" width="100%" alt="A cloud that covers the entire width of the screen.">
+		</div>
+	</div>
+
+	<!-- Script for Main Page -->
+	<!-- Mobile Detection -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
+	<script>
+		var md;
+		// Get Device
+		window.addEventListener("DOMContentLoaded", function () {
+			md = new MobileDetect(window.navigator.userAgent);
+			// console.log(md.mobile()); // null if not mobile device
+			// console.log(md.phone()); // null if not smartphone
+			// console.log(md.tablet()); // null if not tablet
+			// console.log(md.userAgent()); // Browser used
+			// console.log(md.os()); // Operating System
+			// console.log(md.version('Webkit')); // Webkit version
+			// console.log(md.versionStr('Build')); // Build
+
+			if (md.mobile() != null) {
+				document.getElementById('cloudContainer').style.width = '200%';
+				document.getElementById('cloudContainer').style.left = '-20%';
+				// Get orientation on Mobile devices (fixes off-center padding for title)
+				if ((Math.abs(window.orientation) == 90) || (Math.abs(window.orientation) == -90)) {
+					document.getElementById('titleContainer').style.paddingTop = "2rem";
+				}
+			}
+		});
+	</script>
+
+	<main class="container mb-5" id="sectionOne" style="z-index: 3;">
+		<div class="row sm-col">
+			<div class="col">
+				<h1 class="text-center">Benee's Discography Compared to Similar Artists</h1>
+				<div class="row m-2">
+					<div class="col">
+						<a href="./Lyrics.7z" class="btn">Download Lyric Data</a>
+					</div>
+					<div class="col">
+						<a href="./Lyrics.7z" class="btn">Download Research Data</a>
+					</div>
+				</div>
+				<p>
+					In the vast world of music, lyrics serve as powerful tools for artists to express their emotions, experiences, and perspectives. Stella Rose Bennett, a talented 24 year old singer/songwriter from Auckland, New Zealand, has captivated young audiences with her unique sound and introspective lyrics1. However, her journey intertwines with personal struggles. In early 2021, Benee was diagnosed with obsessive-compulsive disorder, a mental health condition where a person experiences recurring, unwanted thoughts (obsessions) and feels driven to perform repetitive behaviors or mental acts (compulsions) to alleviate their anxiety. This, on top of her previously diagnosed dyslexia, shapes her lyrical composition. By comparing her work over time, and to her peers in similar genres and age groups, I aim to isolate trends and discover the intricacies of her writing as she has progressed in her career.
+				</p>
+				<h2>Benee's Evolution and Lyric Analysis</h2>
+				<p>
+					At just 17 years old, Benee released her debut song, “Tough Guy”. At 251 total words, and 91 unique terms, the song's vocabulary density stands at 0.382 with a readability index of 3.7436. Graph A is a visualization of all positive and negative terms in green and red, respectively, over the course of the whole song. The song, about a past relationship that she has grown apart from, is initially more evenly balanced, leaning negative. As the song grows, the lyrics suggest that Benee is asserting her independence and resilience against someone who tries to manipulate her emotions, with the phrase “tough guy” repeated fourteen times, more than double the next most repeated word “like”. Her OCD, at the time not identified through diagnosis, could contribute to her meticulous attention to detail, reflected in the recurring phrases and precise wording.
+				</p>
+				<p>
+					Before the COVID-19 pandemic that surrounded the globe in 2020, Benee released “Supalonely” on November 15, 2019 in her second EP before age 20. "Supalonely" was written while on a trip to Los Angeles, and was inspired by a recent breakup. It was written as a song where she could mock her own sadness. The song has a total of 403 words, with 113 of them being unique. Longer, compared to her earlier releases, though the songs' vocabulary density is down to 0.280. However, her readability index is up to 5.6838. The sentiment analysis reveals a consistent pattern throughout the song, consistent with the theme of the song; relative frequencies of positive words remain low (close to zero), while negative words fluctuate. As New Zealand (and the world) entered lockdowns in 2020 due to COVID-19, the song took on new significance. The song gained popularity on TikTok1, and quickly became a 'Pandemic Anthem' as millions found solace in its lyrics11—whether physically isolated or emotionally distant, the feeling of being “supalonely” became universally relatable.
+				</p>
+				<p>
+					In 2021, nearly two years after her release of her EP “Stella and Steve”, Benee was diagnosed with OCD2,12. Building onto her 2020 release “Happen to Me”, in which she talks about suicide and her understanding why people leave earth by taking their lives, her 2021 release of “Doesn't Matter” delves further into her intrusive thoughts. Only 265 words long, 99 of them being unique, the lyrics offer a more nuanced and thought-provoking message, maintaining a high 0.374 vocabulary density and a 4.915 readability index. Analyzing the sentiment of her lyrics, we see fluctuations in both positive and negative words frequencies across the song. Negative prevails, but the beginning and end of her song have upticks in positive terms. The repetition of 'I know it doesn't matter' suggests a blend of resignation and defiance, as she grows with her recent OCD diagnosis. Through a delicate balance of sentiment analysis and lyrical exploration, “Doesn't Matter” captures Benee's internal conflict, revealing the weight of insignificant concerns alongside the authenticity of deeper fears.
+				</p>
+				<h2>Drawing Comparisons to Similar Artists</h2>
+				<p>
+					Between Friends, composed of siblings Brandon and Savannah Hudson (ages 27 and 24, respectively) creates indie pop with elements of synth-pop, electronic, and alternative influences. Their unique sound defies strict categorization, making them stand out in the contemporary music scene. Their hit single “affection” garnered over 155 million streams on Spotify. Their music resonates with both melody-driven listeners and those who appreciate honest lyrics. Their self-described style as “laptop-dream pop” reflects their eclectic approach to music13. Between Friends' most popular song, “Affection”, has 265 words, 77 unique words, with a vocabulary density of 0.291 and a readability index of 6.221. While they don't share specific personal conditions like Benee's OCD and Dyslexia, Brandon and Savannah's honesty and vulnerability shine through. Their song “Affection” explores seeking love in unconventional places, resonating with listeners who appreciate both melody-driven tunes and honest lyrics.
+				</p>
+				<p>
+					Blu DeTiger (age 26), an American singer and bass guitarist, blends classic funk, new wave, and disco influences. Her music is characterized by infectious grooves and a unique sound that defies genre boundaries. Blu DeTiger started playing bass guitar at a young age and was influenced by funk, disco, and house music. Her viral TikTok bass covers showcased her talent during lockdowns. Her EP “How Did We Get Here?” and studio album “All I Ever Want Is Everything” reflect her desire to capture pre-pandemic vibes. She's described as the “future of bass” and has made waves in the music world15,16. Her most popular song, “Cotton Candy Lemonade”, has 187 words, 86 unique words, boasts a 0.460 vocabulary density and a 4.264 readability index. The lyrics evoke nostalgia and longing for a different time, commonly thought to be pre-COVID. The desire to “get lost” with someone suggests escapism and a yearning for connection. Overall, the song balances sweetness with a touch of wistfulness. Both Blu and Stella use dreamy imagery to evoke emotions, though Blu's music leans towards bittersweet nostalgia, while Benee's music often delves into personal experiences. 
+				</p>
+				<h2>Conclusions</h2>
+				<p>
+					The evolution of Benee's music reflects her personal journey and the influence of her diagnoses on her lyrical composition. Her songs, from "Tough Guy" to "Supalonely" and "Doesn't Matter", demonstrate a progression in her songwriting, with a shift in vocabulary density and readability index. Her lyrics capture her resilience, introspection, and the universal human experience of loneliness, particularly resonating during the global pandemic. 
+				</p>
+				<p>
+					Comparatively, artists like Between Friends and Blu DeTiger offer different perspectives in the music world. While they may not share Benee's specific personal conditions, their music also resonates with listeners through their honesty, vulnerability, and unique sound. 
+				</p>
+				<p>
+					While this analysis is far from conclusive, it overall underscores the power of music as a medium for artists to express their unique experiences and emotions. It also highlights the impact of personal struggles on artistic expression, providing a deeper understanding of the intricacies of songwriting. The exploration of Benee's music, alongside her peers, offers valuable insights into the evolving landscape of contemporary music.
+				</p>
+			</div>
+		</div>
+	</main>
+	<!-- Scroll to Top button -->
+	<div class="p-2" style="position: sticky; bottom: env(safe-area-inset-bottom); overflow-y: hidden; opacity: 0;"
+		id="scrollToTop">
+		<a class="m-sm-auto d-flex flex-column justify-content-center align-content-center"
+			onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+			<i class="bi-chevron-bar-up m-auto"></i>
+			<p class="scroll m-auto" style="font-size: smaller;">Scroll to top
+			</p>
+		</a>
+	</div>
+	<!-- Footer -->
+	<footer>
+        <div class="footer-causes">
+            <a id="data-rights" href='https://epic.org' target="_blank">🔒</a>
+            <a id="help-me" href='https://ko-fi.com/jackgraddon' target="_blank">🪙</a>
+        </div>
+        <h3>Jack Graddon</h3>
+        <p>Website &copy; Jack Graddon 2024</p>
+        <div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/projects/">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact/">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/legal/">Legal</a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+	</script>
+	<!-- Script for Landing Page -->
+	<script src="../../../../../js/jg-theme.js"></script>
+	<!-- Bootstrap 5 Script -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
+	<!-- Pollyfill (for Smooth Scrolling on Unsupported Browsers) -->
+	<script src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
+	<!-- GSAP -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/CSSRulePlugin.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/TextPlugin.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
+	<script>
+		gsap.to("#headerText", {
+			scrollTrigger: {
+				trigger: "#headerText",
+				id: "header",
+				start: "top 35%",
+				end: "bottom 20%",
+				// pin: true,
+				scrub: true,
+			},
+			opacity: 0,
+			y: 170,
+			transform: "scale(0.9)",
+			filter: "blur(10px)",
+			ease: "none",
+			duration: 2,
+		});
+		gsap.to("#scrollToTop", {
+			scrollTrigger: {
+				trigger: "#cloudContainer",
+				id: "scrollTopButton",
+				start: "top 40%",
+				end: "top 10%",
+				scrub: 1,
+			},
+			opacity: 1,
+			duration: 1
+		})
+	</script>
+
+<!-- Temporary -->
+    <script src="https://jackgraddon.com/js/gsap/all-other-temp.js"></script>
+</body>
+
+</html>
