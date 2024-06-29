@@ -14,4 +14,4 @@ You have permission to:
 
 Please be respectful of my requests.
 
-# This work is Copyright Jackson Graddon 2020 - 2022
+# This work is Copyright Jackson Graddon 2020 - 2024
