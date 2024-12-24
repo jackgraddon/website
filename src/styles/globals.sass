@@ -1,0 +1,127 @@
+@import '@/styles/reset.sass'
+@import '@/styles/typography.sass'
+
+// breakpoints
+$mobile-width: 480px
+$tablet-width: 768px
+$desktop-width: 1024px
+
+// colors
+// solid
+$color-white: #ffffff
+$color-black: #000000
+$color-morning: #c44d25
+$color-afternoon: #aecfdb
+$color-evening: #b8d6e4
+$color-night: #33004f
+$color-primary: #175e84
+
+// gradient
+$gradient-morning: linear-gradient(0deg, #46016b 0%, #c44d25 100%)
+$gradient-afternoon: linear-gradient(0deg, #067bbb 0%, #aecfdb 100%)
+$gradient-evening: linear-gradient(0deg, #ffb1b1 0%, #e2dabb 25%, #b8d6e4 40%, #2a6ca1 100%)
+$gradient-night: linear-gradient(0deg, rgba(19, 0, 29, 1) 0%, rgba(51, 0, 79, 1) 100%)
+
+body
+  margin: 0
+  place-items: center
+  justify-content: center
+  min-width: 320px
+  min-height: 100vh
+  color: $color-white
+
+.root 
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  /* create a stacking context for the app */
+  isolation: isolate
+
+.content 
+  min-height: min-content
+  flex-grow: 1
+  display: flex
+  flex-direction: column
+  justify-content: center
+
+[class^="background-"] 
+  width: 100vw
+  height: 100vh
+  z-index: -999
+  position: fixed
+  top: 0px
+  left: 0px
+
+  &.background-morning 
+    background: $gradient-morning
+  
+  &.background-afternoon 
+    background: $gradient-afternoon
+  
+  &.background-evening 
+    background: $gradient-evening
+  
+  &.background-night 
+    background: $gradient-night
+  
+
+main
+  margin-right: auto
+  margin-left: auto
+  min-width: 500px
+  max-width: $desktop-width
+  display: flex
+  flex-direction: column
+  flex-wrap: nowrap
+  gap: 1rem
+  align-items: center
+  align-content: center
+  justify-content: center
+  padding-right: 3vw
+  padding-left: 3vw
+
+.section 
+  display: flex
+  flex-direction: column
+  align-items: center
+  align-content: center
+  justify-content: center
+  gap: 1rem
+
+.primaryButton 
+  display: flex
+  align-items: center
+  font: $font-button
+  color: $color-white
+  height: 36px
+  padding-left: 22px
+  padding-right: 22px
+  border: 1px solid $color-primary
+  z-index: 1
+  cursor: pointer
+  background: $color-primary
+  border-radius: 7pt
+  transition: 150ms ease
+  &:hover 
+    background-color: $color-white
+    border: 1px solid $color-primary
+    color: $color-primary
+  
+  width: fit-content
+
+.secondaryButton 
+  height: 36px
+  display: flex
+  align-items: center
+  font: $font-button
+  cursor: pointer
+  padding-right: 22px
+  padding-left: 22px
+  border: 1px solid $color-black
+  border-radius: 7pt
+  z-index: 1
+  transition: 150ms ease
+  &:hover 
+    background: $color-black
+    border: 1px solid $color-black
+    color: $color-white

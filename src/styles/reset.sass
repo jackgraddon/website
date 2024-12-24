@@ -1,0 +1,90 @@
+/* Josh Comeau CSS Reset 
+ * Source: https://www.joshwcomeau.com/css/custom-css-reset/
+ * Description: A modern CSS reset to improve consistency and control over default styles.
+ */
+
+/* Use a more-intuitive box-sizing model */
+*
+    box-sizing: border-box
+    margin: 0
+    &::before
+        box-sizing: border-box
+   
+    &::after
+        box-sizing: border-box
+   
+
+/* Remove default margin */
+body
+    line-height: 1.5
+    -webkit-font-smoothing: antialiased
+
+/* Improve media defaults */
+img
+    display: block
+    max-width: 100%
+
+picture
+    display: block
+    max-width: 100%
+
+video
+    display: block
+    max-width: 100%
+
+canvas
+    display: block
+    max-width: 100%
+
+svg
+    display: block
+    max-width: 100%
+
+/* Inherit fonts for form controls */
+input
+    font: inherit
+
+button
+    font: inherit
+
+textarea
+    font: inherit
+
+select
+    font: inherit
+
+/* Avoid text overflows and Improve line wrapping */
+p
+    overflow-wrap: break-word
+    text-wrap: pretty
+
+h1
+    overflow-wrap: break-word
+    text-wrap: balance
+
+h2
+    overflow-wrap: break-word
+    text-wrap: balance
+
+h3
+    overflow-wrap: break-word
+    text-wrap: balance
+
+h4
+    overflow-wrap: break-word
+    text-wrap: balance
+
+h5
+    overflow-wrap: break-word
+    text-wrap: balance
+
+h6
+    overflow-wrap: break-word
+    text-wrap: balance
+
+/* Create a root stacking context */
+#root
+    isolation: isolate
+
+#__next
+    isolation: isolate
