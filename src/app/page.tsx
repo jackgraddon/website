@@ -1,95 +1,92 @@
+// import Image from "next/image";
+import styles from '@/app/page.module.sass';
 import Image from "next/image";
-import styles from "./page.module.css";
+import SplashCloud from "@/app/splash-cloud.png";
 
-export default function Home() {
+const getTimeBasedText = () => {
+  const hour = new Date().getHours();
+
+  const time = {
+    morning: 5,
+    afternoon: 9,
+    evening: 18,
+    night: 22,
+  };
+
+  if (hour >= time.morning && hour < time.afternoon) {
+    return {
+      title: 'Good Morning!',
+      subtitle: "It's going to be a great day.",
+    };
+  } else if (hour >= time.afternoon && hour < time.evening) {
+    return {
+      title: 'Good Afternoon!',
+      subtitle: 'What a beautiful day it is.',
+    };
+  } else if (hour >= time.evening && hour < time.night) {
+    return {
+      title: 'Good Evening!',
+      subtitle: "Don't miss the sunset tonight.",
+    };
+  } else {
+    return {
+      title: 'Good Night!',
+      subtitle: 'Rest well and wake up refreshed.',
+    };
+  }
+};
+
+const { title, subtitle } = getTimeBasedText();
+
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    <div className={styles.content}>
+      <div className={styles.splash}>
+        <div
+          className={styles.splashTitle}
+          // style={{
+          //   opacity: useTransform(scrollYProgress, [0, 500], [1, 0]),
+          //   filter: useTransform(scrollYProgress, [0, 500], ['blur(0px)', 'blur(10px)']),
+          //   scale: useTransform(scrollYProgress, [0, 500], [1, 0.9]),
+          //   y: useTransform(scrollYProgress, [0, 500], [0, -100]),
+          // }}
+        >
+          <h1 className={styles.title}>{title}</h1>
+          <p className={styles.subtitle}>{subtitle}</p>
         </div>
+        <Image src={SplashCloud.src} width={1043} height={607} alt="A cloud, covering the width of the screen" className={styles.splashCloud}/>
+      </div>
+      <main>
+        <section>
+          <h2>Caution!</h2>
+          <p>
+            This website is under heavy development as I restructure it in Next.js, which
+            I am learning as I go. If you have found this site, thank you for your
+            patience!
+          </p>
+        </section>
+        <section>
+          <h2>Hello!</h2>
+          <p>I&#39;m Jack, a freelance Web Developer and Graphic Designer.</p>
+        </section>
+        <section>
+          <div>
+          </div>
+          <div>
+            <h2>About</h2>
+            <p>
+              I&#39;m a freelance Web Developer and Graphic Designer. I&#39;ve
+              worked on projects and designs for my local school, growing influencers,
+              companies, and competitions. I&#39;ve always desired to make technology
+              more accessible by developing user interfaces that are simple to
+              navigate and visually engaging.
+            </p>
+            <a href="/about/" className="btn">
+              Read More
+            </a>
+          </div>
+        </section>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }

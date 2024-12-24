@@ -1,21 +1,41 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import "@/styles/globals.sass";
 
 export const metadata: Metadata = {
   title: "Jack Graddon",
   description: "Jack Graddon's web portfolio",
 };
+
+const getTimeBasedBackground = () => {
+  const hour = new Date().getHours();
+
+  const time = {
+    morning: 5,
+    afternoon: 9,
+    evening: 18,
+    night: 22,
+  };
+
+  if (hour >= time.morning && hour < time.afternoon) {
+    return {
+      background: 'background-morning',
+    };
+  } else if (hour >= time.afternoon && hour < time.evening) {
+    return {
+      background: 'background-afternoon',
+    };
+  } else if (hour >= time.evening && hour < time.night) {
+    return {
+      background: 'background-evening',
+    };
+  } else {
+    return {
+      background: 'background-night',
+    };
+  }
+};
+
+const { background } = getTimeBasedBackground();
 
 export default function RootLayout({
   children,
@@ -24,9 +44,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-      </body>
+    <body>
+      <div className={background}></div>
+      {children}
+    </body>
     </html>
   );
 }
