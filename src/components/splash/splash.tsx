@@ -7,7 +7,7 @@
 
 "use client"; // This marks the component as a client-side component
 import Image from "next/image";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import styles from "@/components/splash/splash.module.sass";
 import SplashCloud from "@/components/splash/splash-cloud.png";
 import {useRef} from "react";
