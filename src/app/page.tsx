@@ -1,14 +1,16 @@
-// import Image from "next/image";
+import '@/styles/globals.sass';
 import styles from '@/app/page.module.sass';
-import Image from "next/image";
-import SplashCloud from "@/app/splash-cloud.png";
+// import Image from "next/image";
+
+import Splash from "@/components/splash/splash";
+import ProjectDeck from "@/components/project-deck/deck";
 
 const getTimeBasedText = () => {
   const hour = new Date().getHours();
 
   const time = {
-    morning: 5,
-    afternoon: 9,
+    morning: 6,
+    afternoon: 12,
     evening: 18,
     night: 22,
   };
@@ -40,24 +42,10 @@ const { title, subtitle } = getTimeBasedText();
 
 export default function HomePage() {
   return (
-    <div className={styles.content}>
-      <div className={styles.splash}>
-        <div
-          className={styles.splashTitle}
-          // style={{
-          //   opacity: useTransform(scrollYProgress, [0, 500], [1, 0]),
-          //   filter: useTransform(scrollYProgress, [0, 500], ['blur(0px)', 'blur(10px)']),
-          //   scale: useTransform(scrollYProgress, [0, 500], [1, 0.9]),
-          //   y: useTransform(scrollYProgress, [0, 500], [0, -100]),
-          // }}
-        >
-          <h1 className={styles.title}>{title}</h1>
-          <p className={styles.subtitle}>{subtitle}</p>
-        </div>
-        <Image src={SplashCloud.src} width={1043} height={607} alt="A cloud, covering the width of the screen" className={styles.splashCloud}/>
-      </div>
+    <div>
+      <Splash title={title} subtitle={subtitle} />
       <main>
-        <section>
+        <section className={styles.warning}>
           <h2>Caution!</h2>
           <p>
             This website is under heavy development as I restructure it in Next.js, which
@@ -68,6 +56,7 @@ export default function HomePage() {
         <section>
           <h2>Hello!</h2>
           <p>I&#39;m Jack, a freelance Web Developer and Graphic Designer.</p>
+          <ProjectDeck></ProjectDeck>
         </section>
         <section>
           <div>
