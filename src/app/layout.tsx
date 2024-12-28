@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.sass";
+// import axios from 'axios';
 
 export const metadata: Metadata = {
   title: "Jack Graddon",
@@ -7,11 +8,13 @@ export const metadata: Metadata = {
 };
 
 const getTimeBasedBackground = () => {
+  // Get the current hour
   const hour = new Date().getHours();
 
+  // Define time windows
   const time = {
-    morning: 5,
-    afternoon: 9,
+    morning: 6,
+    afternoon: 12,
     evening: 18,
     night: 22,
   };
@@ -35,13 +38,9 @@ const getTimeBasedBackground = () => {
   }
 };
 
-const { background } = getTimeBasedBackground();
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
+  const { background } =  getTimeBasedBackground();
+  console.log(background);
   return (
     <html lang="en">
     <body>
