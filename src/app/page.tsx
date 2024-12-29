@@ -1,9 +1,11 @@
 import '@/styles/globals.sass';
 import styles from '@/app/page.module.sass';
-// import Image from "next/image";
+import Image from "next/image";
+import ImageAbout from '@/images/Jack_Horizontal_Sit.webp'
 
 import Splash from "@/components/splash/splash";
 import ProjectDeck from "@/components/project-deck/deck";
+import Link from "next/link";
 
 const getTimeBasedText = () => {
   const hour = new Date().getHours();
@@ -54,25 +56,22 @@ export default function HomePage() {
           </p>
         </section>
         <section>
-          <h2>Hello!</h2>
+          <h1>Hello!</h1>
           <p>I&#39;m Jack, a freelance Web Developer and Graphic Designer.</p>
           <ProjectDeck></ProjectDeck>
         </section>
-        <section>
-          <div>
-          </div>
+        <section className={styles.about}>
+          <Image src={ImageAbout} alt={""} width={1920} height={1280} style={{ height: '100%'}}></Image>
           <div>
             <h2>About</h2>
             <p>
               I&#39;m a freelance Web Developer and Graphic Designer. I&#39;ve
               worked on projects and designs for my local school, growing influencers,
               companies, and competitions. I&#39;ve always desired to make technology
-              more accessible by developing user interfaces that are simple to
+              more accessible by developing user interfacwes that are simple to
               navigate and visually engaging.
             </p>
-            <a href="/about/" className="btn">
-              Read More
-            </a>
+            {/*<Link href="/about/" className="btn">Read More</Link>*/}
           </div>
         </section>
       </main>
