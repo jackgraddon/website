@@ -57,7 +57,7 @@ const Splash = ({ title, subtitle }: SplashProps) => {
 
 
   return (
-  <div className={styles.splash} ref={containerRef} style={{ border: '2px solid red' }}>
+  <div className={styles.splash} ref={containerRef}>
     <motion.div
       className={styles.splashTitle}
       initial={{transform: 'translate(-50%, -50%) scale(1)'}}
