@@ -29,6 +29,7 @@ body
   min-width: 320px
   min-height: 100vh
   color: $color-white
+  user-select: none
 
 .root 
   min-height: 100vh
@@ -91,7 +92,9 @@ section
 
 a
   &.btn
-    padding: 0.4rem
+    display: block
+    width: fit-content
+    padding: 0.4rem 0.8rem
     border: 0.3rem solid
     border-radius: 7pt
     text-align: center
@@ -109,6 +112,8 @@ a
     //  background-color: $color-secondary
     //  color: $color-secondary
 
+img
+  border-radius: 7pt
 
 // Scroll Button
 .scroll
