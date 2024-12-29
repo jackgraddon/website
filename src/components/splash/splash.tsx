@@ -2,7 +2,6 @@
  * Name: Splash
  * Description: This component serves as a hero for any page, providing a title and a description of the page, and contains the scroll animations baked in.
  * Author: Jack Graddon
- * Date: 12/24/2024
  */
 
 "use client"; // This marks the component as a client-side component
