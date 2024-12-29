@@ -1,11 +1,11 @@
 import '@/styles/globals.sass';
 import styles from '@/app/page.module.sass';
 import Image from "next/image";
-import ImageAbout from '@/images/Jack_Horizontal_Sit.webp'
+import ImageAbout from '../../public/images/Jack_Horizontal_Sit.webp'
 
 import Splash from "@/components/splash/splash";
 import ProjectDeck from "@/components/project-deck/deck";
-// import Link from "next/link";
+import Link from "next/link";
 
 const getTimeBasedText = () => {
   const hour = new Date().getHours();
@@ -71,7 +71,7 @@ export default function HomePage() {
               more accessible by developing user interfaces that are simple to
               navigate and visually engaging.
             </p>
-            {/*<Link href="/about/" className="btn">Read More</Link>*/}
+            <Link href="/about/" className="btn">Read More</Link>
           </div>
         </section>
       </main>

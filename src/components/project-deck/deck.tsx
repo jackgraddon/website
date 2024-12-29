@@ -1,9 +1,9 @@
 import '@/styles/globals.sass'
 import styles from '@/components/project-deck/deck.module.sass'
 import Image from "next/image";
-import ImageDTC from '@/images/dtc.jpg'
-import ImageFBLA from '@/images/fblaProject22.jpg'
-import ImageIG from '@/images/instagram.jpg'
+import ImageDTC from '../../../public/images/dtc.jpg'
+import ImageFBLA from '../../../public/images/fblaProject22.jpg'
+import ImageIG from '../../../public/images/instagram.jpg'
 
 export default function ProjectDeck() {
   return (
