@@ -1,6 +1,63 @@
 .footer
-  background: black
-  height: 150px
-  bottom: 0
-  margin-top: 5rem
+  width: fit-content
+  height: fit-content
+  margin: 1rem auto
+  padding: 0
   display: flex
+  flex-flow: column
+  justify-content: center
+  align-items: center
+
+  h3
+    line-height: 1em
+
+  p
+    font-size: 1em
+
+  .footerCauses
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: center
+    width: 100%
+    margin: 0
+
+    a
+      cursor: pointer
+      transition: 300ms
+      text-decoration: none
+      font-size: 1.7rem
+      padding: 0 0.5rem
+
+      &:hover
+        scale: 1.15
+
+  ul
+    &.nav
+      width: fit-content
+      height: fit-content
+      margin: 10px 0 0 0
+      padding: 0
+      display: flex
+      flex-flow: row nowrap
+      justify-content: center
+      align-items: center
+
+      li
+        list-style: none
+        margin: 0
+        padding: 0
+
+        & > a
+          color: rgba(255,255,255,0.75) !important
+          text-decoration: none
+          cursor: pointer
+          transition: 150ms ease
+          border-radius: 7pt
+          padding: 0.35rem
+          margin: 0 0.15rem
+
+        &:hover
+          a
+            color: rgba(255,255,255,1) !important
+            background-color: rgba(255,255,255,0.25)
