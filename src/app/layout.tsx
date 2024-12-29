@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "@/styles/globals.sass";
 // import axios from 'axios';
 
+// Components
+import Footer from '@/components/site-footer/site-footer'
+
 export const metadata: Metadata = {
   title: "Jack Graddon",
   description: "Jack Graddon's web portfolio",
@@ -46,6 +49,7 @@ export default function RootLayout({children,}: Readonly<{ children: React.React
     <body>
       <div className={background}></div>
       {children}
+      <Footer></Footer>
     </body>
     </html>
   );
