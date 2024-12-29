@@ -3,7 +3,7 @@ import styles from '@/components/project-deck/deck.module.sass'
 import Image from "next/image";
 import ImageDTC from '@/images/dtc.jpg'
 import ImageFBLA from '@/images/fblaProject22.jpg'
-import ImageIG from '@/Images/instagram.jpg'
+import ImageIG from '@/images/instagram.jpg'
 
 export default function ProjectDeck() {
   return (
