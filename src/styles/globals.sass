@@ -91,6 +91,12 @@ section
   gap: 1rem
 
 a
+  color: $color-primary
+  transition: 150ms ease
+
+  &:hover
+    color: $color-white
+
   &.btn
     display: block
     width: fit-content
@@ -99,7 +105,6 @@ a
     border-radius: 7pt
     text-align: center
     text-decoration: none
-    transition: 150ms ease
     background-color: $color-white
     color: $color-primary
     cursor: pointer
