@@ -5,6 +5,7 @@ import { projectDictionary } from "@/utils/project";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import Splash from "@/components/splash/splash";
+import Link from "next/link";
 
 const BASE_URL = "https://raw.githubusercontent.com/jackgraddon/";
 
@@ -13,6 +14,7 @@ export default function ProjectPage() {
   const id = searchParams.get("id");
   const [title, setTitle] = useState<string | null>(null);
   const [description, setDescription] = useState<string | null>(null);
+  const [repoUrl, setUrl] = useState<string | null>(null);
   const [readmeContent, setReadmeContent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -34,6 +36,7 @@ export default function ProjectPage() {
           // Update the state with data from 'details.json'
           setTitle(projectDetails.name);
           setDescription(projectDetails.description);
+          setUrl(`https://github.com/jackgraddon/${projectDetails.url.replace('/main/README.md', '')}`);
 
           // Fetch the README file from the URL specified in 'details.json'
           const readmeUrl = `${BASE_URL}${projectDetails.url}`;
@@ -63,6 +66,7 @@ export default function ProjectPage() {
       <Splash title={title!} subtitle={description!}></Splash>
       <main>
         <h1>Project Details</h1>
+        <Link href={repoUrl!} className={"btn"}>View Repository</Link>
         {readmeContent ? (
           <ReactMarkdown>{readmeContent}</ReactMarkdown>
         ) : (
