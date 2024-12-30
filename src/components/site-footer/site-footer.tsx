@@ -19,7 +19,7 @@ export default function Footer() {
               <Link href="/about/">About</Link>
             </li>
             <li className={styles.navItem}>
-              {/*<Link href="/projects/">Projects</Link>*/}
+              <Link href="/projects/">Projects</Link>
             </li>
             <li className={styles.navItem}>
               {/*<Link href="/contact/">Contact</Link>*/}
