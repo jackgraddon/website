@@ -25,7 +25,7 @@ export default function Footer() {
               <Link href="/contact/">Contact</Link>
             </li>
             <li className={styles.navItem}>
-              {/*<Link href="/legal/">Legal</Link>*/}
+              <Link href="/legal/">Legal</Link>
             </li>
           </ul>
         </div>
