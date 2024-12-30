@@ -8,7 +8,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import styles from "@/components/splash/splash.module.sass";
-import SplashCloud from "@/components/splash/splash-cloud.png";
+import SplashCloud from "@/components/splash/splash-cloud.webp";
 import {useRef} from "react";
 
 /**
@@ -67,7 +67,7 @@ const Splash = ({ title, subtitle }: SplashProps) => {
     </motion.div>
 
     <Image src={SplashCloud.src} width={1043} height={607} alt="A cloud, covering the width of the screen"
-           className={styles.splashCloud} ref={targetRef}/>
+           className={styles.splashCloud} ref={targetRef} priority={true}/>
   </div>
   )
 }
