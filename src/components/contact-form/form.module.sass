@@ -1,0 +1,53 @@
+.form
+  display: flex
+  flex-direction: column
+  gap: 1rem
+  width: 100%
+  padding: 1rem
+  border-radius: 7pt
+  background-color: #f9f9f9
+  color: #333
+
+  &InputContainer
+    display: flex
+    flex-direction: column
+
+  &Input,
+  &Select,
+  &Text,
+  &Button
+    padding: 0.4rem 0.8rem
+    border: 1px solid #ccc
+    border-radius: 7pt
+    min-height: 39px
+    max-width: 100%
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus
+  outline: 0
+  box-shadow: none
+  -moz-box-shadow: none
+  -webkit-box-shadow: none
+
+.required
+  color: red
+
+.submit
+  transition: 150ms ease
+  display: block
+  width: fit-content
+  padding: 0.4rem 0.8rem
+  border: 0.3rem solid
+  border-radius: 7pt
+  text-align: center
+  text-decoration: none
+  background-color: #fff
+  color: #175e84
+  cursor: pointer
+  &:hover
+    background-color: #d8d8d8
+  &.disabled
+    opacity: 0.8
+    background-color: #faf9f9
