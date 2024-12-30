@@ -8,9 +8,7 @@ export default function ProjectsPage() {
 
   // Convert projectDictionary to an array of projects and sort them by ID (descending)
   const timelineProjects = Object.keys(projectDictionary)
-    .filter(
-      (id) => !topProjects.some((project) => project.id === id) // Exclude top projects
-    )
+    .filter((id) => !topProjects.includes(id)) // Exclude top projects
     .sort((a, b) => parseInt(b) - parseInt(a)) // Sort by ID in descending order
     .map((id) => ({
       id,
