@@ -66,7 +66,7 @@ export default function HomePage() {
         <section>
           <h1>Hello!</h1>
           <p>I&#39;m Jack, a freelance Web Developer and Graphic Designer.</p>
-          <ProjectDeck></ProjectDeck>
+          <ProjectDeck firstId={"0"} secondId={"0"} thirdId={"0"}></ProjectDeck>
         </section>
         <section className={styles.about}>
           <Image src={ImageAbout} alt={""} width={1920} height={1280} style={{ height: '100%'}}></Image>
