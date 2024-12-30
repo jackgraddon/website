@@ -68,7 +68,7 @@ export default function ContactForm() {
       className={styles.form}
     >
       <div className={styles.formInputContainer}>
-        <label htmlFor="name">Full Name <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel}  htmlFor="name">Full Name <span className={styles.required}>*</span></label>
         <input
           type="text"
           name="name"
@@ -79,7 +79,7 @@ export default function ContactForm() {
         />
       </div>
       <div className={styles.formInputContainer}>
-        <label htmlFor="email">Email Address <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel}  htmlFor="email">Email Address <span className={styles.required}>*</span></label>
         <input
           type="email"
           name="replyto"
@@ -90,7 +90,7 @@ export default function ContactForm() {
         />
       </div>
       <div className={styles.formInputContainer}>
-        <label htmlFor="subject">Subject <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel}  htmlFor="subject">Subject <span className={styles.required}>*</span></label>
         <input
           type="text"
           name="_subject"
@@ -101,7 +101,7 @@ export default function ContactForm() {
         />
       </div>
       <div className={styles.formInputContainer}>
-        <label htmlFor="message">Message <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel} htmlFor="message">Message <span className={styles.required}>*</span></label>
         <textarea
           name="message"
           id="message"
