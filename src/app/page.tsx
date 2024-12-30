@@ -67,6 +67,7 @@ export default function HomePage() {
           <h1>Hello!</h1>
           <p>I&#39;m Jack, a freelance Web Developer and Graphic Designer.</p>
           <ProjectDeck firstId={"0"} secondId={"0"} thirdId={"0"}></ProjectDeck>
+          <Link href={'/projects'} className={"btn"}>View All Projects</Link>
         </section>
         <section className={styles.about}>
           <Image src={ImageAbout} alt={""} width={1920} height={1280} style={{ height: '100%'}}></Image>
@@ -77,6 +78,11 @@ export default function HomePage() {
             </p>
             <Link href="/about/" className="btn">Read More</Link>
           </div>
+        </section>
+        <section>
+          <h2>Contact</h2>
+          <p style={{textAlign: 'center'}}>Have any questions, comments, or just want to reach out? Feel free to contact me by email or by using the form below.</p>
+          <Link href={'/contact'} className={"btn"}>Open Form</Link>
         </section>
       </main>
     </div>
