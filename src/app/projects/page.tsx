@@ -1,6 +1,12 @@
+/**
+ * Name: Projects Page
+ * Description: A page listing all projects with a timeline and deck of cards.
+ * Author: Jack Graddon
+ */
+
+import { projectDictionary } from "@/utils/project";
 import ProjectDeck from "@/components/project-deck/deck";
 import Splash from "@/components/splash/splash";
-import { projectDictionary } from "@/utils/project";
 import Timeline from "@/components/timeline/timeline";
 
 export default function ProjectsPage() {

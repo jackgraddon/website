@@ -1,4 +1,10 @@
-// import "@/styles/globals.sass"
+/**
+ * Name: Contact Page
+ * Description: Displays a form for viewers to submit their inquiries. Redirects to the success page when submitted.
+ * Author: Jack Graddon
+ */
+
+// Components
 import Splash from "@/components/splash/splash";
 import ContactForm from "@/components/contact-form/form";
 

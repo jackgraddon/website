@@ -1,11 +1,20 @@
+/**
+ * Name: Project Page
+ * Description: Display a project page with its title and content. Pulls data from GitHub from info looked up in project dictionary. Uses ID passed in URL.
+ * Author: Jack Graddon
+ */
+
 "use client";
+
 import "@/styles/globals.sass";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 import { useSearchParams } from "next/navigation";
 import { projectDictionary } from "@/utils/project";
 import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
+
+// Components
 import Splash from "@/components/splash/splash";
-import Link from "next/link";
 
 const BASE_URL = "https://raw.githubusercontent.com/jackgraddon/";
 
@@ -59,7 +68,6 @@ export default function ProjectPage() {
       setReadmeContent("Invalid project ID.");
     }
   }, [id]); // Dependency array: effect runs when 'id' changes
-
 
   return (
     <div>

@@ -1,6 +1,12 @@
-"use client";
+/**
+ * Name: Contact Success Page
+ * Description: Displays when the contact form is submitted. This page redirects the user to the home page after 5 seconds.
+ * Author: Jack Graddon
+ */
+
+"use client"; // Render on client
 import { useEffect } from "react";
-import {redirect} from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function SuccessfulSubmitPage() {
   useEffect(() => {

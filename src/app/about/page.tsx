@@ -1,6 +1,10 @@
-import '@/styles/globals.sass'
-// import styles from "@/app/about/about.module.sass"
+/**
+ * Name: About Page
+ * Description: Displays info about myself, my history, and my goals for the future.
+ * Author: Jack Graddon
+ */
 
+// Components
 import Splash from "@/components/splash/splash";
 
 export default function AboutPage() {

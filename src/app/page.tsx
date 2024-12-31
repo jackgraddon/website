@@ -1,8 +1,16 @@
-import '@/styles/globals.sass';
+/**
+ * Name: Index
+ * Description: The application's index page, displays Splash and Project Deck components, as well as links to contact.
+ * Author: Jack Graddon
+ */
+
 import styles from '@/app/page.module.sass';
 import Image from "next/image";
+
+// Images
 import ImageAbout from '../../public/images/portraits/Jack_Horizontal_Sit.webp'
 
+// Components
 import Splash from "@/components/splash/splash";
 import ProjectDeck from "@/components/project-deck/deck";
 import Link from "next/link";
@@ -49,7 +57,6 @@ const getTimeBasedText = () => {
     };
   }
 };
-
 const { title, subtitle } = getTimeBasedText();
 
 export default function HomePage() {

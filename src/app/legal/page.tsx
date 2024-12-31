@@ -1,10 +1,19 @@
+/**
+ * Name: Legals Page
+ * Description: Displays my copyright information, as well as credits to other work I used to create this portfolio.
+ * Author: Jack Graddon
+ */
+
 import styles from './legal.module.sass';
-import Splash from "@/components/splash/splash";
 import Link from "next/link";
 import Image from "next/image";
 
+// Images
 import ImageFont from './works/madesunflower.webp'
 import ImageMotion from './works/motion.webp'
+
+// Components
+import Splash from "@/components/splash/splash";
 
 export default function Page() {
   return (

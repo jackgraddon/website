@@ -1,6 +1,13 @@
-import Link from "next/link";
-import ProjectDeck from "@/components/project-deck/deck";
+/**
+ * Name: Not Found
+ * Description: The Application's 404/Not Found error page. Replaces the default not-found page from Next.js.
+ * Author: Jack Graddon
+ */
 
+import Link from "next/link";
+
+// Components
+import ProjectDeck from "@/components/project-deck/deck";
 
 export default function NotFound() {
   return (

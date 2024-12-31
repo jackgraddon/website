@@ -4,18 +4,31 @@
  * Author: Jack Graddon
  */
 
-import type { Metadata } from "next";
 import "@/styles/globals.sass";
-import { headers} from "next/headers";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
 
 // Components
 import Footer from '@/components/site-footer/site-footer'
 
+// Set Metadata for root
 export const metadata: Metadata = {
   title: "Jack Graddon",
   description: "Jack Graddon's web portfolio",
 };
 
+
+/**
+ * Determines the appropriate background class based on the given hour of the day.
+ *
+ * @param {number} hour - The current hour in 24-hour format (0-23).
+ * @returns {Object} An object containing the background class name.
+ * The class name corresponds to the time of day:
+ * - 'background-morning' for hours between 6 and 12
+ * - 'background-afternoon' for hours between 12 and 18
+ * - 'background-evening' for hours between 18 and 22
+ * - 'background-night' for hours outside these ranges
+ */
 const getTimeBasedBackground = (hour: number) => {
   // Define time windows
   const time = {
