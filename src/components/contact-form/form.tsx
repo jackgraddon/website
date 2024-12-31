@@ -1,11 +1,14 @@
 "use client";
-import "@/styles/globals.sass"
-import styles from "@/components/contact-form/form.module.sass"
+import "@/styles/globals.sass";
+import styles from "@/components/contact-form/form.module.sass";
 import { useState, useEffect } from "react";
-import { useForm } from "@formspree/react";
 
 export default function ContactForm() {
-  const [state, handleSubmit] = useForm("xjvljrlq"); // Replace with your Formspree project ID
+  const [state, setState] = useState({
+    submitting: false,
+    succeeded: false,
+  });
+
   const [placeholders, setPlaceholders] = useState({
     name: "",
     email: "",
@@ -55,6 +58,57 @@ export default function ContactForm() {
     });
   }, []);
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setState({ ...state, submitting: true });
+
+    const formData = new FormData(event.target as HTMLFormElement);
+    const data = new URLSearchParams();
+
+    formData.forEach((value, key) => {
+      data.append(key, value.toString());
+    });
+
+    try {
+      const response = await fetch("https://formspree.io/f/xjvljrlq", {
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        redirect: "manual"  // Prevent automatic redirects by Formspree
+      });
+
+      // Check if the response is successful
+      const responseText = await response.text();  // Get the response body as text
+
+      if (response.ok) {
+        // Handle successful submission
+        setState({ submitting: false, succeeded: true });
+        console.log("Form submission successful:", responseText);
+        alert("Thank you for your submission! We will get back to you soon.");
+      } else {
+        // Handle failed submission
+        setState({ submitting: false, succeeded: false });
+
+        // If the response body is empty, log a generic error and don't trigger an alert (it probably was successful, but is being seen as failed)
+        if (!responseText) {
+          console.log("Error in form submission: No details provided in the response body. Form likely submitted correctly.");
+        } else {
+          console.log("Error in form submission:", responseText);
+          alert("There was an error submitting the form. Please try again later.");
+        }
+      }
+    } catch (error) {
+      // Handle network or other errors
+      setState({ submitting: false, succeeded: false });
+
+      // Log the error and prevent the alert from triggering
+      console.error("Network or server error:", error);
+      alert("There was an error submitting the form. Please try again later.");
+    }
+  };
+
   if (state.succeeded) {
     return <p>Thanks for your message! We&#39;ll get back to you soon.</p>;
   }
@@ -68,7 +122,9 @@ export default function ContactForm() {
       className={styles.form}
     >
       <div className={styles.formInputContainer}>
-        <label className={styles.formLabel}  htmlFor="name">Full Name <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel} htmlFor="name">
+          Full Name <span className={styles.required}>*</span>
+        </label>
         <input
           type="text"
           name="name"
@@ -79,7 +135,9 @@ export default function ContactForm() {
         />
       </div>
       <div className={styles.formInputContainer}>
-        <label className={styles.formLabel}  htmlFor="email">Email Address <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel} htmlFor="email">
+          Email Address <span className={styles.required}>*</span>
+        </label>
         <input
           type="email"
           name="replyto"
@@ -90,7 +148,9 @@ export default function ContactForm() {
         />
       </div>
       <div className={styles.formInputContainer}>
-        <label className={styles.formLabel}  htmlFor="subject">Subject <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel} htmlFor="subject">
+          Subject <span className={styles.required}>*</span>
+        </label>
         <input
           type="text"
           name="_subject"
@@ -101,7 +161,9 @@ export default function ContactForm() {
         />
       </div>
       <div className={styles.formInputContainer}>
-        <label className={styles.formLabel} htmlFor="message">Message <span className={styles.required}>*</span></label>
+        <label className={styles.formLabel} htmlFor="message">
+          Message <span className={styles.required}>*</span>
+        </label>
         <textarea
           name="message"
           id="message"
