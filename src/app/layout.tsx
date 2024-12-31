@@ -1,6 +1,12 @@
+/**
+ * Name: Layout
+ * Description: Default Root Layout component for Next.js applications.
+ * Author: Jack Graddon
+ */
+
 import type { Metadata } from "next";
 import "@/styles/globals.sass";
-// import axios from 'axios';
+import { headers} from "next/headers";
 
 // Components
 import Footer from '@/components/site-footer/site-footer'
@@ -10,10 +16,7 @@ export const metadata: Metadata = {
   description: "Jack Graddon's web portfolio",
 };
 
-const getTimeBasedBackground = () => {
-  // Get the current hour
-  const hour = new Date().getHours();
-
+const getTimeBasedBackground = (hour: number) => {
   // Define time windows
   const time = {
     morning: 6,
@@ -41,9 +44,17 @@ const getTimeBasedBackground = () => {
   }
 };
 
-export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
-  const { background } =  getTimeBasedBackground();
-  console.log(background);
+export default async function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
+  // Retrieve timezone header (if available) from the client
+  const headersList = await headers();
+  const timezone = headersList.get('x-timezone') || 'UTC'; // Default to UTC if timezone header is not available
+
+  // Use the timezone to determine the local hour
+  const localHour = new Date().getHours() + (timezone === 'UTC' ? 0 : timezone === 'GMT+1' ? -1 : 1);
+
+  // Set the backgorund class based on the local hour
+  const { background } =  getTimeBasedBackground(localHour);
+
   return (
     <html lang="en">
     <body>
