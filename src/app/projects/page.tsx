@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import ProjectDeck from "@/components/project-deck/deck";
 import Splash from "@/components/splash/splash";
 import { projectDictionary } from "@/utils/project";
