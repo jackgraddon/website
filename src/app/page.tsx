@@ -66,7 +66,7 @@ export default function HomePage() {
         <section>
           <h1>Hello!</h1>
           <p>I&#39;m Jack, a freelance Web Developer and Graphic Designer.</p>
-          <ProjectDeck firstId={"0"} secondId={"0"} thirdId={"0"}></ProjectDeck>
+          <ProjectDeck firstId={"0"} secondId={"210310"} thirdId={"230201"}></ProjectDeck>
           <Link href={'/projects'} className={"btn"}>View All Projects</Link>
         </section>
         <section className={styles.about}>

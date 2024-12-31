@@ -4,7 +4,7 @@ import Splash from "@/components/splash/splash";
 import { projectDictionary } from "@/utils/project";
 
 export default function ProjectsPage() {
-  const topProjects = ["0", "0", "0"]
+  const topProjects = ["0", "210310", "230201"]
 
   // Convert projectDictionary to an array of projects and sort them by ID (descending)
   const timelineProjects = Object.keys(projectDictionary)

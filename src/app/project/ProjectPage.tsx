@@ -64,9 +64,13 @@ export default function ProjectPage() {
   return (
     <div>
       <Splash title={title!} subtitle={description!}></Splash>
-      <main>
+      <main style={{textAlign: 'center'}}>
         <h1>Project Details</h1>
-        <Link href={repoUrl!} className={"btn"}>View Repository</Link>
+        {repoUrl ? (
+          <Link href={repoUrl!} className={"btn"}>View Repository</Link>
+        ) : (
+          <p>No repository URL provided.</p>
+        )}
         {readmeContent ? (
           <ReactMarkdown>{readmeContent}</ReactMarkdown>
         ) : (
