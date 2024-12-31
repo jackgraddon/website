@@ -1,0 +1,65 @@
+.timeline
+  display: flex
+  flex-direction: column
+  position: relative
+  margin: 20px 0 0 420px
+  padding: 0
+
+  &::before
+    background-color: #ccc
+    width: 4px
+    height: 100%
+    content: ""
+    position: absolute
+    top: 0
+    left: -2px
+    border-radius: 7pt
+
+.timeline-item
+  display: flex
+  align-items: center
+  margin: 20px 0
+  position: relative
+
+  &:nth-child(even)
+    flex-direction: row-reverse
+    left: -100%
+
+    .tile
+      margin-left: 0
+      margin-right: 60px
+
+.timeline-icon
+  background-color: white
+  border: 0.3rem solid
+  border-radius: 7pt
+  width: fit-content
+  height: 40px
+  padding: 0.4rem 0.8rem
+  display: flex
+  justify-content: center
+  align-items: center
+
+.tile
+  margin-left: 60px
+  margin-right: 0
+  min-width: 300px
+  max-height: 480px
+  border-radius: 7pt
+  aspect-ratio: 1.6
+  overflow: hidden
+  display: flex
+  flex-flow: column
+  justify-content: end
+  align-items: flex-start
+  position: relative
+
+.tile img
+  width: 100%
+  height: auto
+  object-fit: cover
+  position: absolute
+
+.tile a
+  margin: 0.5rem
+  z-index: 1
