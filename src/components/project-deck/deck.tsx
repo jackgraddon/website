@@ -3,6 +3,7 @@
  * Description: Displays three projects on cards with an image and a button to navigate to the project page with more details about it.
  * Author: Jack Graddon
  */
+
 "use client";
 import '@/styles/globals.sass'
 import styles from '@/components/project-deck/deck.module.sass'
@@ -63,8 +64,6 @@ export default function ProjectDeck({ firstId, secondId, thirdId }: ProjectDeckP
 
     fetchAllProjects();
   }, [firstId, secondId, thirdId]);
-
-  console.log(projectData);
 
   return (
     <div className={styles.deck}>
