@@ -3,7 +3,7 @@
  * Description: The application's index page, displays Splash and Project Deck components, as well as links to contact.
  * Author: Jack Graddon
  */
-
+"use client";
 import styles from '@/app/page.module.sass';
 import Image from "next/image";
 import { timeWindows } from "@/utils/timeWindows";
@@ -15,6 +15,7 @@ import ImageAbout from '../../public/images/portraits/Jack_Horizontal_Sit.webp'
 import Splash from "@/components/splash/splash";
 import ProjectDeck from "@/components/project-deck/deck";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 /**
  * Retrieves a greeting message based on the current time of day.
@@ -51,12 +52,19 @@ const getTimeBasedText = () => {
     };
   }
 };
-const { title, subtitle } = getTimeBasedText();
+
 
 export default function HomePage() {
+  const [greeting, setGreeting] = useState({ title: '', subtitle: '' });
+
+  useEffect(() => {
+    const localHour = new Date().getHours();
+    setGreeting(getTimeBasedText(localHour));
+  }, []);
+
   return (
     <div>
-      <Splash title={title} subtitle={subtitle} />
+      <Splash title={greeting.title} subtitle={greeting.subtitle} />
       <main>
         <section className={styles.warning}>
           <h2>Caution!</h2>
