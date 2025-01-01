@@ -23,13 +23,12 @@ import { useEffect, useState } from "react";
  * containing a title and subtitle appropriate for morning, afternoon,
  * evening, or night.
  *
+ * @param {number} hour - The current hour in 24-hour format (0-23).
  * @returns {Object} An object containing:
  * @property {string} title - A greeting message based on the time of day.
  * @property {string} subtitle - A supportive message related to the greeting.
  */
-const getTimeBasedText = () => {
-  const hour = new Date().getHours();
-
+const getTimeBasedText = (hour: number) => {
   if (hour >= timeWindows.morning && hour < timeWindows.afternoon) {
     return {
       title: 'Good Morning!',
