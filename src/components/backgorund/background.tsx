@@ -21,19 +21,25 @@ const getTimeBasedBackground = (hour: number) => {
     night: 22,
   };
 
+  console.log("Current hour: ", hour);
+
   if (hour >= time.morning && hour < time.afternoon) {
+    console.log('Setting background to morning');
     return {
       background: 'background-morning',
     };
   } else if (hour >= time.afternoon && hour < time.evening) {
+    console.log('Setting background to afternoon');
     return {
       background: 'background-afternoon',
     };
   } else if (hour >= time.evening && hour < time.night) {
+    console.log('Setting background to evening');
     return {
       background: 'background-evening',
     };
   } else {
+    console.log('Setting background to night');
     return {
       background: 'background-night',
     };
@@ -43,9 +49,10 @@ const getTimeBasedBackground = (hour: number) => {
 export default function Background() {
   // Determine the local hour
   const localHour = new Date().getHours();
-  console.error(localHour);
+  console.log("Local hour: ", localHour);
   // Set the background class based on the local hour
   const { background } =  getTimeBasedBackground(localHour);
+  console.log("Background class: ", background);
 
   return (
     <div className={background}></div>
