@@ -6,6 +6,7 @@
 
 import styles from '@/app/page.module.sass';
 import Image from "next/image";
+import { timeWindows } from "@/utils/timeWindows";
 
 // Images
 import ImageAbout from '../../public/images/portraits/Jack_Horizontal_Sit.webp'
@@ -28,24 +29,17 @@ import Link from "next/link";
 const getTimeBasedText = () => {
   const hour = new Date().getHours();
 
-  const time = {
-    morning: 6,
-    afternoon: 12,
-    evening: 18,
-    night: 22,
-  };
-
-  if (hour >= time.morning && hour < time.afternoon) {
+  if (hour >= timeWindows.morning && hour < timeWindows.afternoon) {
     return {
       title: 'Good Morning!',
       subtitle: "It's going to be a great day.",
     };
-  } else if (hour >= time.afternoon && hour < time.evening) {
+  } else if (hour >= timeWindows.afternoon && hour < timeWindows.evening) {
     return {
       title: 'Good Afternoon!',
       subtitle: 'What a beautiful day it is.',
     };
-  } else if (hour >= time.evening && hour < time.night) {
+  } else if (hour >= timeWindows.evening && hour < timeWindows.night) {
     return {
       title: 'Good Evening!',
       subtitle: "Don't miss the sunset tonight.",
