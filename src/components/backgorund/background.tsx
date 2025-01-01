@@ -43,6 +43,7 @@ const getTimeBasedBackground = (hour: number) => {
 export default function Background() {
   // Determine the local hour
   const localHour = new Date().getHours();
+  console.error(localHour);
   // Set the background class based on the local hour
   const { background } =  getTimeBasedBackground(localHour);
 
