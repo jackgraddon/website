@@ -1,6 +1,8 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
+
 /**
  * Determines the appropriate background class based on the given hour of the day.
  *
@@ -47,12 +49,14 @@ const getTimeBasedBackground = (hour: number) => {
 };
 
 export default function Background() {
-  // Determine the local hour
-  const localHour = new Date().getHours();
-  console.log("Local hour: ", localHour);
-  // Set the background class based on the local hour
-  const { background } =  getTimeBasedBackground(localHour);
-  console.log("Background class: ", background);
+
+  const [background, setBackground] = useState('');
+
+  useEffect(() => {
+    const localHour = new Date().getHours();
+    const backgroundClass = getTimeBasedBackground(localHour).background;
+    setBackground(backgroundClass);
+  }, []);
 
   return (
     <div className={background}></div>
