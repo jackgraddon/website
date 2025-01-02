@@ -26,7 +26,6 @@ body
   margin: 0
   place-items: center
   justify-content: center
-  min-width: 320px
   min-height: 100vh
   color: $color-white
   user-select: none
@@ -69,7 +68,6 @@ body
 main
   margin-right: auto
   margin-left: auto
-  min-width: 500px
   max-width: $desktop-width
   display: flex
   flex-direction: column
@@ -118,7 +116,12 @@ a
     //  color: $color-secondary
 
 img
+  width: 100%
+  height: auto
+  overflow: hidden
   border-radius: 7pt
+  overflow-clip-margin: content-box
+  overflow: clip
 
 // Scroll Button
 .scroll

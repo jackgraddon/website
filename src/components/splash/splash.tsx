@@ -53,14 +53,15 @@ const Splash = ({ title, subtitle }: SplashProps) => {
         <h1 className={styles.title}>{title}</h1>
         <p className={styles.subtitle}>{subtitle}</p>
       </motion.div>
-      <Image
-        src={SplashCloud.src}
-        width={1043}
-        height={607}
-        alt="A cloud, covering the width of the screen"
-        className={styles.splashCloud}
-        priority={true}
-      />
+      <div className={styles.splashCloud}>
+        <Image
+          src={SplashCloud.src}
+          width={1043}
+          height={607}
+          alt="A cloud, covering the width of the screen"
+          priority={true}
+        />
+      </div>
     </div>
   );
 };

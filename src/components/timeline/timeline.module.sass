@@ -15,11 +15,25 @@
     left: -2px
     border-radius: 7pt
 
+  @media screen and (max-width: 768px), (orientation: portrait)
+    width: 80%
+    margin: 0
+    gap: 0.5em
+
+    &::before
+      left: calc(50% - 2px)
+      top: -10px
+      height: calc(100% + 20px)
+
 .timeline-item
   display: flex
   align-items: center
   margin: 20px 0
   position: relative
+
+  @media screen and (max-width: 768px), (orientation: portrait)
+    margin: 0
+    width: 100%
 
   &:nth-child(even)
     flex-direction: row-reverse
@@ -28,6 +42,13 @@
     .tile
       margin-left: 0
       margin-right: 60px
+
+    @media screen and (max-width: 768px), (orientation: portrait)
+      flex-direction: row
+      left: 0
+
+      .tile
+        margin: 0
 
 .timeline-icon
   background-color: white
@@ -39,6 +60,13 @@
   display: flex
   justify-content: center
   align-items: center
+
+  @media screen and (max-width: 768px), (orientation: portrait)
+    margin: 0.5rem
+    z-index: 1
+    position: absolute
+    top: 0
+    left: 0
 
 .tile
   margin-left: 60px
@@ -53,6 +81,10 @@
   justify-content: end
   align-items: flex-start
   position: relative
+
+  @media screen and (max-width: 768px), (orientation: portrait)
+    margin: 0
+    width: 100%
 
 .tile img
   width: 100%
