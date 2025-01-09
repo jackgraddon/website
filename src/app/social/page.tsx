@@ -18,6 +18,7 @@ export default function SocialPage() {
         <section>
           <h1>Social</h1>
           <p>I try to post my projects to Instagram when I can, though I do fall behind.</p>
+          <p>View my LinkedIn <Link href={"https://www.linkedin.com/in/jackson-graddon-76753a202/"} target={"_blank"} rel={"noopener noreferrer"}>here</Link></p>
         </section>
         <section>
           <BeholdWidget feedId="w10XMGLgPKgvIZv0KvkH" />
