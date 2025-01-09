@@ -65,11 +65,6 @@ export default function HomePage() {
     <div>
       <Splash title={greeting.title} subtitle={greeting.subtitle} />
       <main>
-        {/*<section className={styles.warning}>*/}
-        {/*  <h2>Caution!</h2>*/}
-        {/*  <p>This website is under heavy development as I restructure it in Next.js, which I am learning as I go. If you have found this site, thank you for your patience!*/}
-        {/*  </p>*/}
-        {/*</section>*/}
         <section>
           <h1>Hello!</h1>
           <p>I&#39;m Jack, a freelance Web Developer and Graphic Designer.</p>

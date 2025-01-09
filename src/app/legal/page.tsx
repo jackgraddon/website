@@ -32,11 +32,11 @@ export default function Page() {
           <div className={styles.worksDeck}>
             <div className={styles.worksCard}>
               <Image src={ImageFont.src} width={1280} height={800} alt="MADE Sunflower banner"/>
-              <Link className={"btn"} href={"https://www.youworkforthem.com/font/T11080/made-sunflower"}>Made Sunflower</Link>
+              <Link className={"btn"} href={"https://www.youworkforthem.com/font/T11080/made-sunflower"} target={'_blank'} rel={'noopener noreferrer'}>Made Sunflower</Link>
             </div>
             <div className={styles.worksCard}>
               <Image src={ImageMotion.src} width={1280} height={800} alt="Motion logo"/>
-              <Link className={"btn"} href={"https://motion.dev/"}>Motion</Link>
+              <Link className={"btn"} href={"https://motion.dev/"} target={'_blank'} rel={'noopener noreferrer'}>Motion</Link>
             </div>
           </div>
         </section>

@@ -20,8 +20,10 @@ export default function SuccessfulSubmitPage() {
   return (
     <div style={{margin: '35vh 0 0 0'}}>
       <main>
-        <h1>Thank you!</h1>
-        <p>I will get back to you soon.</p>
+        <section>
+          <h1>Thank you!</h1>
+          <p>I will get back to you soon.</p>
+        </section>
       </main>
     </div>
   )

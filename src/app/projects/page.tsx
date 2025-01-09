@@ -21,11 +21,15 @@ export default function ProjectsPage() {
     <div>
       <Splash title={"Projects"} subtitle={"My Portfolio"}></Splash>
       <main>
-        <h2>Top Projects</h2>
-        <ProjectDeck firstId={topProjects[0]} secondId={topProjects[1]} thirdId={topProjects[2]}></ProjectDeck>
-        <h2>All Projects</h2>
-        <p>See all my latest projects, newest to oldest.</p>
-        <Timeline projects={timelineProjects}></Timeline>
+        <section>
+          <h2>Top Projects</h2>
+          <ProjectDeck firstId={topProjects[0]} secondId={topProjects[1]} thirdId={topProjects[2]}></ProjectDeck>
+        </section>
+        <section>
+          <h2>All Projects</h2>
+          <p>See all my latest projects, newest to oldest.</p>
+          <Timeline projects={timelineProjects}></Timeline>
+        </section>
       </main>
     </div>
   )
