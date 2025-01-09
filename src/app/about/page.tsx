@@ -23,7 +23,7 @@ export default function AboutPage() {
               Use</b>, <b>Efficient</b>, and <b>Fast</b>, while remaining <b>Visually Pleasing to the eye</b>.</p>
             <h3>Resume</h3>
             <p>You can download my resume below.</p>
-            <a className={'btn'} href={"hthttps://raw.githubusercontent.com/jackgraddon/jackgraddon/main/Resume.pdf"}
+            <a className={'btn'} href={"https://raw.githubusercontent.com/jackgraddon/jackgraddon/main/Resume.pdf"}
                title={"Download my Resume"} rel={"noreferrer noopener"} target={"_blank"}>Download Now</a>
           </div>
         </section>
