@@ -12,6 +12,8 @@ interface Project {
 
 export const projectDictionary: { [id: string]: Project} = {
   // "0": { url: "jackgraddon/main/.projectDetails/details.json", title: "Profile Repository", description: "My GitHub profile repository."},
+  "241101": { url: "web-adsumveterinary/main/.projectDetails/details.json", title: "Adsum Veterinary", description: "Bringing"},
+  "240101": { url: "web-cowboyted/main/.projectDetails/details.json", title: "Cowboy Ted", description: "Complete brand overhaul"},
   "230801": { url: "lprc-wsu/main/.projectDetails/details.json", title: "WSU LPRC", description: "Redesigns for WSU's LPRC website"},
   "230201": { url: "crimsoncode2023/main/.projectDetails/details.json", title: "Launchpad", description: "Crimson Code 2023 Project"},
   "230101": { url: "lprc-warns/main/.projectDetails/details.json", title: "WARNS", description: "Redesigns for the LPRC's WARNS website"},
