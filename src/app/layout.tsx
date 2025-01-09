@@ -6,6 +6,8 @@
 
 import "@/styles/globals.sass";
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next";
 
 // Components
 import Footer from '@/components/site-footer/site-footer'
@@ -24,6 +26,8 @@ export default function RootLayout({children,}: Readonly<{ children: React.React
       <Background></Background>
       {children}
       <Footer></Footer>
+      <SpeedInsights/>
+      <Analytics/>
     </body>
     </html>
   );

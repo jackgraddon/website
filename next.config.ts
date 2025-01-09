@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
       $desktop-width: 1024px`
   },
   env: {
-    NEXT_PUBLIC_APP_NAME: "Jack Graddon's Beta Website",
+    NEXT_PUBLIC_APP_NAME: "Jack Graddon's Portfolio Website",
   },
   module: {
       extends: ['nextjs'],
