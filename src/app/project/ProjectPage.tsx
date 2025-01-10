@@ -9,14 +9,21 @@
 import "@/styles/globals.sass";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
 import { useSearchParams } from "next/navigation";
 import { projectDictionary } from "@/utils/project";
 import { useEffect, useState } from "react";
 
 // Components
 import Splash from "@/components/splash/splash";
+import Image from "next/image";
 
 const BASE_URL = "https://raw.githubusercontent.com/jackgraddon/";
+
+function removeTableOfContents(content: string): string {
+  const tocRegex = /## Table of Contents[\s\S]*?(?=##|$)/i;
+  return content.replace(tocRegex, '');
+}
 
 export default function ProjectPage() {
   const searchParams = useSearchParams();
@@ -58,7 +65,7 @@ export default function ProjectPage() {
           }
           return response.text(); // Parse the response body as text
         })
-        .then((readmeContent) => setReadmeContent(readmeContent)) // Set the fetched README content to state
+        .then((readmeContent) => setReadmeContent(removeTableOfContents(readmeContent))) // Set the fetched README content to state
         .catch((error) => {
           console.error(error); // Log any errors to the console
           setReadmeContent("Failed to load project README."); // Update state with an error message
@@ -69,13 +76,19 @@ export default function ProjectPage() {
     }
   }, [id]); // Dependency array: effect runs when 'id' changes
 
+  const renderers = {
+    image: ({ alt, src } : { alt :string, src :string}) => <Image alt={alt} src={src} style={{ maxWidth: '100%' }} />
+  };
+
   return (
     <div>
       <Splash title={title!} subtitle={description!}></Splash>
       <main style={{textAlign: 'center'}}>
         <section>
           {readmeContent ? (
-            <ReactMarkdown>{readmeContent}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={renderers}>
+              {readmeContent}
+            </ReactMarkdown>
           ) : (
             <p>Loading...</p>
           )}
