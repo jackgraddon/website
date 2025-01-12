@@ -22,13 +22,13 @@ export const metadata: Metadata = {
 export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
-    <body>
-      <Background></Background>
-      {children}
-      <Footer></Footer>
-      <SpeedInsights/>
-      <Analytics/>
-    </body>
+      <body>
+        <Background></Background>
+        {children}
+        <Footer></Footer>
+        <SpeedInsights/>
+        <Analytics/>
+      </body>
     </html>
   );
 }
