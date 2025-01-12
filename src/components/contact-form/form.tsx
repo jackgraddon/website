@@ -3,6 +3,7 @@ import "@/styles/globals.sass";
 import styles from "@/components/contact-form/form.module.sass";
 import { useState, useEffect } from "react";
 import { redirect} from "next/navigation";
+// import { useForm, ValidationError } from '@formspree/react';
 
 export default function ContactForm() {
   const [state, setState] = useState({
@@ -71,7 +72,7 @@ export default function ContactForm() {
     });
 
     try {
-      await fetch("https://formspree.io/f/xjvljrlq", {
+      await fetch("https://formspree.io/f/mzzzyvzg", {
         method: "POST",
         body: data,
         headers: {
