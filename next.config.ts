@@ -19,10 +19,7 @@ const nextConfig: NextConfig = {
   },
   env: {
     NEXT_PUBLIC_APP_NAME: "Jack Graddon's Portfolio Website",
-  },
-  module: {
-      extends: ['nextjs'],
-  },
+  }
 };
 
 export default nextConfig;

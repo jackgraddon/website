@@ -59,7 +59,7 @@ A `ProjectDeck` component is used to display a showcase of three projects. The c
 
 #### Project Page
 
-The `ProjectPage` component is used to display the details of a project. The component is given a project id from the parent page, `/project?id={pid}`, and pulls the corresponding project from the `project.ts` file. The dictionary contains a url to a GutHub repository. The component will fetch the README file from the repository and display it on the page, converted to HTML using the `react-markdown` library.file.
+The `ProjectPage` component is used to display the details of a project. The component is given a project id from the parent page, `/project?id={pid}`, and pulls the corresponding project from the `project.ts` file. The dictionary contains an url to a GutHub repository. The component will fetch the README file from the repository and display it on the page, converted to HTML using the `react-markdown` library.file.
 
 ## License
 

@@ -4,11 +4,20 @@
  * Author: Jack Graddon
  */
 
+import styles from "@/app/social/social.module.sass";
 import BeholdWidget from "@behold/react";
+
 
 // Components
 import Splash from "@/components/splash/splash";
 import Link from "next/link";
+import {InstagramIcon, Linkedin01Icon} from "hugeicons-react";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Social | Jack Graddon",
+  description: "Take a look at my social media profiles and feeds.",
+};
 
 export default function SocialPage() {
   return (
@@ -17,12 +26,13 @@ export default function SocialPage() {
       <main>
         <section>
           <h1>Social</h1>
-          <p>I try to post my projects to Instagram when I can, though I do fall behind.</p>
-          <p>View my LinkedIn <Link href={"https://www.linkedin.com/in/jackson-graddon-76753a202/"} target={"_blank"} rel={"noopener noreferrer"}>here</Link></p>
+          <div className={styles.platforms}>
+            <Link title={"Click to view Instagram"} href={'https://www.instagram.com/jack.graddon/'} target={'_blank'} rel={'noopener noreferrer'} style={{color: "#E1306C"}}><InstagramIcon/></Link>
+            <Link title={"Click to view LinkedIn"} href={'https://www.linkedin.com/in/jackgraddon/'} target={'_blank'} rel={'noopener noreferrer'} style={{color: "#0A66C2"}}><Linkedin01Icon/></Link>
+          </div>
         </section>
         <section>
           <BeholdWidget feedId="w10XMGLgPKgvIZv0KvkH" />
-          <Link className={"btn"} href={'https://www.instagram.com/jack.graddon/'} target={'_blank'} rel={'noopener noreferrer'}>See The Rest on Instagram</Link>
         </section>
       </main>
     </div>

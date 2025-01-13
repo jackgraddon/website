@@ -14,8 +14,8 @@ export const dynamic = "force-dynamic"; // Dynamically render this page
 
 export default function Page() {
   return (
-    <Suspense fallback={<Splash title={"Loading..."} subtitle={"Please hang tight!"}></Splash>}>
-      <ProjectPage />
-    </Suspense>
+      <Suspense fallback={<Splash title={"Loading..."} subtitle={"Please hang tight!"}></Splash>}>
+        <ProjectPage />
+      </Suspense>
   );
 }

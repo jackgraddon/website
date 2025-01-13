@@ -28,7 +28,7 @@ body
   justify-content: center
   min-height: 100vh
   color: $color-white
-  user-select: none
+  background-color: $color-primary
 
 [class^="background-"]
   width: 100vw
@@ -70,11 +70,12 @@ section
   gap: 0.5em
 
 a
-  color: $color-primary
+  color: $color-white
   transition: 150ms ease
+  font-weight: 500
 
   &:hover
-    color: $color-white
+    color: $color-primary
 
   &.btn
     display: block
@@ -85,6 +86,7 @@ a
     border-radius: 7pt
     text-align: center
     text-decoration: none
+    user-select: none
     background-color: $color-white
     color: $color-primary
     cursor: pointer
@@ -97,6 +99,10 @@ a
     //  background-color: $color-secondary
     //  color: $color-secondary
 
+.btnGroup
+  display: flex
+  gap: 0.5rem
+
 img
   width: 100%
   height: auto
@@ -104,32 +110,4 @@ img
   border-radius: 7pt
   overflow-clip-margin: content-box
   overflow: clip
-
-// Scroll Button
-.scroll
-  color: white
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0, white 10%, rgba(255, 255, 255, 0.5) 20%)
-  background-position: 0
-  background-clip: text
-  background-color: rgba(255, 255, 255, 0.5)
-  -webkit-background-clip: text
-  -webkit-text-fill-color: transparent
-  animation: shine 3s infinite linear
-  animation-fill-mode: forwards
-  -webkit-text-size-adjust: none
-  font-weight: 600
-  font-size: smaller
-  white-space: nowrap
-
-#scrollDown,
-#scrollDown *,
-#scrollToTop,
-#scrollToTop *
-  color: white
-  text-decoration: none !important
-
-@keyframes shine
-    from
-      background-position: 0
-    to
-      background-position: 77px
+  user-select: none

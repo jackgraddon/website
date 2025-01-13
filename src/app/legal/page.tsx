@@ -14,6 +14,12 @@ import ImageMotion from './works/motion.webp'
 
 // Components
 import Splash from "@/components/splash/splash";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Legals | Jack Graddon",
+  description: "All of the legal information for Jack Graddon's portfolio website.",
+};
 
 export default function Page() {
   return (

@@ -8,6 +8,12 @@
 import Splash from "@/components/splash/splash";
 import ContactForm from "@/components/contact-form/form";
 import Link from "next/link";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Contact | Jack Graddon",
+  description: "Let's talk! Get in touch with Jack Graddon.",
+};
 
 export default function Page() {
   return (
