@@ -15,6 +15,12 @@ import {InstagramIcon, Linkedin02Icon, SourceCodeSquareIcon, PaintBrush04Icon, V
 import Splash from "@/components/splash/splash";
 import Link from "next/link";
 import ProjectDeck from "@/components/project-deck/deck";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "About | Jack Graddon",
+  description: "Crafting user-friendly web experiences with a creative edge.",
+};
 
 export default function AboutPage() {
   return (

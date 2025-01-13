@@ -8,6 +8,12 @@ import { projectDictionary } from "@/utils/project";
 import ProjectDeck from "@/components/project-deck/deck";
 import Splash from "@/components/splash/splash";
 import Timeline from "@/components/timeline/timeline";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Projects | Jack Graddon",
+  description: "Check out all of my latest projects, from web development to graphic design.",
+};
 
 export default function ProjectsPage() {
   const topProjects = ["220301", "230201", "210310"]

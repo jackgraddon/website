@@ -12,6 +12,12 @@ import BeholdWidget from "@behold/react";
 import Splash from "@/components/splash/splash";
 import Link from "next/link";
 import {InstagramIcon, Linkedin01Icon} from "hugeicons-react";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: "Social | Jack Graddon",
+  description: "Take a look at my social media profiles and feeds.",
+};
 
 export default function SocialPage() {
   return (
