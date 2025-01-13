@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
-  const topProjects = ["220301", "230201", "210310"]
+  const topProjects = ["221001", "230201", "230801"]
 
   // Convert projectDictionary to an array of IDs and sort them by ID (descending)
   const timelineProjects = Object.keys(projectDictionary)

@@ -5,8 +5,8 @@ export default function Footer() {
     return (
       <div className={styles.footer}>
         <div className={styles.footerCauses}>
-          <a id="data-rights" href="https://epic.org" title={"Learn about your Data Rights"} target="_blank">&#x1F512;</a>
-          <a id="help-me" href="https://ko-fi.com/jackgraddon" title={"Buy me a Coffee"} target="_blank">&#x1FA99;</a>
+          <Link id="data-rights" href="https://epic.org" title={"Learn about your Data Rights"} target="_blank">&#x1F512;</Link>
+          <Link id="help-me" href="https://ko-fi.com/jackgraddon" title={"Buy me a Coffee"} target="_blank">&#x1FA99;</Link>
         </div>
         <h3>Jack Graddon</h3>
         <p>Website © Jack Graddon 2024</p>
