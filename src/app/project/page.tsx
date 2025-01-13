@@ -7,7 +7,6 @@
 "use client";
 
 import "@/styles/globals.sass";
-import Head from "next/head";
 import Link from "next/link";
 import ReactMarkdown, {ExtraProps} from "react-markdown";
 import remarkGfm from 'remark-gfm'
