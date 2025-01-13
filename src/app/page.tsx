@@ -68,12 +68,12 @@ export default function HomePage() {
         <section>
           <h1>Hello!</h1>
           <p>I&#39;m Jack, a freelance Web Developer and Graphic Designer.</p>
-          <ProjectDeck firstId={"220301"} secondId={"230201"} thirdId={"210310"}></ProjectDeck>
+          <ProjectDeck firstId={"230101"} secondId={"230201"} thirdId={"221001"}></ProjectDeck>
           <Link href={'/projects'} className={"btn"}>View All Projects</Link>
         </section>
         <section className={styles.about}>
           <div className={styles.aboutImage}>
-            <Image src={ImageAbout} alt={"A portrait of me sitting next to an overlook of the ocean."} width={1920} height={1280} style={{ height: '100%'}}></Image>
+            <Image src={ImageAbout} alt={"A portrait of me sitting next to an overlook of the ocean."} width={1920} height={1280}></Image>
           </div>
           <div>
             <h2>About</h2>

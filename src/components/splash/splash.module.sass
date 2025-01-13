@@ -39,3 +39,32 @@
 .subtitle
   font-size: 1.5rem !important
   font-style: italic
+
+// Scroll Button
+.scroll
+  color: white
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0, white 10%, rgba(255, 255, 255, 0.5) 20%)
+  background-position: 0
+  background-clip: text
+  background-color: rgba(255, 255, 255, 0.5)
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  animation: shine 3s infinite linear
+  animation-fill-mode: forwards
+  -webkit-text-size-adjust: none
+  font-weight: 600
+  font-size: smaller
+  white-space: nowrap
+
+#scrollDown,
+#scrollDown *,
+#scrollToTop,
+#scrollToTop *
+  color: white
+  text-decoration: none !important
+
+@keyframes shine
+  from
+    background-position: 0
+  to
+    background-position: 77px
