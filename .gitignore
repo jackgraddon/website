@@ -40,3 +40,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+discord-bot/.env
+discord-bot/venv/
+discord-bot/env/
+discord-bot/*.log

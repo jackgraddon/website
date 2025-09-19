@@ -13,6 +13,7 @@ This repository contains the source code for Jack Graddon's portfolio website, b
     - [Project Deck](#project-deck)
     - [Project Page](#project-page)
 - [License](#license)
+- [Discord Music Bot](#discord-music-bot)
 
 ## Project Overview
 
@@ -60,6 +61,58 @@ A `ProjectDeck` component is used to display a showcase of three projects. The c
 #### Project Page
 
 The `ProjectPage` component is used to display the details of a project. The component is given a project id from the parent page, `/project?id={pid}`, and pulls the corresponding project from the `project.ts` file. The dictionary contains an url to a GutHub repository. The component will fetch the README file from the repository and display it on the page, converted to HTML using the `react-markdown` library.file.
+
+## Discord Music Bot
+
+This repository also includes a Discord music bot that connects to a Jellyfin server to stream music directly in Discord voice channels.
+
+### Features
+
+- Connect to Jellyfin server with user credentials
+- Stream music from your Jellyfin library to Discord voice channels
+- Basic music controls (play, pause, skip, queue)
+- Search for music in your Jellyfin library
+
+### Quick Start
+
+1. Navigate to the discord-bot directory:
+   ```bash
+   cd discord-bot
+   ```
+
+2. Install Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Configure environment variables:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your Discord token and Jellyfin server details
+   ```
+
+4. Test your configuration:
+   ```bash
+   python3 test_config.py
+   ```
+
+5. Start the bot:
+   ```bash
+   python3 bot.py
+   # Or use the startup script: ./start.sh
+   ```
+
+### Commands
+
+- `!play <song name>` - Search for and play a song
+- `!pause` - Pause current playbook
+- `!resume` - Resume playback
+- `!skip` - Skip current song
+- `!queue` - Show current queue
+- `!stop` - Stop playback and disconnect
+- `!search <query>` - Search for music in Jellyfin library
+
+For detailed setup instructions, see [discord-bot/README.md](discord-bot/README.md).
 
 ## License
 
