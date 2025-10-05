@@ -1,0 +1,31 @@
+.form
+  width: 100%
+  max-width: 600px
+  display: flex
+  flex-direction: column
+  gap: 1rem
+
+.formGroup
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+
+  label
+    font-weight: 600
+    color: white
+
+  input, textarea
+    padding: 0.75rem
+    border: 2px solid rgba(255, 255, 255, 0.3)
+    border-radius: 7pt
+    background: rgba(255, 255, 255, 0.1)
+    color: white
+    font-size: 1rem
+
+    &::placeholder
+      color: rgba(255, 255, 255, 0.5)
+
+    &:focus
+      outline: none
+      border-color: rgba(255, 255, 255, 0.6)
+      background: rgba(255, 255, 255, 0.15)
