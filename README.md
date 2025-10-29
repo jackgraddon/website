@@ -1,6 +1,6 @@
 # Jack Graddon's Website
 
-This repository contains the source code for Jack Graddon's portfolio website, built using Next.js. The website showcases my work as a freelance Web Developer and Graphic Designer.
+This repository contains the source code for Jack Graddon's portfolio website, built using **Nuxt.js** (Vue 3). The website showcases my work as a freelance Web Developer and Graphic Designer.
 
 ## Table of Contents
 
@@ -12,19 +12,21 @@ This repository contains the source code for Jack Graddon's portfolio website, b
     - [Project Details System](#project-details-system)
     - [Project Deck](#project-deck)
     - [Project Page](#project-page)
+- [Getting Started](#getting-started)
 - [License](#license)
 
 ## Project Overview
 
-The website serves as a portfolio to display my projects, provide information about his services, and offer a way for visitors to contact him. It includes a dynamic greeting based on the time of day, a project deck, and a contact form.
+The website serves as a portfolio to display my projects, provide information about my services, and offer a way for visitors to contact me. It includes a dynamic greeting based on the time of day, a project deck, and a contact form.
 
 ## Technologies Used
 
 - **TypeScript**
 - **JavaScript**
-- **React**
-- **Next.js**
+- **Vue 3**
+- **Nuxt 3**
 - **Sass**
+- **Vite**
 
 ## Features
 
@@ -59,7 +61,31 @@ A `ProjectDeck` component is used to display a showcase of three projects. The c
 
 #### Project Page
 
-The `ProjectPage` component is used to display the details of a project. The component is given a project id from the parent page, `/project?id={pid}`, and pulls the corresponding project from the `project.ts` file. The dictionary contains an url to a GutHub repository. The component will fetch the README file from the repository and display it on the page, converted to HTML using the `react-markdown` library.file.
+The `ProjectPage` component is used to display the details of a project. The component is given a project id from the parent page, `/project?id={pid}`, and pulls the corresponding project from the `project.ts` file. The dictionary contains a URL to a GitHub repository. The component will fetch the README file from the repository and display it on the page, converted to HTML using the `marked` library.
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- npm or yarn
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+The development server will start at `http://localhost:3000`
 
 ## License
 
