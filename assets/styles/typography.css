@@ -1,0 +1,84 @@
+/* Converted from typography.sass */
+
+/* typefaces */
+@font-face {
+    font-family: 'Outfit';
+    src: url('/fonts/outfit.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Sunflower';
+    src: url('/fonts/made-sunflower.woff') format('woff'), url('/fonts/made-sunflower.woff2') format('woff2');
+}
+
+:root {
+    /* typefaces */
+    --typeface-outfit: 'Outfit', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+    --typeface-sunflower: 'Sunflower', Georgia, 'Times New Roman', Times, serif;
+
+    /* font stacks */
+    --font-heading-title: 4em/1.4 var(--typeface-sunflower);
+    --font-paragraph-primary: 300 1.2rem/1.3 var(--typeface-outfit);
+    --font-paragraph-secondary: 300 1rem/1.3 var(--typeface-outfit);
+
+    /* global font */
+    font: var(--font-paragraph-secondary);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+
+}
+
+:root h1 {
+    font: var(--font-heading-title);
+}
+
+:root h2,
+:root h3,
+:root h4,
+:root h5,
+:root h6 {
+    font-family: var(--typeface-sunflower);
+}
+
+h2 {
+    font-size: 3em;
+}
+
+h3 {
+    font-size: 2em;
+}
+
+h4 {
+    font-size: 1.6em;
+}
+
+h5 {
+    font-size: 1.2em;
+}
+
+h6 {
+    font-size: 1em;
+}
+
+p {
+    font: var(--font-paragraph-primary);
+    line-height: 1.4;
+}
+
+b,
+strong {
+    font-weight: 600;
+}
+
+ul,
+ol {
+    font: var(--font-paragraph-primary);
+    text-align: left;
+}
+
+::selection {
+    background: #175e84;
+    color: white;
+}

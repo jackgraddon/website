@@ -1,83 +1,85 @@
 <template>
-  <form @submit.prevent="handleSubmit" :class="$style.form">
-    <div :class="$style.formGroup">
-      <label for="name">Name</label>
+  <form
+    id="contact"
+    @submit.prevent="handleSubmit"
+    accept-charset="utf-8"
+    method="post"
+    :class="$style.form"
+  >
+    <div :class="$style.formInputContainer">
+      <label :class="$style.formLabel" for="name">
+        Full Name <span :class="$style.required">*</span>
+      </label>
       <input
         type="text"
-        id="name"
         name="name"
-        required
+        id="name"
+        :class="$style.formInput"
         :placeholder="placeholders.name"
-        v-model="formData.name"
+        required
       />
     </div>
-    
-    <div :class="$style.formGroup">
-      <label for="email">Email</label>
+    <div :class="$style.formInputContainer">
+      <label :class="$style.formLabel" for="email">
+        Email Address <span :class="$style.required">*</span>
+      </label>
       <input
         type="email"
+        name="replyto"
         id="email"
-        name="email"
-        required
+        :class="$style.formInput"
         :placeholder="placeholders.email"
-        v-model="formData.email"
+        required
       />
     </div>
-    
-    <div :class="$style.formGroup">
-      <label for="subject">Subject</label>
+    <div :class="$style.formInputContainer">
+      <label :class="$style.formLabel" for="subject">
+        Subject <span :class="$style.required">*</span>
+      </label>
       <input
         type="text"
+        name="_subject"
         id="subject"
-        name="subject"
-        required
+        :class="$style.formInput"
         :placeholder="placeholders.subject"
-        v-model="formData.subject"
+        required
       />
     </div>
-    
-    <div :class="$style.formGroup">
-      <label for="message">Message</label>
+    <div :class="$style.formInputContainer">
+      <label :class="$style.formLabel" for="message">
+        Message <span :class="$style.required">*</span>
+      </label>
       <textarea
-        id="message"
         name="message"
-        rows="5"
-        required
+        id="message"
+        :class="$style.formText"
         :placeholder="placeholders.message"
-        v-model="formData.message"
+        required
       ></textarea>
     </div>
-    
-    <button type="submit" class="btn" :disabled="state.submitting">
-      {{ state.submitting ? 'Sending...' : 'Send Message' }}
+    <button type="submit" :class="$style.submit" :disabled="state.submitting">
+      Submit
     </button>
   </form>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
 const state = ref({
   submitting: false,
   succeeded: false,
-});
-
-const formData = ref({
-  name: '',
-  email: '',
-  subject: '',
-  message: '',
-});
+})
 
 const placeholders = ref({
   name: "",
   email: "",
   subject: "",
   message: "",
-});
+})
 
 onMounted(() => {
   // Define possible placeholder values
@@ -85,18 +87,18 @@ onMounted(() => {
     "John Doe", "Prince Hamlet", "Phil Swift", "Abraham Lincoln",
     "Marilyn Monroe", "Winston Churchill", "Queen Elizabeth II",
     "Bill Gates", "Elvis Presley",
-  ];
+  ]
   const emails = [
     "johndoe@unkown.com", "p.hamlet@denmark.gov", "phil@flextape.com",
     "lincolna@whitehouse.gov", "marilyn@marilynmonroe.com",
     "churchill@gov.uk", "liz@gov.uk", "gatesb@microsoft.com",
     "presley@elvispresely.com",
-  ];
+  ]
   const subjects = [
     "I know who you are", "Ghost Sighting", "Flex Tape", "Speech Idea",
     "Important Info", "RE: Good Quotes?", "RE: Important - Read Now!",
     "I Love Windows 11", "It's ok, we all have rough times.",
-  ];
+  ]
   const messages = [
     "Hello! You may not know who I am, but...",
     "Hello! Have you seen my father? I've heard he...",
@@ -107,10 +109,10 @@ onMounted(() => {
     "Hey, let us not take ourselves too seriously. None of us has a monopoly on wisdom...",
     "Hey, if you can't make it good, at least make it look good...",
     "When things go wrong, don't go with them...",
-  ];
+  ]
 
   // Generate a random index
-  const rand = Math.floor(Math.random() * names.length);
+  const rand = Math.floor(Math.random() * names.length)
 
   // Set placeholders dynamically
   placeholders.value = {
@@ -118,17 +120,18 @@ onMounted(() => {
     email: emails[rand],
     subject: subjects[rand],
     message: messages[rand],
-  };
-});
+  }
+})
 
-const handleSubmit = async () => {
-  state.value.submitting = true;
+const handleSubmit = async (event: Event) => {
+  state.value.submitting = true
 
-  const data = new URLSearchParams();
-  data.append('name', formData.value.name);
-  data.append('email', formData.value.email);
-  data.append('subject', formData.value.subject);
-  data.append('message', formData.value.message);
+  const formData = new FormData(event.target as HTMLFormElement)
+  const data = new URLSearchParams()
+
+  formData.forEach((value, key) => {
+    data.append(key, value.toString())
+  })
 
   try {
     await fetch("https://formspree.io/f/mzzzyvzg", {
@@ -137,16 +140,78 @@ const handleSubmit = async () => {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-    });
-
-    // Navigate to success page
-    navigateTo('/contact/success');
+    })
   } catch (error) {
-    // Handle network or other errors
-    state.value.submitting = false;
-    console.error("Network or server error:", error);
+    state.value.submitting = false
+    state.value.succeeded = false
+    console.error("Network or server error:", error)
   }
-};
+
+  navigateTo('/contact/success/')
+}
 </script>
 
-<style module lang="sass" src="./form.module.sass"></style>
+<style module>
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 7pt;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.formInputContainer { display: flex; flex-direction: column; }
+
+.formLabel {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-bottom: 0;
+  border-radius: 7pt 7pt 0 0;
+  background: #f0f0f0;
+  width: fit-content;
+  font-size: 0.9em;
+}
+
+.formInput,
+.formSelect,
+.formText,
+.formButton {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0 7pt 7pt 7pt;
+  min-height: 39px;
+  max-width: 100%;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formText:focus,
+.formButton:focus {
+  outline: 0;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.required { color: red; }
+
+.submit {
+  transition: 150ms ease;
+  display: block;
+  width: fit-content;
+  padding: 0.4rem 0.8rem;
+  border: 0.3rem solid;
+  border-radius: 7pt;
+  text-align: center;
+  text-decoration: none;
+  background-color: #fff;
+  color: #175e84;
+  cursor: pointer;
+}
+
+.submit:hover { background-color: #d8d8d8; }
+.submit.disabled { opacity: 0.8; background-color: #faf9f9; }
+</style>

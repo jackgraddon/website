@@ -16,33 +16,10 @@
           <p>I'm Jack Graddon, a freelance Web Developer and Graphic Designer with a passion for creating technology that is intuitive, accessible, and enjoyable. My studies in Digital Technology and Culture at Washington State University, as a Regent Scholar and Honors Student, empower me to approach challenges with creativity and determination.</p>
           <p>My goal? To make technology easier for everyone—whether they're tech-savvy or just getting started.</p>
           <div class="btnGroup">
-            <NuxtLink 
-              class="btn" 
-              to="https://raw.githubusercontent.com/jackgraddon/jackgraddon/main/Resume.pdf"
-              title="Download my Resume" 
-              rel="noreferrer noopener" 
-              target="_blank"
-            >
-              Download Resume
-            </NuxtLink>
-            <NuxtLink 
-              class="btn" 
-              to="https://linkedin.com/in/jackgraddon" 
-              title="View my LinkedIn" 
-              rel="noreferrer noopener" 
-              target="_blank"
-            >
-              <IconLinkedin />
-            </NuxtLink>
-            <NuxtLink 
-              class="btn" 
-              to="https://instagram.com/jack.graddon" 
-              title="View my Instagram" 
-              rel="noreferrer noopener" 
-              target="_blank"
-            >
-              <IconInstagram />
-            </NuxtLink>
+            <a class="btn" href="https://raw.githubusercontent.com/jackgraddon/jackgraddon/main/Resume.pdf"
+                  title="Download my Resume" rel="noreferrer noopener" target="_blank">Download Resume</a>
+            <a class="btn" href="https://linkedin.com/in/jackgraddon" title="View my LinkedIn" rel="noreferrer noopener" target="_blank"><LinkedInIcon /></a>
+            <a class="btn" href="https://instagram.com/jack.graddon" title="View my Instagram" rel="noreferrer noopener" target="_blank"><InstagramIcon /></a>
           </div>
         </div>
       </section>
@@ -61,15 +38,15 @@
         <p>From high school design and coding classes to advanced university courses, I've built a solid foundation in:</p>
         <div :class="$style.skills">
           <div>
-            <h3><IconSourceCode /> Web Development</h3>
+            <h3><SourceCodeIcon /> Web Development</h3>
             <p>Skilled in HTML, CSS, and JavaScript, I create clean, responsive, and user-friendly websites tailored to client needs. My focus is on modern design principles, accessibility, and functionality, ensuring that each project not only looks great but performs flawlessly across devices and browsers.</p>
           </div>
           <div>
-            <h3><IconPaintBrush /> Design Software</h3>
+            <h3><PaintBrushIcon /> Design Software</h3>
             <p>Proficient in Adobe Creative Suite, my preferred Affinity Suite, and Figma, I bring ideas to life with exceptional graphic design, prototyping, and branding capabilities. From crafting pixel-perfect user interfaces to creating stunning visual content, I specialize in delivering designs that captivate and inspire.</p>
           </div>
           <div>
-            <h3><IconVideo /> Media Production</h3>
+            <h3><VideoIcon /> Media Production</h3>
             <p>Experienced in video editing and production using Final Cut Pro, DaVinci Resolve, and Motion, as well as audio production with Logic Pro. I produce engaging and professional-quality media content, ensuring every detail enhances the overall storytelling experience.</p>
           </div>
         </div>
@@ -87,14 +64,50 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * Name: About Page
+ * Description: Displays info about myself, my history, and my goals for the future.
+ * Author: Jack Graddon
+ */
+
 useHead({
   title: 'About | Jack Graddon',
   meta: [
     { name: 'description', content: 'Crafting user-friendly web experiences with a creative edge.' }
   ]
-});
+})
 </script>
 
-<style module lang="sass">
-// Import from about.module.sass
+<style module>
+.container { text-align: justify; }
+
+.flex { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+
+.row { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-direction: row; }
+.col { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-direction: column; }
+
+.cover { display: grid; grid-template: 1fr / 1fr 2fr; }
+
+@media (max-width: 768px) { .cover { display: flex; flex-direction: column-reverse; } }
+
+.portrait { width: 100%; height: 100%; overflow: hidden; }
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+
+.skills { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
+
+@media (max-width: 768px) { .skills { flex-direction: column; } }
+
+.skills > div {
+  background-color: #f9f9f9;
+  padding: 1rem 2rem;
+  border-radius: 7pt;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+  color: black;
+  text-align: left;
+  flex: 0 1 calc(50% - 0.5rem);
+}
+
+.skills > div:nth-child(3n) { flex: 0 1 100%; }
+
+.skills h3 { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 5px; }
 </style>

@@ -1,11 +1,12 @@
 <template>
   <div>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <Background />
+    <NuxtPage />
+    <Footer />
   </div>
 </template>
 
 <script setup lang="ts">
-// Global app setup
+import Background from '~/components/Background.vue'
+import Footer from '~/components/SiteFooter.vue'
 </script>
