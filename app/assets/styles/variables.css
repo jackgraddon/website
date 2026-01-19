@@ -1,0 +1,24 @@
+:root {
+    /* Core palette */
+    --color-primary: #175e84;
+    --color-secondary: #73956f;
+
+    /* Daytime palette */
+    --color-morning: #c44d25;
+    --color-afternoon: #aecfdb;
+    --color-evening: #b8d6e4;
+    --color-night: #33004f;
+
+    /* Semantic palette */
+    --color-bg: #061923;
+    --color-surface: #0d374e;
+    --color-text: #fffafa;
+    --color-text-muted: #fff4f4;
+
+    /* Breakpoints */
+    --breakpoint-xs: 480px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+}

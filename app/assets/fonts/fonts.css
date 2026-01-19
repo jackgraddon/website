@@ -1,0 +1,8 @@
+/* Lasso Font */
+@font-face {
+    font-family: 'Sunflower';
+    src: url('./sunflower/made-sunflower.woff2') format('woff2'),
+        url('./sunflower/made-sunflower.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
