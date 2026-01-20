@@ -8,7 +8,7 @@
     </main>
 </template>
 
-<style scoped>
+<style>
 .paged-content {
     max-width: var(--breakpoint-sm);
     margin: 0 auto;
@@ -16,13 +16,14 @@
 
     display: grid;
     gap: 4rem;
-
-    section {
-        height: 100vh;
-        scroll-margin-top: 20vh;
+    
+    > section {
+        min-height: 100vh;
 
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: start;
     }
 }
 </style>
