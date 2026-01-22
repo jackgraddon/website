@@ -13,6 +13,22 @@ body {
     line-height: 1.6;
 }
 
+.fit-short {
+    max-width: var(--breakpoint-sm);
+    margin: 0 auto;
+}
+
+.fit-wide {
+    max-width: var(--breakpoint-md);
+    margin: 0 auto;
+}
+
+main {
+    max-width: var(--breakpoint-lg);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
 /* Typography */
 h1,
 h2,
