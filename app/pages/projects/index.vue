@@ -1,14 +1,13 @@
 <script setup lang="ts">
-useHead({
+definePageMeta({
   title: 'Projects',
-  meta: [
-    { name: 'description', content: 'Projects by Jack Graddon' }
-  ],
+  description: 'A selection of my work.',
+  icon: 'solar:folder-broken',
+  keywords: 'projects, portfolio, work, design, development'
 })
 </script>
 
 <template>
-    <Hero title="Projects" subtitle="A selection of my work." iconName="solar:folder-broken" />
     <section>
         <h1>Some cool ones...</h1>
         <Stack direction="horizontal" gap="2rem" justify="between" class="fit-wide">

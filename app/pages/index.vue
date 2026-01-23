@@ -1,14 +1,12 @@
 <script setup lang="ts">
-useHead({
+definePageMeta({
   title: 'Home',
-  meta: [
-    { name: 'description', content: 'Jack Graddon - Freelance Design Engineer, Web Developer, and Graphic Designer' }
-  ],
+  description: 'Design Engineer, Web Developer, and Graphic Designer',
+  keywords: 'home, jack graddon, design engineer, web developer, graphic designer'
 })
 </script>
 
 <template>
-  <Hero variant="landing" iconName="solar:hand-shake-line-duotone" title="Jack Graddon"/>
   <PagedContent class="fit-short">
     <section id="intro">
       <h1>Hello!</h1>
@@ -19,7 +17,6 @@ useHead({
       <p>Feel free to explore my portfolio and see some of the projects I've worked on. I'm passionate about creating beautiful and functional designs that meet the needs of my clients.</p>
     </section>
   </PagedContent>
-  <Footer />
 </template>
 
 <style scoped>
