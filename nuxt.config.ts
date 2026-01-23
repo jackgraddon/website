@@ -18,5 +18,14 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     'nuxt-studio'
-  ]
+  ],
+
+  studio: {
+    repository: {
+      provider: 'github',
+      owner: 'jackgraddon',
+      repo: 'website',
+      branch: 'main'
+    }
+  }
 })
