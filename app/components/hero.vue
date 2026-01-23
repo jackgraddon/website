@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue"
-import { motion, useScroll, useTransform, useMotionTemplate } from "motion-v"
+import { ref, watch } from "vue"
+import { motion, useScroll, useTransform, useMotionTemplate, useInView } from "motion-v"
 import cloudImg from "~/assets/img/splash-cloud.webp"
     
 // Define props for the component
@@ -30,21 +30,76 @@ const blur = useTransform(scrollYProgress, [0, 1], [0, 10])
 const blurFilter = useMotionTemplate`blur(${blur}px)`
 const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9])
 const scaleTransform = useMotionTemplate`scale(${scale})`
+
+// Landing specific logic
+
+// Get the current time to use for dynamic greeting
+let now = new Date().getHours();
+
+// Define greeting based on time of day
+const greeting = computed(() => {
+    if (now >= 6 && now < 12) {
+        // Morning
+        return 'Good Morning!';
+    } else if (now >= 12 && now < 18) {
+        // Afternoon
+        return 'Good Afternoon!';
+    } else if (now >= 18 && now < 21) {
+        // Evening
+        return 'Good Evening!';
+    } else {
+        // Night
+        return 'Good Night!';
+    }
+});
+
+// Define subtitle based on time of day
+const subtitle = computed(() => {
+    if (now >= 6 && now < 12) {
+        return "It's going to be a great day.";
+    } else if (now >= 12 && now < 18) {
+        return "Let's finish strong!";
+    } else if (now >= 18 && now < 21) {
+        return "Hope you had a wonderful day.";
+    } else {
+        return "Get some rest for tomorrow.";
+    }
+});
+
+// Reactive titles for landing variant
+const landingTitle = ref<string>(greeting.value);
+const landingSubtitle = ref<string>(subtitle.value);
+
+// Change title when heroContent is out of view
+const inView = useInView(heroContent, { amount: 0 }) 
+
+watch(inView, (visible) => {
+    if (!visible) {
+        changeLandingHeroTitle()
+    }
+})
+
+function changeLandingHeroTitle() {
+    landingTitle.value = "Jack Graddon";
+    landingSubtitle.value = "Design Engineer";
+}
+
 </script>
+
 
 <template>
     <section class="hero" ref="hero">
         <motion.div class="hero-content" ref="heroContent" :style="{ opacity, filter: blurFilter, transform: scaleTransform }">
             <div v-if="props.variant === 'landing'">
-                <motion.div v-if="props.iconName"
+                <motion.div
                     :initial="{ rotate: 0 }"
                     :animate="{ rotate: [0, 12, -8, 12, 0], transition: { duration: 1.8, repeat: Infinity, ease: 'easeInOut' } }"
                     style="transform-origin: bottom center;"
                 >
-                    <Icon class="hero-icon" :name="props.iconName"/>
+                    <Icon class="hero-icon" name="solar:hand-shake-line-duotone"/>
                 </motion.div>
-                <h1 class="hero-title">{{ props.title || 'Add Title' }}</h1>
-                <p class="hero-subtitle">{{ props.subtitle }}</p>
+                <h1 class="hero-title">{{ landingTitle }}</h1>
+                <p class="hero-subtitle">{{ landingSubtitle }}</p>
             </div>
             <div v-else>
                 <motion.div class="hero-content" ref="heroContent">
