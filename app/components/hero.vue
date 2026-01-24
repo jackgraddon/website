@@ -150,10 +150,13 @@ function changeLandingHeroTitle() {
 }
 
 .hero-cloud {
+    min-width: 1560px;
     width: 100%;
     height: auto;
     opacity: 1;
     position: absolute;
     bottom: -30%;
+    z-index: 2;
+    pointer-events: none;
 }
 </style>
