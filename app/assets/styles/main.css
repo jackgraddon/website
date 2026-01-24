@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
 /* Body Styles */
 body {
     font-family: 'Outfit', sans-serif;
@@ -21,6 +26,11 @@ body {
 .fit-wide {
     max-width: var(--breakpoint-md);
     margin: 0 auto;
+}
+
+.fit-fill {
+    width: 100vw;
+    margin: 0;
 }
 
 main {
