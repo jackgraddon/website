@@ -10,18 +10,10 @@ definePageMeta({
 <template>
     <section>
         <h1>Some cool ones...</h1>
-        <Stack direction="horizontal" gap="2rem" justify="between" class="fit-wide">
-            <Card image="no-image.svg">
-                <template #footer>
-                    <Button to="#">Learn More</Button>
-                </template>
-            </Card>
-            <Card>
-                
-            </Card>
-            <Card>
-
-            </Card>
+        <Stack direction="horizontal" gap="1rem" justify="between">
+            <Card image="no-image.svg"></Card>
+            <Card project-id="221001"></Card>
+            <Card></Card>
         </Stack>
     </section>
 </template>
