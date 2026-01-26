@@ -31,13 +31,55 @@ const routeMeta = computed(() => ({
   icon: route.meta.icon as string || ''
 }));
 
+// Fetch content metadata for content routes
+const { data: contentPage } = await useAsyncData(
+  () => `content-${route.path}`,
+  async () => {
+    if (route.path.startsWith('/projects/') && route.path !== '/projects' && route.path !== '/projects/') {
+      try {
+        return await queryCollection('content').path(route.path).first()
+      } catch (e) {
+        return null
+      }
+    }
+    return null
+  },
+  { watch: [() => route.path] }
+)
+
+// Compute effective metadata (from route meta or content)
+const effectiveMeta = computed(() => {
+  if (contentPage.value) {
+    const page = contentPage.value as any
+    return {
+      title: page.title || 'Project',
+      description: page.description || '',
+      icon: page.meta?.icon || ''
+    }
+  }
+  return routeMeta.value
+})
+
 // Get route meta to adjust app meta
 watch(() => route.path, () => {
-  if (routeMeta.value.title || routeMeta.value.description) {
+  const meta = effectiveMeta.value
+  if (meta.title || meta.description) {
     useHead({
-      title: (route.meta.title as string == 'Home') ? 'Jack Graddon' : `${route.meta.title as string} | Jack Graddon`,
+      title: (meta.title == 'Home') ? 'Jack Graddon' : `${meta.title} | Jack Graddon`,
       meta: [
-        { name: 'description', content: routeMeta.value.description }
+        { name: 'description', content: meta.description }
+      ]
+    });
+  }
+}, { immediate: true });
+
+watch(() => contentPage.value, () => {
+  const meta = effectiveMeta.value
+  if (meta.title || meta.description) {
+    useHead({
+      title: (meta.title == 'Home') ? 'Jack Graddon' : `${meta.title} | Jack Graddon`,
+      meta: [
+        { name: 'description', content: meta.description }
       ]
     });
   }
@@ -45,14 +87,14 @@ watch(() => route.path, () => {
 
 // If landing page, make sure Hero is variant landing
 let heroVariant = computed(() => {
-  return (route.meta.title as string == 'Home') ? 'landing' : 'default';
+  return (effectiveMeta.value.title == 'Home') ? 'landing' : 'default';
 });
 </script>
 
 <template>
   <Background />
   <NuxtRouteAnnouncer />
-  <Hero :title="routeMeta.title" :subtitle="routeMeta.description" :iconName="routeMeta.icon" :variant="heroVariant" />
+  <Hero :title="effectiveMeta.title" :subtitle="effectiveMeta.description" :iconName="effectiveMeta.icon" :variant="heroVariant" />
   <main>
     <NuxtPage />
   </main>
