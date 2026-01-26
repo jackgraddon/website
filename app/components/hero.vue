@@ -134,17 +134,17 @@ function changeLandingHeroTitle() {
 }
 
 .hero-icon {
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 .hero-title {
-    font-size: 4rem;
+    font-size: 3rem;
     line-height: 1;
     color: var(--color-text);
 }
 
 .hero-subtitle {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     line-height: 1;
     color: var(--color-text-muted);
 }
