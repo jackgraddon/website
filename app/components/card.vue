@@ -4,13 +4,14 @@ import { ref } from 'vue';
 const props = defineProps<{
     image?: string,
     projectId?: string,
+    variant?: 'default' | 'glass',
 }>();
 
 // Fetch project data using nuxt content if projectId is provided
 const projectData = ref<any>(null);
 if (props.projectId) {
     const { data } = await useAsyncData(`project-data-${props.projectId}`, () => {
-        return queryCollection('content').path(`/projects/${props.projectId}`).first();
+        return queryCollection('projects').path(`/projects/${props.projectId}`).first();
     });
     projectData.value = data.value;
 }
@@ -27,8 +28,6 @@ const projectImage = props.projectId ? `${imageUrl.base}${props.projectId}${imag
 const buttonLink = props.projectId ? `/projects/${props.projectId}` : undefined;
 const buttonColor = props.projectId ? (projectData.value as any)?.meta?.buttonColor : 'primary';
 
-console.log(buttonColor);
-
 </script>
 
 <template>
@@ -42,7 +41,7 @@ console.log(buttonColor);
             <slot />
         </div>
         <div class="card-footer">
-            <Button v-if="buttonLink" :to="buttonLink" :color="buttonColor">Learn More</Button>
+            <Button v-if="buttonLink" :to="buttonLink" variant="glass" :color="buttonColor">Learn More</Button>
             <slot v-else name="footer" />
         </div>
     </div>

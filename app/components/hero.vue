@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, watch } from "vue"
-import { motion, useScroll, useTransform, useMotionTemplate, useInView } from "motion-v"
+import { ref, watch, computed } from "vue"
+import { motion, useScroll, useTransform, useMotionTemplate, useInView, AnimatePresence } from "motion-v"
 import cloudImg from "~/assets/img/splash-cloud.webp"
     
 // Define props for the component
@@ -92,28 +92,99 @@ function changeLandingHeroTitle() {
         <motion.div class="hero-content" ref="heroContent" :style="{ opacity, filter: blurFilter, transform: scaleTransform }">
             <div v-if="props.variant === 'landing'">
                 <motion.div
-                    :initial="{ rotate: 0 }"
-                    :animate="{ rotate: [0, 12, -8, 12, 0], transition: { duration: 1.8, repeat: Infinity, ease: 'easeInOut' } }"
+                    :key="props.iconName"
+                    :initial="{ rotate: 0, opacity: 0 }"
+                    :animate="{ rotate: [0, 12, -8, 12, 0], opacity: 1, transition: { duration: 1.8, repeat: Infinity, ease: 'easeInOut', opacity: { duration: 0.5, delay: 0.5, ease: 'easeOut', repeat: 0 } } }"
+                    :exit="{ opacity: 0 }"
                     style="transform-origin: bottom center;"
                 >
                     <Icon class="hero-icon" name="solar:hand-shake-line-duotone"/>
                 </motion.div>
-                <h1 class="hero-title">{{ landingTitle }}</h1>
-                <p class="hero-subtitle">{{ landingSubtitle }}</p>
+                <h1 class="hero-title">
+                    <AnimatePresence mode="popLayout">
+                        <motion.span
+                            v-for="(char, index) in landingTitle.split('')"
+                            :key="`${char}-${index}`"
+                            :initial="{ opacity: 0, filter: 'blur(10px)' }"
+                            :animate="{ opacity: 1, filter: 'blur(0px)', transition: { delay: 0.5 + (index * 0.05) } }"
+                            :exit="{ opacity: 0 }"
+                            style="display: inline-block; white-space: pre;"
+                        >
+                            {{ char }}
+                        </motion.span>
+                    </AnimatePresence>
+                </h1>
+                <div style="position: relative; min-height: 1.5em; width: 100%;">
+                    <AnimatePresence mode="popLayout">
+                        <motion.p
+                            class="hero-subtitle"
+                            :key="landingSubtitle"
+                            :initial="{ opacity: 0, filter: 'blur(10px)', y: 20 }"
+                            :animate="{ opacity: 1, filter: 'blur(0px)', y: 0, transition: { duration: 0.8, delay: 1 } }"
+                            :exit="{ opacity: 0 }"
+                            style="position: absolute; width: 100%; top: 0;"
+                        >
+                            {{ landingSubtitle }}
+                        </motion.p>
+                    </AnimatePresence>
+                </div>
             </div>
             <div v-else>
-                <motion.div class="hero-content" ref="heroContent">
-                    <Icon v-if="props.iconName" class="hero-icon" :name="props.iconName"/>
-                    <h1 class="hero-title">{{ props.title || 'Add Title' }}</h1>
-                    <p class="hero-subtitle">{{ props.subtitle }}</p>
-                </motion.div>
+                <div class="hero-content" ref="heroContent">
+                    <motion.div
+                        :key="props.iconName"
+                        :initial="{ opacity: 0 }"
+                        :animate="{ opacity: 1 }"
+                        :transition="{ duration: 0.5, delay: 0.8 }"
+                        :exit="{ opacity: 0 }"
+                    >
+                        <Icon v-if="props.iconName" class="hero-icon" :name="props.iconName"/>
+                    </motion.div>
+                    <h1 class="hero-title">
+                        <AnimatePresence mode="popLayout">
+                            <motion.span
+                                v-for="(char, index) in (props.title || 'Add Title').split('')"
+                                :key="`${char}-${index}`"
+                                :initial="{ opacity: 0, filter: 'blur(10px)' }"
+                                :animate="{ opacity: 1, filter: 'blur(0px)', transition: { delay: 0.5 + (index * 0.05) } }"
+                                :exit="{ opacity: 0 }"
+                                style="display: inline-block; white-space: pre;"
+                            >
+                                {{ char }}
+                            </motion.span>
+                        </AnimatePresence>
+                    </h1>
+                    <div style="position: relative; min-height: 1.5em; width: 100%;">
+                        <AnimatePresence mode="popLayout">
+                            <motion.p
+                                class="hero-subtitle"
+                                :key="props.subtitle"
+                                :initial="{ opacity: 0, filter: 'blur(10px)', y: 20 }"
+                                :animate="{ opacity: 1, filter: 'blur(0px)', y: 0, transition: { duration: 0.8, delay: 1 } }"
+                                :exit="{ opacity: 0 }"
+                                style="position: absolute; width: 100%; top: 0;"
+                            >
+                                {{ props.subtitle }}
+                            </motion.p>
+                        </AnimatePresence>
+                    </div>
+                </div>
             </div>
         </motion.div>
-        <motion.img
-            class="hero-cloud"
-            :src="cloudImg"
-            :style="{ y }"
-        />
+        
+        <motion.div
+            class="hero-cloud-wrapper"
+            :initial="{ y: 100, opacity: 0, filter: 'blur(20px)' }"
+            :animate="{ y: 0, opacity: 1, filter: 'blur(0px)' }"
+            :transition="{ duration: 1.2, ease: 'easeOut' }"
+        >
+            <motion.img
+                class="hero-cloud-img"
+                alt="Decorative image of a fluffy cloud"
+                :src="cloudImg"
+                :style="{ y }"
+            />
+        </motion.div>
     </section>
 </template>
 
@@ -131,6 +202,7 @@ function changeLandingHeroTitle() {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    width: 100vw;
 }
 
 .hero-icon {
@@ -149,14 +221,20 @@ function changeLandingHeroTitle() {
     color: var(--color-text-muted);
 }
 
-.hero-cloud {
+.hero-cloud-wrapper {
     min-width: 1560px;
     width: 100%;
     height: auto;
-    opacity: 1;
     position: absolute;
     bottom: -30%;
     z-index: 2;
     pointer-events: none;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-cloud-img {
+    width: 100%;
+    height: auto;
 }
 </style>

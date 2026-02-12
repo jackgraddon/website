@@ -13,6 +13,7 @@
             <div class="footer-links">
                 <NuxtLink to="/">Home</NuxtLink>
                 <NuxtLink to="/projects">Projects</NuxtLink>
+                <NuxtLink to="/contact">Contact</NuxtLink>
             </div>
         </div>
     </footer>

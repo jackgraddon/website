@@ -37,7 +37,7 @@ const { data: contentPage } = await useAsyncData(
   async () => {
     if (route.path.startsWith('/projects/') && route.path !== '/projects' && route.path !== '/projects/') {
       try {
-        return await queryCollection('content').path(route.path).first()
+        return await queryCollection('projects').path(route.path).first()
       } catch (e) {
         return null
       }
@@ -54,41 +54,32 @@ const effectiveMeta = computed(() => {
     return {
       title: page.title || 'Project',
       description: page.description || '',
-      icon: page.meta?.icon || ''
+      icon: page.icon || page.meta?.icon || ''
     }
   }
   return routeMeta.value
 })
 
-// Get route meta to adjust app meta
-watch(() => route.path, () => {
-  const meta = effectiveMeta.value
-  if (meta.title || meta.description) {
-    useHead({
-      title: (meta.title == 'Home') ? 'Jack Graddon' : `${meta.title} | Jack Graddon`,
-      meta: [
-        { name: 'description', content: meta.description }
-      ]
-    });
-  }
-}, { immediate: true });
-
-watch(() => contentPage.value, () => {
-  const meta = effectiveMeta.value
-  if (meta.title || meta.description) {
-    useHead({
-      title: (meta.title == 'Home') ? 'Jack Graddon' : `${meta.title} | Jack Graddon`,
-      meta: [
-        { name: 'description', content: meta.description }
-      ]
-    });
-  }
-}, { immediate: true });
+// Reactive head management
+useHead({
+  title: computed(() => {
+    const meta = effectiveMeta.value
+    // If title is missing, Home, or Jack Graddon, show just Jack Graddon
+    if (!meta.title || meta.title === 'Home' || meta.title === 'Jack Graddon') {
+      return 'Jack Graddon'
+    }
+    return `${meta.title} | Jack Graddon`
+  }),
+  meta: [
+    { name: 'description', content: computed(() => effectiveMeta.value.description) }
+  ]
+})
 
 // If landing page, make sure Hero is variant landing
 let heroVariant = computed(() => {
-  return (effectiveMeta.value.title == 'Home') ? 'landing' : 'default';
+  return (effectiveMeta.value.title == 'Jack Graddon') ? 'landing' : 'default';
 });
+
 </script>
 
 <template>
@@ -96,7 +87,7 @@ let heroVariant = computed(() => {
   <NuxtRouteAnnouncer />
   <Hero :title="effectiveMeta.title" :subtitle="effectiveMeta.description" :iconName="effectiveMeta.icon" :variant="heroVariant" />
   <main>
-    <NuxtPage />
+    <NuxtPage :key="$route.path" />
   </main>
   <Footer />
 </template>

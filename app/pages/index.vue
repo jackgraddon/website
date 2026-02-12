@@ -15,6 +15,7 @@ definePageMeta({
     <section id="work">
       <h2>My Work</h2>
       <p>Feel free to explore my portfolio and see some of the projects I've worked on. I'm passionate about creating beautiful and functional designs that meet the needs of my clients.</p>
+      <Button color="#ffffff" to="/projects" variant="glass">View Projects</Button>
     </section>
   </PagedContent>
 </template>

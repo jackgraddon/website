@@ -17,6 +17,11 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text);
     line-height: 1.6;
+
+    & *::selection {
+        background-color: var(--color-primary);
+        color: var(--color-text);
+    }
 }
 
 .fit-short {
@@ -54,25 +59,15 @@ a {
 
     &:hover {
         text-decoration: underline;
-        animation: per-character-color-change 0.5s ease-in-out;
-    }
-
-}
-
-@keyframes per-character-color-change {
-    0% {
-        color: var(--color-primary);
-    }
-
-    50% {
-        color: var(--color-secondary);
-    }
-
-    100% {
-        color: var(--color-text);
-
     }
 }
+
+input,
+textarea {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+}
+
 
 h1,
 h2,
