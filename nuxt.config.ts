@@ -24,7 +24,8 @@ export default defineNuxtConfig({
     '@nuxt/hints',
     '@nuxt/icon',
     '@nuxt/image',
-    'nuxt-studio'
+    'nuxt-studio',
+    './modules/liquid-glass/module.ts'
   ],
 
   studio: {
