@@ -9,6 +9,13 @@ export default defineNuxtConfig({
     '@/assets/fonts/fonts.css',
   ],
 
+  vite: {
+    server: {
+      allowedHosts: ['localhost', 'localho.st'],
+    },
+
+  },
+
   modules: [
     '@nuxt/a11y',
     '@nuxt/content',
