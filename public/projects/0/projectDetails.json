@@ -1,0 +1,9 @@
+{
+  "id": "0",
+  "name": "Profile Repository",
+  "description": "My GitHub profile repository.",
+  "url": "jackgraddon/main/README.md",
+  "backgroundColor": "rgb(174, 207, 219)",
+  "buttonColor": "rgb(23, 94, 132)",
+  "status": "Active"
+}
