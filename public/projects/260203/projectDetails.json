@@ -1,0 +1,9 @@
+{
+  "id": "260203",
+  "name": "Tumult",
+  "description": "A Matrix client inspired by Discord",
+  "url": "tumult/main/README.md",
+  "backgroundColor": "oklch(0.15 0 0)",
+  "buttonColor": "oklch(0.395 0.081 206.6)",
+  "status": "in-progress"
+}

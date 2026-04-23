@@ -10,7 +10,6 @@ const backgroundStyle = computed(() => {
            '#13001d';
 });
 
-
 useHead({
   htmlAttrs: {
     lang: 'en',
@@ -79,7 +78,6 @@ useHead({
 let heroVariant = computed(() => {
   return (effectiveMeta.value.title == 'Jack Graddon') ? 'landing' : 'default';
 });
-
 </script>
 
 <template>

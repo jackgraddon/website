@@ -101,17 +101,22 @@ function changeLandingHeroTitle() {
                     <Icon class="hero-icon" name="solar:hand-shake-line-duotone"/>
                 </motion.div>
                 <h1 class="hero-title">
-                    <AnimatePresence mode="popLayout">
-                        <motion.span
-                            v-for="(char, index) in landingTitle.split('')"
-                            :key="`${char}-${index}`"
-                            :initial="{ opacity: 0, filter: 'blur(10px)' }"
-                            :animate="{ opacity: 1, filter: 'blur(0px)', transition: { delay: 0.5 + (index * 0.05) } }"
-                            :exit="{ opacity: 0 }"
-                            style="display: inline-block; white-space: pre;"
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            :key="landingTitle"
+                            :initial="{ opacity: 1 }"
+                            :exit="{ opacity: 0, transition: { duration: 0.2 } }" 
                         >
-                            {{ char }}
-                        </motion.span>
+                            <motion.span
+                                v-for="(char, index) in landingTitle.split('')"
+                                :key="index"
+                                :initial="{ opacity: 0, filter: 'blur(10px)' }"
+                                :animate="{ opacity: 1, filter: 'blur(0px)', transition: { delay: 0.5 + (index * 0.05) } }"
+                                style="display: inline-block; white-space: pre;"
+                            >
+                                {{ char }}
+                            </motion.span>
+                        </motion.div>
                     </AnimatePresence>
                 </h1>
                 <div style="position: relative; min-height: 1.5em; width: 100%;">
@@ -141,17 +146,22 @@ function changeLandingHeroTitle() {
                         <Icon v-if="props.iconName" class="hero-icon" :name="props.iconName"/>
                     </motion.div>
                     <h1 class="hero-title">
-                        <AnimatePresence mode="popLayout">
-                            <motion.span
-                                v-for="(char, index) in (props.title || 'Add Title').split('')"
-                                :key="`${char}-${index}`"
-                                :initial="{ opacity: 0, filter: 'blur(10px)' }"
-                                :animate="{ opacity: 1, filter: 'blur(0px)', transition: { delay: 0.5 + (index * 0.05) } }"
-                                :exit="{ opacity: 0 }"
-                                style="display: inline-block; white-space: pre;"
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                :key="props.title || 'Add Title'"
+                                :initial="{ opacity: 1 }"
+                                :exit="{ opacity: 0, transition: { duration: 0.2 } }" 
                             >
-                                {{ char }}
-                            </motion.span>
+                                <motion.span
+                                    v-for="(char, index) in (props.title || 'Add Title').split('')"
+                                    :key="index"
+                                    :initial="{ opacity: 0, filter: 'blur(10px)' }"
+                                    :animate="{ opacity: 1, filter: 'blur(0px)', transition: { delay: 0.5 + (index * 0.05) } }"
+                                    style="display: inline-block; white-space: pre;"
+                                >
+                                    {{ char }}
+                                </motion.span>
+                            </motion.div>
                         </AnimatePresence>
                     </h1>
                     <div style="position: relative; min-height: 1.5em; width: 100%;">

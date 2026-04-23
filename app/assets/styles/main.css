@@ -49,7 +49,8 @@ main {
 /* Typography */
 p,
 a,
-li {
+li,
+label {
     color: var(--color-text);
     line-height: 1.3;
 }

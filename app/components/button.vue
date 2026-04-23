@@ -3,12 +3,44 @@ let props = defineProps<{
     variant?: 'default' | 'glass' | 'outline' | 'ghost',
     to: string,
     color?: 'primary' | 'accent' | string, 
+    simple?: boolean,
 }>();
 
 // Default to primary color
 let buttonColor = 'var(--color-primary)';
 let backgroundColor = 'rgba(255, 255, 255, 0.3)';
 let textColor = 'var(--color-primary)';
+let glassBaseColor = 'white';
+
+function getLuminance(r: number, g: number, b: number) {
+    const a = [r, g, b].map(function (v) {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+
+function parseColor(color: string) {
+    if (!color) return null;
+    color = color.trim().toLowerCase();
+    if (color.startsWith('rgb')) {
+        const match = color.match(/\d+/g);
+        if (match && match.length >= 3) {
+            return { r: parseInt(match[0], 10), g: parseInt(match[1], 10), b: parseInt(match[2], 10) };
+        }
+    } else if (color.startsWith('#')) {
+        let hex = color.slice(1);
+        if (hex.length === 3) hex = hex.split('').map(x => x + x).join('');
+        if (hex.length >= 6) {
+            return {
+                r: parseInt(hex.substring(0, 2), 16),
+                g: parseInt(hex.substring(2, 4), 16),
+                b: parseInt(hex.substring(4, 6), 16)
+            };
+        }
+    }
+    return null;
+}
 
 // Only override if a valid color is provided
 if (props.color && props.color.trim()) {
@@ -16,6 +48,16 @@ if (props.color && props.color.trim()) {
         backgroundColor = `rgba(0, 0, 0, 0.1)`;
         buttonColor = props.color;
         textColor = props.color; // Fix: directly use the color if it's hex/rgb
+        
+        const parsed = !props.simple ? parseColor(props.color) : null;
+        if (parsed) {
+            const lum = getLuminance(parsed.r, parsed.g, parsed.b);
+            const contrastWhite = 1.05 / (lum + 0.05);
+            if (contrastWhite < 3.0) {
+                glassBaseColor = `color-mix(in srgb, ${props.color} 20%, black)`;
+                textColor = `color-mix(in srgb, ${props.color} 15%, white)`;
+            }
+        }
     } else if (props.color === 'primary' || props.color === 'accent') {
         buttonColor = `var(--color-${props.color})`;
         textColor = `var(--color-${props.color})`;
@@ -29,6 +71,7 @@ if (props.color && props.color.trim()) {
         '--button-color': buttonColor,
         '--background-color': backgroundColor,
         '--text-color': textColor,
+        '--glass-base-color': glassBaseColor,
     }">
         <slot />
     </NuxtLink>
@@ -36,6 +79,7 @@ if (props.color && props.color.trim()) {
         '--button-color': buttonColor,
         '--background-color': backgroundColor,
         '--text-color': textColor,
+        '--glass-base-color': glassBaseColor,
     }">
         <NuxtLink :to="props.to" class="button-glass">
             <span>
@@ -48,29 +92,50 @@ if (props.color && props.color.trim()) {
 
 <style scoped>
 
-/* Default Button */
+/* Default Button — subtle frosted pill */
 .button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     margin-top: 0.4rem;
     padding: 0.4rem 1.2rem 0.5rem 1.2rem;
     cursor: pointer;
-    
-    background-color: var(--background-color);
-    backdrop-filter: blur(3px) saturate(2) brightness(0.8);
-    color: var(--text-color);
 
-    border: 2px solid var(--button-color);
-    border-radius: 5rem;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    color: var(--color-text);
 
-    font-weight: 700;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 1em;
     text-align: center;
     text-decoration: none;
 
-    transition: 150ms ease;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 2px 6px rgba(0, 0, 0, 0.1);
+
+    transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 150ms ease;
 
     &:hover {
-        background-color: var(--button-color) !important;
-        color: var(--color-text) !important;
+        background: rgba(255, 255, 255, 0.14);
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.2),
+            0 4px 10px rgba(0, 0, 0, 0.14);
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: scale(0.98);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow:
+            inset 0 1px 3px rgba(0, 0, 0, 0.1),
+            0 1px 3px rgba(0, 0, 0, 0.08);
     }
 }
 
@@ -141,26 +206,27 @@ if (props.color && props.color.trim()) {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     pointer-events: auto;
     z-index: 3;
-    background: linear-gradient(
+    background-image: linear-gradient(
         -75deg,
-        color-mix(in srgb, var(--button-color) 5%, transparent),
-        color-mix(in srgb, var(--button-color) 20%, transparent),
-        color-mix(in srgb, var(--button-color) 5%, transparent)
+        color-mix(in srgb, var(--button-color) 10%, transparent),
+        color-mix(in srgb, var(--button-color) 30%, transparent),
+        color-mix(in srgb, var(--button-color) 10%, transparent)
     );
+    background-color: color-mix(in srgb, var(--glass-base-color) 60%, transparent);
     border-radius: 999vw;
     box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.05),
         inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
         0 0.25em 0.125em -0.125em rgba(0, 0, 0, 0.2),
         0 0 0.1em 0.25em inset rgba(255, 255, 255, 0.2),
         0 0 0 0 rgba(255, 255, 255, 1);
-    backdrop-filter: blur(clamp(1px, 0.125em, 4px));
+    backdrop-filter: blur(clamp(4px, 0.5em, 8px));
     transition: all var(--anim--hover-time) var(--anim--hover-ease);
     text-decoration: none;
 }
 
 .button-glass:hover {
     transform: scale(0.975);
-    backdrop-filter: blur(0.01em);
+    backdrop-filter: blur(clamp(2px, 0.25em, 4px));
     box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.05),
         inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
         0 0.15em 0.05em -0.1em rgba(0, 0, 0, 0.25),

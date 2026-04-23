@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
+  future: {
+    compatibilityVersion: 4,
+  },
   devtools: { enabled: true },
 
   css: [
@@ -11,7 +14,10 @@ export default defineNuxtConfig({
 
   vite: {
     server: {
-      allowedHosts: ['localhost', 'localho.st'],
+      allowedHosts: true,
+      hmr: {
+        protocol: 'ws',
+      },
     },
 
   },
