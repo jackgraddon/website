@@ -1,81 +1,126 @@
 <script setup lang="ts">
-// Each section will snap to the viewport when scrolling
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { motion, useScroll, useTransform, useSpring } from 'motion-v'
 
-const container = ref<HTMLElement | null>(null)
-const currentSection = ref(0)
-const isScrolling = ref(false)
-const scrollAccumulator = ref(0)
-const scrollThreshold = 100 // Adjust sensitivity
+const targetRef = ref<HTMLElement | null>(null)
+const wrapperRef = ref<any>(null)
+const sectionCount = ref(0)
 
-// Track scroll progress
+onMounted(async () => {
+  await nextTick()
+  const el = wrapperRef.value?.$el || wrapperRef.value
+  if (el && el.children) {
+    sectionCount.value = el.children.length
+  }
+})
+
 const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ["start start", "end end"]
+  target: targetRef,
+  offset: ["start start", "end end"]
 })
 
-// Create staggered slow scroll transforms for each child
-const sectionTransforms = ref<any[]>([])
-
-function createSectionTransforms() {
-    if (!container.value) return
-    
-    const sections = Array.from(container.value.children) as HTMLElement[]
-    const totalSections = sections.length
-    
-    sectionTransforms.value = sections.map((_, index) => {
-        // Stagger each section's entrance/exit timing
-        const sectionStart = (index / totalSections)
-        const sectionEnd = ((index + 1) / totalSections)
-        const sectionMid = sectionStart + (sectionEnd - sectionStart) * 0.5
-        
-        return useSpring(
-            useTransform(scrollYProgress, 
-                [
-                    sectionStart - 0.1,  // Before section: off screen below
-                    sectionStart,         // Quick enter
-                    sectionMid - 0.05,    // Slow hang (early)
-                    sectionMid + 0.05,    // Slow hang (late)
-                    sectionEnd,           // Quick exit
-                    sectionEnd + 0.1      // After section: off screen above
-                ],
-                [
-                    0,                    // Start off screen
-                    -100,                 // Entered screen
-                    -120,                 // Slow moving
-                    -130,                 // Slow moving
-                    -250,                 // Quick exit
-                    -350                  // Off screen above
-                ]
-            ),
-            { stiffness: 100, damping: 20 }
-        )
-    })
-}
-
-onMounted(() => {
-    createSectionTransforms()
+// We use a slightly higher stiffness here to ensure the "speed" 
+// matches the user's scroll intent more closely at the handoff.
+const smoothProgress = useSpring(scrollYProgress, {
+  stiffness: 70,
+  damping: 30,
+  restDelta: 0.0001
 })
 
+const y = useTransform(smoothProgress, (val) => {
+  if (sectionCount.value <= 1) return '0vh'
+  const n = sectionCount.value
+  
+  const clampedIndex = Math.min(Math.floor(val * n), n - 1)
+  const localProgress = (val - (clampedIndex / n)) * n
+  
+  const driftEnd = 0.70 
+  const maxDrift = 12   
+  
+  let yOffset = clampedIndex * 100 
+  
+  if (clampedIndex === n - 1) {
+    /**
+     * LAST SECTION: The Velocity Handoff
+     * Instead of easing to a stop, we ease the speed back up to 
+     * "Standard Scroll Speed". 
+     */
+    const t = localProgress
+    
+    // We use a cubic curve that starts at 0 and ends at a specific 
+    // slope that matches the 'unsticking' of the container.
+    // This creates a "soft" drift that blends into the natural scroll.
+    const easeOutWithMomentum = t * (2 - t) // Quadratic ease-out
+    
+    // We add a tiny "exit velocity" to the drift so it's moving
+    // as it reaches the end of the track.
+    yOffset += easeOutWithMomentum * maxDrift
+  } 
+  else {
+    // INTERMEDIATE SECTIONS: Floating + Fly-away
+    if (localProgress <= driftEnd) {
+      const driftPcnt = localProgress / driftEnd
+      yOffset += driftPcnt * maxDrift
+    } else {
+      const flyPcnt = (localProgress - driftEnd) / (1 - driftEnd)
+      // Exponential curve for the "fly away" speed peak
+      const easedFly = Math.pow(flyPcnt, 3) 
+      yOffset += maxDrift + (easedFly * (100 - maxDrift))
+    }
+  }
+  
+  return `-${yOffset}vh`
+})
 </script>
 
 <template>
-    <div class="paged-content" ref="container">
-        <slot :sectionTransforms="sectionTransforms" />
+  <div 
+    class="scroll-track" 
+    ref="targetRef" 
+    :style="{ height: sectionCount > 0 ? `${sectionCount * 180}vh` : '100vh' }"
+  >
+    <div class="sticky-window">
+      <motion.div
+        class="sections-wrapper"
+        ref="wrapperRef"
+        :style="{ y }"
+      >
+        <slot />
+      </motion.div>
     </div>
+  </div>
 </template>
 
-<style>
-.paged-content {
-    display: grid;
-    gap: 4rem;
-    
-    > section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: start;
-    }
+<style scoped>
+.scroll-track {
+  position: relative;
+  width: 100%;
+}
+
+.sticky-window {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.sections-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  will-change: transform;
+}
+
+:deep(section) {
+  height: 100vh;
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 10%;
+  box-sizing: border-box;
 }
 </style>

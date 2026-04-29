@@ -1,6 +1,6 @@
 <template>
   <div class="contact">
-    <Surface variant="default" class="fit-wide">
+    <Surface variant="glass" class="fit-wide">
       <form>
         <span style="grid-column: 1 / span 1;">
           <label>Name</label>
@@ -15,7 +15,7 @@
           <textarea placeholder="Message"></textarea>
         </span>
       </form>
-      <Button color="#ffffff" to="#" variant="glass">Send</Button>
+      <Button color="#ffffff" to="#" style="width: fit-content;">Send</Button>
     </Surface>
   </div>
 </template>

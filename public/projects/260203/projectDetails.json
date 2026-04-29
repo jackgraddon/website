@@ -3,7 +3,7 @@
   "name": "Tumult",
   "description": "A Matrix client inspired by Discord",
   "url": "tumult/main/README.md",
-  "backgroundColor": "oklch(0.15 0 0)",
-  "buttonColor": "oklch(0.395 0.081 206.6)",
+  "backgroundColor": "rgb(242, 242, 242)",
+  "buttonColor": "rgb(0, 82, 92)",
   "status": "in-progress"
 }

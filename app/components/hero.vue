@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue"
 import { motion, useScroll, useTransform, useMotionTemplate, useInView, AnimatePresence } from "motion-v"
-import cloudImg from "~/assets/img/splash-cloud.webp"
     
 // Define props for the component
 const props = defineProps<{
@@ -191,7 +190,7 @@ function changeLandingHeroTitle() {
             <motion.img
                 class="hero-cloud-img"
                 alt="Decorative image of a fluffy cloud"
-                :src="cloudImg"
+                :src="'images/splash-cloud.webp'"
                 :style="{ y }"
             />
         </motion.div>

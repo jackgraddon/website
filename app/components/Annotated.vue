@@ -37,22 +37,22 @@ const show = ref(false)
 }
 
 .annotated-label {
-  color: var(--color-afternoon);
-  border-bottom: 1.5px dashed rgba(174, 207, 219, 0.45);
+  color: rgba(255, 255, 255, 0.85);
+  border-bottom: 1.5px dashed rgba(255, 255, 255, 0.85);
   padding-bottom: 1px;
   transition: border-color 150ms ease, color 150ms ease;
 }
 
 .annotated-wrap:hover .annotated-label,
 .annotated-wrap:focus .annotated-label {
-  border-color: rgba(174, 207, 219, 0.85);
-  color: #d8ecf4;
+  border-color: rgba(255, 255, 255, 0.30);
+  color: rgba(255, 255, 255, 0.30);
 }
 
 .annotated-note {
   position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
+  bottom: calc(100% + 5px);
+  left: 10%;
   transform: translateX(-50%);
   width: max-content;
   max-width: 240px;

@@ -26,7 +26,8 @@ const projectImage = props.projectId ? `${imageUrl.base}${props.projectId}${imag
 
 // Determine button data if projectId is provided
 const buttonLink = props.projectId ? `/projects/${props.projectId}` : undefined;
-const buttonColor = props.projectId ? (projectData.value as any)?.meta?.buttonColor : 'primary';
+const buttonColor = props.projectId ? (projectData.value as any)?.buttonColor || (projectData.value as any)?.meta?.buttonColor : 'primary';
+const backgroundColor = props.projectId ? (projectData.value as any)?.backgroundColor || (projectData.value as any)?.meta?.backgroundColor : undefined;
 
 </script>
 
@@ -41,7 +42,7 @@ const buttonColor = props.projectId ? (projectData.value as any)?.meta?.buttonCo
             <slot />
         </div>
         <div class="card-footer">
-            <Button v-if="buttonLink" :to="buttonLink" variant="glass" :color="buttonColor">Learn More</Button>
+            <Button v-if="buttonLink" :to="buttonLink" variant="default" :color="buttonColor" :bg="backgroundColor">Learn More</Button>
             <slot v-else name="footer" />
         </div>
     </div>

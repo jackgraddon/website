@@ -7,10 +7,11 @@ definePageMeta({
 </script>
 
 <template>
-  <PagedContent class="fit-short">
+  <PagedContent>
     <section id="intro">
       <h1>Hello!</h1>
       <p>I'm Jack, a freelance Design Engineer, Web Developer, and Graphic Designer. I've worked on projects and designs for my local school, growing influencers, companies, and competitions. I've always desired to make technology more accessible by developing user interfaces that are simple to navigate and visually engaging.</p>
+      <Button variant="default" to="/about">About Me</Button>
     </section>
     <section id="work">
       <h2>My Work</h2>
@@ -21,5 +22,7 @@ definePageMeta({
 </template>
 
 <style scoped>
-
+a {
+  margin-top: 10px;
+}
 </style>
