@@ -7,6 +7,12 @@ definePageMeta({
 </script>
 
 <template>
+  <FloatingCTADisplay id="floating-ctas" :ctas="[
+    { id: 1, title: 'Projects', url: '/projects', icon: '💻' },
+    { id: 2, title: 'GitHub', url: 'https://github.com/jackgraddon', icon: '🐈‍⬛' },
+    { id: 3, title: 'About', url: '/about', icon: '👋' },
+    { id: 4, title: 'Contact', url: '/contact', icon: '✉️' },
+  ]" />
   <PagedContent>
     <section id="intro">
       <h1>Hello!</h1>
@@ -22,6 +28,16 @@ definePageMeta({
 </template>
 
 <style scoped>
+#floating-ctas {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; 
+  z-index: 100;
+}
+
 a {
   margin-top: 10px;
 }
