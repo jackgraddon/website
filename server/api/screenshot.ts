@@ -16,20 +16,14 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, statusMessage: 'Missing URL' })
     }
 
-    // 1. Resolve relative paths to absolute URLs
     if (targetUrl.startsWith('/')) {
         const host = getHeader(event, 'host')
-        // In dev, host is usually 'localhost:3000'
-        // In production (Vercel), it's your actual domain
         const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https'
         targetUrl = `${protocol}://${host}${targetUrl}`
     }
 
-    // 2. The Localhost Catch (Read the section below!)
     if (targetUrl.includes('localhost') || targetUrl.includes('127.0.0.1')) {
-        // Microlink cannot see your local machine. 
-        // We should return a local fallback or a redirect.
-        return sendRedirect(event, '/placeholder-preview.png')
+        return sendRedirect(event, '/no-image.svg')
     }
 
     const screenshotServiceUrl = `https://api.microlink.io/?url=${encodeURIComponent(targetUrl)}&screenshot=true&meta=false&width=${vp!.width}&height=${vp!.height}`;
@@ -46,6 +40,6 @@ export default defineEventHandler(async (event) => {
         return imageBuffer
     } catch (error) {
         console.error('Screenshot failed:', error)
-        return sendRedirect(event, '/placeholder-preview.png')
+        return sendRedirect(event, '/no-image.svg')
     }
 })

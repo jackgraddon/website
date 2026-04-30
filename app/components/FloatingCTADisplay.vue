@@ -20,8 +20,7 @@
                                 <!-- Unified Snapshot -->
                                 <img 
                                     :src="`/api/screenshot?url=${encodeURIComponent(cta.url)}&ar=${closestPreset.name}`" 
-                                    class="cta-screenshot" 
-                                    :style="screenshotStyle"
+                                    class="cta-screenshot"
                                     loading="lazy"
                                     alt=""
                                 />
@@ -223,37 +222,30 @@ function getDriftStyle(index: number): Record<string, string> {
 
 /* ── Distorted Image ── */
 .cta-screenshot {
-    display: block;
-    transform-origin: top left;
-
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-
-    transform: translate(-50%, -50%) scale(var(--capture-scale, 0.2)); 
-    transform-origin: center;
-
-    filter: 
-        blur(3px)
-        brightness(0.85)
-        saturate(0.9);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%; 
+    height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 1; 
+    filter: blur(2px) brightness(0.8);
     mix-blend-mode: screen;
-    opacity: 0.65;
+    opacity: 0.7; 
 }
 
-/* 3. Ensure the label is the absolute top layer */
 .cta-portal-label {
     position: absolute;
     inset: 0;
-    z-index: 10; /* Boosted to stay above the grain */
+    z-index: 10; 
     display: flex;
     align-items: center;
     justify-content: center;
-    /* ... existing styles[cite: 2] */
+    pointer-events: none;
+    user-select: none;
 }
 
-/* The "shimmer" animation to make the grain feel alive */
 @keyframes grain-dance {
     0%, 100% { transform: translate(0, 0); }
     10% { transform: translate(-1%, -2%); }
