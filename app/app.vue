@@ -81,6 +81,7 @@ let heroVariant = computed(() => {
 </script>
 
 <template>
+  <Cursor />
   <Background />
   <NuxtRouteAnnouncer />
   <Hero :title="effectiveMeta.title" :subtitle="effectiveMeta.description" :iconName="effectiveMeta.icon" :variant="heroVariant" />
@@ -88,5 +89,6 @@ let heroVariant = computed(() => {
     <NuxtPage :key="$route.path" />
   </main>
   <Footer />
+
 </template>
 

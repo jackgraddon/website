@@ -11,7 +11,8 @@ definePageMeta({
     { id: 1, title: 'Projects', url: '/projects', icon: 'solar:laptop-minimalistic-bold' },
     { id: 2, title: 'GitHub', url: 'https://github.com/jackgraddon', icon: 'tabler:brand-github-filled' },
     { id: 3, title: 'About', url: '/about', icon: 'solar:hand-shake-bold-duotone' },
-    { id: 4, title: 'Contact', url: '/contact', icon: 'solar:letter-bold' },
+    { id: 4, title: 'LinkedIn', url: 'https://linkedin.com/in/jackgraddon', icon: 'tabler:brand-linkedin-filled' },
+    { id: 5, title: 'Contact', url: '/contact', icon: 'solar:letter-bold' },
   ]" />
   <PagedContent>
     <section id="intro">
