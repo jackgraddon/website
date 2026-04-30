@@ -8,10 +8,10 @@ definePageMeta({
 
 <template>
   <FloatingCTADisplay id="floating-ctas" :ctas="[
-    { id: 1, title: 'Projects', url: '/projects', icon: '💻' },
-    { id: 2, title: 'GitHub', url: 'https://github.com/jackgraddon', icon: '🐈‍⬛' },
-    { id: 3, title: 'About', url: '/about', icon: '👋' },
-    { id: 4, title: 'Contact', url: '/contact', icon: '✉️' },
+    { id: 1, title: 'Projects', url: '/projects', icon: 'solar:laptop-minimalistic-bold' },
+    { id: 2, title: 'GitHub', url: 'https://github.com/jackgraddon', icon: 'tabler:brand-github-filled' },
+    { id: 3, title: 'About', url: '/about', icon: 'solar:hand-shake-bold-duotone' },
+    { id: 4, title: 'Contact', url: '/contact', icon: 'solar:letter-bold' },
   ]" />
   <PagedContent>
     <section id="intro">

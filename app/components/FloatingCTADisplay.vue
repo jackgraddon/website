@@ -12,7 +12,8 @@
                         <Surface variant="glass" direction="column">
                             <!-- Icon: visible when collapsed -->
                             <div class="cta-icon-wrap">
-                                <span class="cta-icon" v-if="cta.icon" v-html="cta.icon"></span>
+                                <Icon v-if="cta.icon && isNuxtIcon(cta.icon)" :name="cta.icon" class="cta-icon" />
+                                <span v-else-if="cta.icon" class="cta-icon">{{ cta.icon }}</span>
                             </div>
 
                             <!-- Portal: fills card on hover -->
@@ -112,6 +113,9 @@ function getDriftStyle(index: number): Record<string, string> {
         '--drift-delay':    `${DRIFT_DELAYS[index % DRIFT_DELAYS.length]}s`,
     };
 }
+
+const isNuxtIcon = (name?: string) => name?.includes(':');
+
 </script>
 
 <style scoped>
@@ -189,6 +193,15 @@ function getDriftStyle(index: number): Record<string, string> {
     align-items: center;
     justify-content: center;
     transition: opacity 0.15s ease;
+}
+
+.cta-icon {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
 }
 
 .cta-card:hover .cta-icon-wrap { opacity: 0; }

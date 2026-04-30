@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 const now = ref(new Date().getHours());
-now.value = 12;
+// now.value = 12;
 
 const img = useImage();
 
