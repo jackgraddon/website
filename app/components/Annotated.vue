@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { motion, AnimatePresence } from 'motion-v'
 
 defineProps<{

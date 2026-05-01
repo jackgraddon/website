@@ -46,6 +46,12 @@ main {
     padding: 3rem 1rem;
 }
 
+/* Viewport culling for page sections */
+main > section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px; /* hint at expected height */
+}
+
 /* Typography */
 p,
 a,

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue"
 import { motion, useScroll, useTransform, useMotionTemplate, useInView, AnimatePresence } from "motion-v"
+
+const { isLoaded } = useAppLoaded()
     
 // Define props for the component
 const props = defineProps<{
@@ -23,10 +24,8 @@ const { scrollYProgress } = useScroll({
 // Map scroll progress to vertical movement
 const y = useTransform(scrollYProgress, [0, 1], [0, -200])
 
-// Map scroll progress to opacity and blur change
+// Map scroll progress to opacity change (removed blur - filter forces repaint on scroll)
 const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-const blur = useTransform(scrollYProgress, [0, 1], [0, 10])
-const blurFilter = useMotionTemplate`blur(${blur}px)`
 const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9])
 const scaleTransform = useMotionTemplate`scale(${scale})`
 
@@ -88,12 +87,21 @@ function changeLandingHeroTitle() {
 
 <template>
     <section class="hero" ref="hero">
-        <motion.div class="hero-content" ref="heroContent" :style="{ opacity, filter: blurFilter, transform: scaleTransform }">
+        <div v-if="props.variant === 'landing'">
+            <FloatingCTADisplay id="floating-ctas" :ctas="[
+                { id: 1, title: 'Projects', url: '/projects', icon: 'solar:laptop-minimalistic-bold' },
+                { id: 2, title: 'GitHub', url: 'https://github.com/jackgraddon', icon: 'tabler:brand-github-filled' },
+                { id: 3, title: 'About', url: '/about', icon: 'solar:hand-shake-bold-duotone' },
+                { id: 4, title: 'LinkedIn', url: 'https://linkedin.com/in/jackgraddon', icon: 'tabler:brand-linkedin-filled' },
+                { id: 5, title: 'Contact', url: '/contact', icon: 'solar:letter-bold' },
+            ]" />
+        </div>
+        <motion.div class="hero-content" ref="heroContent" :style="{ opacity, transform: scaleTransform }">
             <div v-if="props.variant === 'landing'">
                 <motion.div
                     :key="props.iconName"
                     :initial="{ rotate: 0, opacity: 0 }"
-                    :animate="{ rotate: [0, 12, -8, 12, 0], opacity: 1, transition: { duration: 1.8, repeat: Infinity, ease: 'easeInOut', opacity: { duration: 0.5, delay: 0.5, ease: 'easeOut', repeat: 0 } } }"
+                    :animate="isLoaded ? { rotate: [0, 12, -8, 12, 0], opacity: 1, transition: { duration: 1.8, repeat: Infinity, ease: 'easeInOut', opacity: { duration: 0.5, delay: 0.5, ease: 'easeOut', repeat: 0 } } } : { opacity: 0 }"
                     :exit="{ opacity: 0 }"
                     style="transform-origin: bottom center;"
                 >
@@ -103,14 +111,15 @@ function changeLandingHeroTitle() {
                     <AnimatePresence mode="wait">
                         <motion.div
                             :key="landingTitle"
-                            :initial="{ opacity: 1 }"
+                            :initial="{ opacity: 0 }"
+                            :animate="isLoaded ? { opacity: 1, transition: { duration: 0.5 } } : { opacity: 0 }"
                             :exit="{ opacity: 0, transition: { duration: 0.2 } }" 
                         >
                             <motion.span
                                 v-for="(char, index) in landingTitle.split('')"
                                 :key="index"
-                                :initial="{ opacity: 0, filter: 'blur(10px)' }"
-                                :animate="{ opacity: 1, filter: 'blur(0px)', transition: { delay: 0.5 + (index * 0.05) } }"
+                                :initial="{ opacity: 0, y: 12 }"
+                                :animate="isLoaded ? { opacity: 1, y: 0, transition: { delay: 0.3 + (index * 0.04), duration: 0.4, ease: 'easeOut' } } : { opacity: 0, y: 12 }"
                                 style="display: inline-block; white-space: pre;"
                             >
                                 {{ char }}
@@ -123,8 +132,8 @@ function changeLandingHeroTitle() {
                         <motion.p
                             class="hero-subtitle"
                             :key="landingSubtitle"
-                            :initial="{ opacity: 0, filter: 'blur(10px)', y: 20 }"
-                            :animate="{ opacity: 1, filter: 'blur(0px)', y: 0, transition: { duration: 0.8, delay: 1 } }"
+                            :initial="{ opacity: 0, y: 20 }"
+                            :animate="isLoaded ? { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.8 } } : { opacity: 0, y: 20 }"
                             :exit="{ opacity: 0 }"
                             style="position: absolute; width: 100%; top: 0;"
                         >
@@ -138,7 +147,7 @@ function changeLandingHeroTitle() {
                     <motion.div
                         :key="props.iconName"
                         :initial="{ opacity: 0 }"
-                        :animate="{ opacity: 1 }"
+                        :animate="isLoaded ? { opacity: 1 } : { opacity: 0 }"
                         :transition="{ duration: 0.5, delay: 0.8 }"
                         :exit="{ opacity: 0 }"
                     >
@@ -148,14 +157,15 @@ function changeLandingHeroTitle() {
                         <AnimatePresence mode="wait">
                             <motion.div
                                 :key="props.title || 'Add Title'"
-                                :initial="{ opacity: 1 }"
+                                :initial="{ opacity: 0 }"
+                                :animate="isLoaded ? { opacity: 1, transition: { duration: 0.5 } } : { opacity: 0 }"
                                 :exit="{ opacity: 0, transition: { duration: 0.2 } }" 
                             >
                                 <motion.span
                                     v-for="(char, index) in (props.title || 'Add Title').split('')"
                                     :key="index"
-                                    :initial="{ opacity: 0, filter: 'blur(10px)' }"
-                                    :animate="{ opacity: 1, filter: 'blur(0px)', transition: { delay: 0.5 + (index * 0.05) } }"
+                                    :initial="{ opacity: 0, y: 12 }"
+                                    :animate="isLoaded ? { opacity: 1, y: 0, transition: { delay: 0.3 + (index * 0.04), duration: 0.4, ease: 'easeOut' } } : { opacity: 0, y: 12 }"
                                     style="display: inline-block; white-space: pre;"
                                 >
                                     {{ char }}
@@ -168,8 +178,8 @@ function changeLandingHeroTitle() {
                             <motion.p
                                 class="hero-subtitle"
                                 :key="props.subtitle"
-                                :initial="{ opacity: 0, filter: 'blur(10px)', y: 20 }"
-                                :animate="{ opacity: 1, filter: 'blur(0px)', y: 0, transition: { duration: 0.8, delay: 1 } }"
+                                :initial="{ opacity: 0, y: 20 }"
+                                :animate="isLoaded ? { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.8 } } : { opacity: 0, y: 20 }"
                                 :exit="{ opacity: 0 }"
                                 style="position: absolute; width: 100%; top: 0;"
                             >
@@ -184,7 +194,7 @@ function changeLandingHeroTitle() {
         <motion.div
             class="hero-cloud-wrapper"
             :initial="{ y: 100, opacity: 0, filter: 'blur(20px)' }"
-            :animate="{ y: 0, opacity: 1, filter: 'blur(0px)' }"
+            :animate="isLoaded ? { y: 0, opacity: 1, filter: 'blur(0px)' } : { y: 100, opacity: 0, filter: 'blur(20px)' }"
             :transition="{ duration: 1.2, ease: 'easeOut' }"
         >
             <motion.img
@@ -204,6 +214,16 @@ function changeLandingHeroTitle() {
     align-items: center;
     height: 75vh;
     margin-bottom: 25vh;
+}
+
+#floating-ctas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 100;
 }
 
 .hero-content {

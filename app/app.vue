@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { isLoaded } = useAppLoaded();
+
 // Get current time for dynamic elements
 let now = new Date().getHours();
 
@@ -81,14 +83,30 @@ let heroVariant = computed(() => {
 </script>
 
 <template>
-  <Cursor />
-  <Background />
-  <NuxtRouteAnnouncer />
-  <Hero :title="effectiveMeta.title" :subtitle="effectiveMeta.description" :iconName="effectiveMeta.icon" :variant="heroVariant" />
-  <main>
-    <NuxtPage :key="$route.path" />
-  </main>
-  <Footer />
-
+  <div :class="{ 'app-not-ready': !isLoaded }">
+    <Cursor />
+    <Background />
+    <NuxtRouteAnnouncer />
+    <Hero :title="effectiveMeta.title" :subtitle="effectiveMeta.description" :iconName="effectiveMeta.icon" :variant="heroVariant" />
+    <main>
+      <NuxtPage :key="$route.path" />
+    </main>
+    <Footer />
+  </div>
 </template>
+
+<style>
+/* Global Animation Gating */
+.app-not-ready {
+  pointer-events: none;
+}
+
+/* Pause all CSS animations and transitions until the page is fully ready */
+.app-not-ready *,
+.app-not-ready *::before,
+.app-not-ready *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+</style>
 

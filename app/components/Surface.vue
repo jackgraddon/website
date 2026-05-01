@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+
 
 const props = defineProps<{ 
   color?: string,
@@ -101,7 +101,7 @@ const surfaceStyles = computed(() => {
     flex-direction: column;
     gap: 0.5rem;
 
-    backdrop-filter: blur(5px) saturate(140%);
+    backdrop-filter: blur(3px) saturate(120%);
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.22),
         0 2px 8px  rgba(0, 0, 0, 0.12),
@@ -111,7 +111,8 @@ const surfaceStyles = computed(() => {
 
     transform: translateZ(0);
     backface-visibility: hidden;
-    will-change: transform, opacity; 
+    /* will-change removed: don't pre-promote all glass elements to compositor
+       layers — only elements actively animating should use this hint. */
     perspective: 1000px;
     isolation: isolate;
     transition: 

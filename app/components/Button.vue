@@ -134,7 +134,7 @@ useGlassGlow(glassRef);
 
     /* Frosted Background with a 12% tint to anchor it to the color */
     background: color-mix(in srgb, var(--button-color) 12%, rgba(255, 255, 255, 0.12));
-    backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(6px) saturate(150%);
     
     /* Branded Border: 35% mix ensures visibility on white backgrounds */
     border: 1.5px solid color-mix(in srgb, var(--button-color) 35%, rgba(255, 255, 255, 0.2));
@@ -197,7 +197,7 @@ useGlassGlow(glassRef);
 .button-glass {
     background-color: color-mix(in srgb, var(--button-color) 12%, rgba(255, 255, 255, 0.1));
     border-radius: 999px;
-    backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(6px) saturate(150%);
     border: 1px solid color-mix(in srgb, var(--button-color) 40%, rgba(255, 255, 255, 0.2));
     transition: all 0.4s ease;
     text-decoration: none;

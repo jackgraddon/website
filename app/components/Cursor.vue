@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { motion, useMotionValue, useSpring } from 'motion-v'
+
+const { isLoaded } = useAppLoaded()
 
 // Auto-import all SVGs from assets/cursor
 // Vite's import.meta.glob will return the public URLs for these assets
@@ -29,21 +30,42 @@ const smoothY = useSpring(mouseY, springConfig)
 
 const activeCursor = ref('pointer')
 const isHovering = ref(false)
-const isVisible = ref(false)
+const isOutside = ref(true)
+const isOverResize = ref(false)
 const isPressed = ref(false)
+
+const isVisible = computed(() => !isOutside.value && !isOverResize.value)
+
+let lastPointer = { x: 0, y: 0, t: 0 }
+let edgeTimer: ReturnType<typeof setTimeout> | null = null
+let safetyInterval: ReturnType<typeof setInterval> | null = null
+const EDGE_THRESHOLD = 2
 
 let lastTarget: HTMLElement | null = null
 let isResizable = false
+let _cursorRafId = 0
+let cachedCustomCursor: string | null = null
+let cachedIsInput = false
+let cachedIsLink = false
 
-const updateCursorState = (e: MouseEvent) => {
+const updateCursorState = (e: PointerEvent) => {
   const target = e.target as HTMLElement
   if (!target) return
 
-  // Cache computed style check for performance
+  // Cache computed style and closest checks
   if (target !== lastTarget) {
     lastTarget = target
     const style = window.getComputedStyle(target)
     isResizable = style.resize !== 'none'
+    
+    // Consolidate closest calls into a single traversal if possible, 
+    // or at least cache the results for this target.
+    const customCursorAttr = target.closest('[data-cursor]')
+    const interactiveTarget = target.closest('a, button, [role="button"], input, textarea, [contenteditable="true"]')
+    
+    cachedCustomCursor = customCursorAttr?.getAttribute('data-cursor') || null
+    cachedIsInput = !!interactiveTarget?.closest('input, textarea, [contenteditable="true"]')
+    cachedIsLink = !!interactiveTarget && !cachedIsInput
   }
 
   // Check for resize handle (bottom right corner, usually ~15x15px)
@@ -55,27 +77,39 @@ const updateCursorState = (e: MouseEvent) => {
     }
   }
 
-  // Check for custom data-cursor attribute
-  const customCursor = target.closest('[data-cursor]')?.getAttribute('data-cursor')
-  
-  // Check if hovering over interactive elements
-  const isLink = target.closest('a, button, [role="button"]')
-  const isInput = target.closest('input, textarea, [contenteditable="true"]')
-  
   if (isResizeHandle) {
-    isVisible.value = false
+    isOverResize.value = true
     return
   } else {
-    isVisible.value = true
+    isOverResize.value = false
   }
 
-  if (customCursor && cursorMap.value[customCursor]) {
-    activeCursor.value = customCursor
+  // Explicit boundary check for fast movements
+  const atEdge = 
+    e.clientX <= EDGE_THRESHOLD || 
+    e.clientX >= window.innerWidth - EDGE_THRESHOLD || 
+    e.clientY <= EDGE_THRESHOLD || 
+    e.clientY >= window.innerHeight - EDGE_THRESHOLD
+
+  if (atEdge) {
+    isOutside.value = true
+    if (edgeTimer) clearTimeout(edgeTimer)
+    edgeTimer = setTimeout(() => {
+      const dt = Date.now() - lastPointer.t
+      if (dt > 100) isOutside.value = true
+    }, 120)
+  } else {
+    isOutside.value = false
+    if (edgeTimer) clearTimeout(edgeTimer)
+  }
+
+  if (cachedCustomCursor && cursorMap.value[cachedCustomCursor]) {
+    activeCursor.value = cachedCustomCursor
     isHovering.value = true
-  } else if (isInput) {
+  } else if (cachedIsInput) {
     activeCursor.value = cursorMap.value['text'] ? 'text' : 'pointer'
     isHovering.value = true
-  } else if (isLink) {
+  } else if (cachedIsLink) {
     activeCursor.value = cursorMap.value['hover'] ? 'hover' : (cursorMap.value['link'] ? 'link' : 'pointer')
     isHovering.value = true
   } else {
@@ -84,27 +118,73 @@ const updateCursorState = (e: MouseEvent) => {
   }
 }
 
-const updateMouse = (e: MouseEvent) => {
+const updateMouse = (e: PointerEvent) => {
+  lastPointer = { x: e.clientX, y: e.clientY, t: Date.now() }
+  
   mouseX.set(e.clientX)
   mouseY.set(e.clientY)
   
-  // Constantly evaluate cursor state to catch precise handle positioning
-  updateCursorState(e)
+  if (_cursorRafId === 0) {
+    const snapshot = e
+    _cursorRafId = requestAnimationFrame(() => {
+      _cursorRafId = 0
+      updateCursorState(snapshot)
+    })
+  }
 }
 
 const handleMouseDown = () => isPressed.value = true
 const handleMouseUp = () => isPressed.value = false
 
-onMounted(() => {
-  window.addEventListener('mousemove', updateMouse)
-  window.addEventListener('mouseover', updateCursorState)
-  window.addEventListener('mousedown', handleMouseDown)
-  window.addEventListener('mouseup', handleMouseUp)
+const handleMouseEnter = () => { 
+  isOutside.value = false 
+  if (edgeTimer) clearTimeout(edgeTimer)
+}
+
+const handleMouseLeave = (e: PointerEvent) => {
+  if (!e.relatedTarget) isOutside.value = true
+}
+
+const handleBlur = () => { 
+  isOutside.value = true 
+}
+
+const handleVisibility = () => {
+  if (document.visibilityState === 'hidden') isOutside.value = true
+}
+
+const runSafetyCheck = () => {
+  if (!document.hasFocus()) {
+    isOutside.value = true
+    return
+  }
   
-  // Hide the default system cursor globally
+  const now = Date.now()
+  if (now - lastPointer.t > 500) {
+    const atEdge = 
+      lastPointer.x <= EDGE_THRESHOLD || 
+      lastPointer.x >= window.innerWidth - EDGE_THRESHOLD || 
+      lastPointer.y <= EDGE_THRESHOLD || 
+      lastPointer.y >= window.innerHeight - EDGE_THRESHOLD
+    
+    if (atEdge) isOutside.value = true
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('pointermove', updateMouse, { passive: true, capture: true })
+  window.addEventListener('pointerdown', handleMouseDown, { capture: true })
+  window.addEventListener('pointerup', handleMouseUp, { capture: true })
+  window.addEventListener('blur', handleBlur)
+  window.addEventListener('focus', () => { /* noop, wait for move */ })
+  document.addEventListener('pointerenter', handleMouseEnter, { capture: true })
+  document.addEventListener('pointerleave', handleMouseLeave, { capture: true })
+  document.addEventListener('visibilitychange', handleVisibility)
+  
+  safetyInterval = setInterval(runSafetyCheck, 400)
+  
   document.documentElement.classList.add('custom-cursor-active')
   
-  // Create a style element to force cursor: none on all interactive elements
   const style = document.createElement('style')
   style.id = 'cursor-none-styles'
   style.innerHTML = `
@@ -112,8 +192,7 @@ onMounted(() => {
     .custom-cursor-active *,
     .custom-cursor-active a, 
     .custom-cursor-active button, 
-    .custom-cursor-active [role="button"],
-    .custom-cursor-active ::-webkit-resizer {
+    .custom-cursor-active [role="button"] {
       cursor: none !important;
     }
   `
@@ -121,10 +200,16 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('mousemove', updateMouse)
-  window.removeEventListener('mouseover', updateCursorState)
-  window.removeEventListener('mousedown', handleMouseDown)
-  window.removeEventListener('mouseup', handleMouseUp)
+  window.removeEventListener('pointermove', updateMouse, { capture: true })
+  window.removeEventListener('pointerdown', handleMouseDown, { capture: true })
+  window.removeEventListener('pointerup', handleMouseUp, { capture: true })
+  window.removeEventListener('blur', handleBlur)
+  document.removeEventListener('pointerenter', handleMouseEnter, { capture: true })
+  document.removeEventListener('pointerleave', handleMouseLeave, { capture: true })
+  document.removeEventListener('visibilitychange', handleVisibility)
+  
+  if (edgeTimer) clearTimeout(edgeTimer)
+  if (safetyInterval) clearInterval(safetyInterval)
   
   document.documentElement.classList.remove('custom-cursor-active')
   document.getElementById('cursor-none-styles')?.remove()
@@ -132,14 +217,20 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div v-if="isVisible" class="cursor-container">
+  <div class="cursor-container">
     <motion.div
       class="cursor-follower"
+      :animate="{
+        opacity: (isVisible && isLoaded) ? 1 : 0,
+      }"
       :style="{
         x: smoothX,
         y: smoothY,
         translateX: '-50%',
         translateY: '-50%'
+      }"
+      :transition="{
+        opacity: { duration: 0.2 }
       }"
     >
       <motion.div
@@ -148,7 +239,7 @@ onUnmounted(() => {
           scale: isPressed ? 0.8 : (isHovering ? 1.2 : 1),
           rotate: isHovering ? 0 : -25
         }"
-        :transition="{ type: 'spring', damping: 15, stiffness: 300 }"
+        :transition="{ type: 'spring', damping: 5, stiffness: 300 }"
       >
         <!-- Dynamic SVG from auto-imported assets -->
         <img 

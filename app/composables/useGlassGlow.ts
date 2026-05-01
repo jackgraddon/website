@@ -6,9 +6,15 @@ import { type Ref, onMounted, onUnmounted } from 'vue';
  * percentage values relative to its own bounding box, which can be negative
  * or >100% when the cursor is outside the element. The CSS radial-gradient
  * radius then determines how far the glow bleeds into surrounding elements.
+ *
+ * RAF-throttled: getBoundingClientRect is only called once per animation
+ * frame, not on every raw mouse event.
  */
 const _elements = new Set<HTMLElement>();
 let _listening = false;
+let _rafId = 0;
+let _lastX = 0;
+let _lastY = 0;
 
 function _getEl(refVal: any): HTMLElement | null {
     if (!refVal) return null;
@@ -18,11 +24,40 @@ function _getEl(refVal: any): HTMLElement | null {
     return null;
 }
 
-function _onMouseMove(e: MouseEvent) {
+function _applyGlow() {
+    _rafId = 0;
+    
+    // Batch reads first to avoid layout thrashing
+    const updates: { el: HTMLElement, x: string, y: string }[] = [];
+    
     for (const el of _elements) {
+        // Optional: skip if element is not connected to DOM
+        if (!el.isConnected) continue;
+        
         const r = el.getBoundingClientRect();
-        el.style.setProperty('--mouse-x', `${((e.clientX - r.left) / r.width)  * 100}%`);
-        el.style.setProperty('--mouse-y', `${((e.clientY - r.top)  / r.height) * 100}%`);
+        
+        // Optimization: Skip calculations if the mouse is nowhere near the element 
+        // (e.g. more than 1000px away) - but for now let's just batch.
+        updates.push({
+            el,
+            x: `${(((_lastX) - r.left) / r.width)  * 100}%`,
+            y: `${(((_lastY) - r.top)  / r.height) * 100}%`
+        });
+    }
+    
+    // Then batch writes
+    for (const update of updates) {
+        update.el.style.setProperty('--mouse-x', update.x);
+        update.el.style.setProperty('--mouse-y', update.y);
+    }
+}
+
+function _onMouseMove(e: MouseEvent) {
+    _lastX = e.clientX;
+    _lastY = e.clientY;
+    // Throttle updates to one per animation frame
+    if (_rafId === 0) {
+        _rafId = requestAnimationFrame(_applyGlow);
     }
 }
 

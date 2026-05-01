@@ -22,10 +22,12 @@
 
 <style scoped>
 .footer {
+    position: relative;
     max-width: var(--breakpoint-lg);
     padding: 3rem 1rem;
     margin-inline: auto;
     color: var(--color-text-light);
+    z-index: 9999;
 }   
 .footer-content {
     display: grid;

@@ -1,265 +1,261 @@
 <template>
   <div class="about-page">
-
-    <!-- ===================== -->
-    <!--   BIO TABS SECTION    -->
-    <!-- ===================== -->
-    <section class="bio-section">
-      <!-- Tab Pills -->
-      <div class="tab-pills" role="tablist">
-        <motion.div
-          v-for="(tab, i) in tabs"
-          :key="tab.id"
-          :initial="{ opacity: 0, y: -10 }"
-          :animate="{ opacity: 1, y: 0, transition: { delay: 0.1 * i, duration: 0.4 } }"
-        >
-          <Button
-            role="tab"
-            :aria-selected="activeTab === tab.id"
-            :active="activeTab === tab.id"
-            @click="activeTab = tab.id"
-          >
-            <Icon :name="tab.icon" />
-            {{ tab.label }}
-          </Button>
-        </motion.div>
-      </div>
-
-      <!-- Tab Content -->
-      <div class="tab-content-wrapper">
-        <AnimatePresence mode="wait">
+    <PagedContent>
+      <!-- Bio Tabs Section -->
+      <section class="bio-section">
+        <div class="tab-pills" role="tablist">
           <motion.div
-            :key="activeTab"
-            class="tab-content"
-            :initial="{ opacity: 0, y: 16 }"
-            :animate="{ opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }"
-            :exit="{ opacity: 0, y: -10, transition: { duration: 0.2 } }"
+            v-for="(tab, i) in tabs"
+            :key="tab.id"
+            :initial="{ opacity: 0, y: -10 }"
+            :animate="{ opacity: 1, y: 0, transition: { delay: 0.1 * i, duration: 0.4 } }"
           >
-            <!-- WHO I AM -->
-            <div v-if="activeTab === 'who'" class="tab-panel">
-              <div class="bio-text-wrap">
-                <p class="bio-text">
-                  Hey, I'm Jack — a
-                  <Annotated label="Design Engineer" note="I sit at the intersection of design and code. I care deeply about how things look AND how they work." />
-                  based in Spokane, WA. I've been building for the web since I was a kid, and I still get the same kick out of shipping something that looks and feels just right.
-                </p>
-                <p class="bio-text">
-                  I believe technology should feel
-                  <Annotated label="approachable" note="No unnecessary complexity. If it confuses people, it's not done yet." />
-                  — not intimidating. Whether I'm designing a UI or writing a
-                  <Annotated label="Vue component" note="Vue + TypeScript is my happy place. Nuxt 4 for anything that needs a full stack." />
-                  , I'm always asking: does this make someone's life a little easier?
-                </p>
-                <p class="bio-text">
-                  Outside of work, I'm usually obsessing over some new
-                  <Annotated label="side project" note="Like Tumult — a Matrix-based chat and media client I'm building from scratch." />
-                  , diving into music, or staring at the sky (hence the website).
-                </p>
-              </div>
-            </div>
-
-            <!-- WHAT I BUILD -->
-            <div v-else-if="activeTab === 'build'" class="tab-panel">
-              <div class="skills-grid">
-                <motion.div
-                  v-for="(skill, i) in skills"
-                  :key="skill.label"
-                  :initial="{ opacity: 0, scale: 0.95, y: 10 }"
-                  :animate="{ opacity: 1, scale: 1, y: 0, transition: { delay: i * 0.05 + 0.1, duration: 0.4, ease: 'easeOut' } }"
-                >
-                  <Surface variant="glass">
-                    <div class="skill-card-inner">
-                      <Icon :name="skill.icon" class="skill-icon" />
-                      <div>
-                        <h4 class="skill-label">{{ skill.label }}</h4>
-                        <p class="skill-desc">{{ skill.desc }}</p>
-                      </div>
-                    </div>
-                  </Surface>
-                </motion.div>
-              </div>
-              <p class="build-note">
-                I'm especially drawn to the <Annotated label="design-engineering gap" note="The place where design mockups become something that actually breathes, responds, and feels alive." />, making interfaces that feel crafted, not assembled.
-              </p>
-            </div>
-
-            <!-- WHAT I'M INTO -->
-            <div v-else-if="activeTab === 'into'" class="tab-panel">
-              <div class="interests-grid">
-                <motion.div
-                  v-for="(interest, i) in interests"
-                  :key="interest.label"
-                  :initial="{ opacity: 0, scale: 0.95, y: 10 }"
-                  :animate="{ opacity: 1, scale: 1, y: 0, transition: { delay: i * 0.05 + 0.1, duration: 0.4, ease: 'easeOut' } }"
-                >
-                  <Surface variant="glass">
-                    <div class="interest-inner">
-                      <Icon :name="interest.icon" class="interest-icon" />
-                      <div>
-                        <p class="interest-label">{{ interest.label }}</p>
-                        <p class="interest-desc">{{ interest.desc }}</p>
-                      </div>
-                    </div>
-                  </Surface>
-                </motion.div>
-              </div>
-            </div>
+            <Button
+              role="tab"
+              :aria-selected="activeTab === tab.id"
+              :active="activeTab === tab.id"
+              @click="activeTab = tab.id"
+            >
+              <Icon :name="tab.icon" />
+              {{ tab.label }}
+            </Button>
           </motion.div>
-        </AnimatePresence>
-      </div>
-    </section>
+        </div>
 
-
-    <!-- My Tech Stack -->
-    <section class="layout-container">
-      <header class="section-header">
-        <h2>
-          <Icon name="solar:code-square-line-duotone" />
-          My Tech Stack
-        </h2>
-      </header>
-
-      <div class="tech-stack-outer">
-        <Surface variant="glass" class="tech-stack-wrap">
-          <div class="dock-container">
-            <NuxtImg
-              v-for="item in stack"
-              :key="item.name"
-              :src="item.image"
-              class="dock-item"
-              width="54"
-              height="54"
-              :alt="item.name"
-              :title="item.name"
-            />
-          </div>
-        </Surface>
-      </div>
-    </section>
-
-    <!-- Right Now Section -->
-    <section class="vibe-section">
-      <div class="vibe-header">
-        <Icon name="solar:compass-big-line-duotone" class="vibe-header-icon" />
-        <h2 class="vibe-title">Right now</h2>
-        <p class="vibe-subtitle">A snapshot of where I'm at</p>
-      </div>
-
-      <div class="vibe-grid">
-
-        <!-- Now Playing -->
-        <Surface variant="glass" class="vibe-card--wide">
-          <div class="vibe-card-label">
-            <Icon name="solar:music-note-2-line-duotone" />
-            {{ lfmTrack?.nowPlaying ? 'Now Playing' : 'Last Played' }}
-          </div>
-          <div class="now-playing">
-            <!-- Album art -->
-            <div class="now-playing-art">
-              <div class="album-art-placeholder">
-                <NuxtImg
-                  v-if="lfmTrack?.albumArt"
-                  :src="lfmTrack.albumArt"
-                  :alt="lfmTrack.album"
-                  class="album-art-img"
-                  width="56"
-                  height="56"
-                />
-                <Icon v-else name="solar:music-library-2-line-duotone" class="album-placeholder-icon" />
+        <!-- Tab Content -->
+        <div class="tab-content-wrapper">
+          <AnimatePresence mode="wait">
+            <motion.div
+              :key="activeTab"
+              class="tab-content"
+              :initial="{ opacity: 0, y: 16 }"
+              :animate="{ opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }"
+              :exit="{ opacity: 0, y: -10, transition: { duration: 0.2 } }"
+            >
+              <!-- WHO I AM -->
+              <div v-if="activeTab === 'who'" class="tab-panel">
+                <div class="bio-text-wrap">
+                  <p class="bio-text">
+                    Hey, I'm Jack — a
+                    <Annotated label="Design Engineer" note="I sit at the intersection of design and code. I care deeply about how things look AND how they work." />
+                    based in Spokane, WA. I've been building for the web since I was a kid, and I still get the same kick out of shipping something that looks and feels just right.
+                  </p>
+                  <p class="bio-text">
+                    I believe technology should feel
+                    <Annotated label="approachable" note="No unnecessary complexity. If it confuses people, it's not done yet." />
+                    — not intimidating. Whether I'm designing a UI or writing a
+                    <Annotated label="Vue component" note="Vue + TypeScript is my happy place. Nuxt 4 for anything that needs a full stack." />
+                    , I'm always asking: does this make someone's life a little easier?
+                  </p>
+                  <p class="bio-text">
+                    Outside of work, I'm usually obsessing over some new
+                    <Annotated label="side project" note="Like Tumult — a Matrix-based chat and media client I'm building from scratch." />
+                    , diving into music, or staring at the sky (hence the website).
+                  </p>
+                </div>
               </div>
-              <div v-if="lfmTrack?.nowPlaying" class="now-playing-bars" aria-hidden="true">
-                <span /><span /><span /><span />
+
+              <!-- WHAT I BUILD -->
+              <div v-else-if="activeTab === 'build'" class="tab-panel">
+                <div class="skills-grid">
+                  <motion.div
+                    v-for="(skill, i) in skills"
+                    :key="skill.label"
+                    :initial="{ opacity: 0, scale: 0.95, y: 10 }"
+                    :animate="{ opacity: 1, scale: 1, y: 0, transition: { delay: i * 0.05 + 0.1, duration: 0.4, ease: 'easeOut' } }"
+                  >
+                    <Surface variant="glass">
+                      <div class="skill-card-inner">
+                        <Icon :name="skill.icon" class="skill-icon" />
+                        <div>
+                          <h4 class="skill-label">{{ skill.label }}</h4>
+                          <p class="skill-desc">{{ skill.desc }}</p>
+                        </div>
+                      </div>
+                    </Surface>
+                  </motion.div>
+                </div>
+                <p class="build-note">
+                  I'm especially drawn to the <Annotated label="design-engineering gap" note="The place where design mockups become something that actually breathes, responds, and feels alive." />, making interfaces that feel crafted, not assembled.
+                </p>
+              </div>
+
+              <!-- WHAT I'M INTO -->
+              <div v-else-if="activeTab === 'into'" class="tab-panel">
+                <div class="interests-grid">
+                  <motion.div
+                    v-for="(interest, i) in interests"
+                    :key="interest.label"
+                    :initial="{ opacity: 0, scale: 0.95, y: 10 }"
+                    :animate="{ opacity: 1, scale: 1, y: 0, transition: { delay: i * 0.05 + 0.1, duration: 0.4, ease: 'easeOut' } }"
+                  >
+                    <Surface variant="glass">
+                      <div class="interest-inner">
+                        <Icon :name="interest.icon" class="interest-icon" />
+                        <div>
+                          <p class="interest-label">{{ interest.label }}</p>
+                          <p class="interest-desc">{{ interest.desc }}</p>
+                        </div>
+                      </div>
+                    </Surface>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+
+      <!-- Tech Stack -->
+      <section class="layout-container">
+        <header class="section-header">
+          <h2>
+            <Icon name="solar:code-square-line-duotone" />
+            My Tech Stack
+          </h2>
+        </header>
+
+        <div class="tech-stack-outer">
+          <Surface variant="glass" class="tech-stack-wrap">
+            <div class="dock-container">
+              <NuxtImg
+                v-for="item in stack"
+                :key="item.name"
+                :src="item.image"
+                class="dock-item"
+                width="54"
+                height="54"
+                :alt="item.name"
+                :title="item.name"
+              />
+            </div>
+          </Surface>
+        </div>
+      </section>
+
+      <!-- Right Now Section -->
+      <section class="vibe-section">
+        <div class="vibe-header">
+          <Icon name="solar:compass-big-line-duotone" class="vibe-header-icon" />
+          <h2 class="vibe-title">Right now</h2>
+          <p class="vibe-subtitle">A snapshot of where I'm at</p>
+        </div>
+
+        <div class="vibe-grid">
+
+          <!-- Now Playing -->
+          <Surface variant="glass" class="vibe-card--wide">
+            <div class="vibe-card-label">
+              <Icon name="solar:music-note-2-line-duotone" />
+              {{ lfmTrack?.nowPlaying ? 'Now Playing' : 'Last Played' }}
+            </div>
+            <div class="now-playing">
+              <!-- Album art -->
+              <div class="now-playing-art">
+                <div class="album-art-placeholder">
+                  <NuxtImg
+                    v-if="lfmTrack?.albumArt"
+                    :src="lfmTrack.albumArt"
+                    :alt="lfmTrack.album"
+                    class="album-art-img"
+                    width="56"
+                    height="56"
+                  />
+                  <Icon v-else name="solar:music-library-2-line-duotone" class="album-placeholder-icon" />
+                </div>
+                <div v-if="lfmTrack?.nowPlaying" class="now-playing-bars" aria-hidden="true">
+                  <span /><span /><span /><span />
+                </div>
+              </div>
+              <!-- Track info -->
+              <div class="now-playing-info" v-if="!lfmLoading && !lfmError && lfmTrack">
+                <a :href="lfmTrack.url" target="_blank" rel="noopener" class="now-playing-track">
+                  {{ lfmTrack.name }}
+                </a>
+                <p class="now-playing-artist">{{ lfmTrack.artist }}</p>
+                <p class="now-playing-album" v-if="lfmTrack.album">{{ lfmTrack.album }}</p>
+              </div>
+              <div class="now-playing-info" v-else-if="lfmLoading">
+                <p class="now-playing-track now-playing-track--muted">Loading...</p>
+              </div>
+              <div class="now-playing-info" v-else>
+                <p class="now-playing-track now-playing-track--muted">
+                  {{ lfmError === 'no tracks' ? 'Nothing scrobbled recently' : 'Couldn\'t load Last.fm' }}
+                </p>
               </div>
             </div>
-            <!-- Track info -->
-            <div class="now-playing-info" v-if="!lfmLoading && !lfmError && lfmTrack">
-              <a :href="lfmTrack.url" target="_blank" rel="noopener" class="now-playing-track">
-                {{ lfmTrack.name }}
-              </a>
-              <p class="now-playing-artist">{{ lfmTrack.artist }}</p>
-              <p class="now-playing-album" v-if="lfmTrack.album">{{ lfmTrack.album }}</p>
+          </Surface>
+
+          <!-- Building -->
+          <Surface variant="glass">
+            <div class="vibe-card-label">
+              <Icon name="solar:programming-line-duotone" />
+              Building
             </div>
-            <div class="now-playing-info" v-else-if="lfmLoading">
-              <p class="now-playing-track now-playing-track--muted">Loading...</p>
+            <p class="vibe-card-title">Tumult</p>
+            <p class="vibe-card-body">A Matrix-based chat & media client. Vue, Tauri, and a lot of late nights.</p>
+            <Button variant="default" to="/projects/260203">See the project <Icon name="solar:alt-arrow-right-linear"/></Button>
+          </Surface>
+
+          <!-- Current Obsession -->
+          <Surface variant="glass">
+            <div class="vibe-card-label">
+              <Icon name="solar:star-shine-line-duotone" />
+              Current obsession
             </div>
-            <div class="now-playing-info" v-else>
-              <p class="now-playing-track now-playing-track--muted">
-                {{ lfmError === 'no tracks' ? 'Nothing scrobbled recently' : 'Couldn\'t load Last.fm' }}
-              </p>
+            <p class="vibe-card-title">{{ currentObsession.title }}</p>
+            <p class="vibe-card-body">{{ currentObsession.body }}</p>
+          </Surface>
+
+          <!-- Location -->
+          <Surface variant="glass">
+            <div class="vibe-card-label">
+              <Icon name="solar:map-point-wave-line-duotone" />
+              Location
             </div>
-          </div>
-        </Surface>
+            <p class="vibe-card-title">Spokane, WA</p>
+            <p class="vibe-card-body">Pacific Time · {{ localTime }}</p>
+            <p class="vibe-card-body vibe-card-body--muted">Open to remote work worldwide</p>
+          </Surface>
 
-        <!-- Building -->
-        <Surface variant="glass">
-          <div class="vibe-card-label">
-            <Icon name="solar:programming-line-duotone" />
-            Building
-          </div>
-          <p class="vibe-card-title">Tumult</p>
-          <p class="vibe-card-body">A Matrix-based chat & media client. Vue, Tauri, and a lot of late nights.</p>
-          <Button variant="default" to="/projects/260203">See the project <Icon name="solar:alt-arrow-right-linear"/></Button>
-        </Surface>
+          <!-- GitHub -->
+          <Surface variant="glass">
+            <div class="vibe-card-label">
+              <Icon name="simple-icons:github" />
+              GitHub
+            </div>
+            <p class="vibe-card-title">jackgraddon</p>
+            <p class="vibe-card-body">Building in public. Mostly Tumult lately.</p>
+            <Button variant="default" to="https://github.com/jackgraddon">View profile <Icon name="solar:alt-arrow-right-linear"/></Button>
+          </Surface>
 
-        <!-- Current Obsession -->
-        <Surface variant="glass">
-          <div class="vibe-card-label">
-            <Icon name="solar:star-shine-line-duotone" />
-            Current obsession
-          </div>
-          <p class="vibe-card-title">{{ currentObsession.title }}</p>
-          <p class="vibe-card-body">{{ currentObsession.body }}</p>
-        </Surface>
-
-        <!-- Location -->
-        <Surface variant="glass">
-          <div class="vibe-card-label">
-            <Icon name="solar:map-point-wave-line-duotone" />
-            Location
-          </div>
-          <p class="vibe-card-title">Spokane, WA</p>
-          <p class="vibe-card-body">Pacific Time · {{ localTime }}</p>
-          <p class="vibe-card-body vibe-card-body--muted">Open to remote work worldwide</p>
-        </Surface>
-
-        <!-- GitHub -->
-        <Surface variant="glass">
-          <div class="vibe-card-label">
-            <Icon name="simple-icons:github" />
-            GitHub
-          </div>
-          <p class="vibe-card-title">jackgraddon</p>
-          <p class="vibe-card-body">Building in public. Mostly Tumult lately.</p>
-          <Button variant="default" to="https://github.com/jackgraddon">View profile <Icon name="solar:alt-arrow-right-linear"/></Button>
-        </Surface>
-
-        <!-- Get In Touch -->
-        <Surface variant="glass" class="vibe-card--contact">
-          <div class="vibe-card-label">
-            <Icon name="solar:letter-line-duotone" />
-            Get in touch
-          </div>
-          <p class="vibe-card-body">Got a project in mind, or just want to say hey?</p>
-          <div class="contact-links">
-            <Button variant="default" to="/contact">
+          <!-- Get In Touch -->
+          <Surface variant="glass" class="vibe-card--contact">
+            <div class="vibe-card-label">
               <Icon name="solar:letter-line-duotone" />
-              Email me
-            </Button>
-            <Button variant="default" to="https://linkedin.com/in/jackgraddon">
-              <Icon name="simple-icons:linkedin" />
-              LinkedIn
-            </Button>
-          </div>
-        </Surface>
+              Get in touch
+            </div>
+            <p class="vibe-card-body">Got a project in mind, or just want to say hey?</p>
+            <div class="contact-links">
+              <Button variant="default" to="/contact">
+                <Icon name="solar:letter-line-duotone" />
+                Email me
+              </Button>
+              <Button variant="default" to="https://linkedin.com/in/jackgraddon">
+                <Icon name="tabler:brand-linkedin-filled" />
+                LinkedIn
+              </Button>
+            </div>
+          </Surface>
 
-      </div>
-    </section>
-
+        </div>
+      </section>
+    </PagedContent>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue'
 import { motion, AnimatePresence } from 'motion-v'
 
 definePageMeta({
