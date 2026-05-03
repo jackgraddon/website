@@ -387,11 +387,12 @@ onUnmounted(() => {
 /* ── Bio Section ──────────────────────────────────────── */
 .bio-section {
   min-height: 80vh;
-  padding: 5vh 0;
+  margin: 0 auto;
+  padding: 10vh 0;
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: flex-start;
+  align-items: center;
   gap: 1.5rem;
 }
 
