@@ -5,16 +5,6 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
 
-  icon: {
-    clientBundle: {
-      icons: [
-        'tabler:brand-github-filled',
-        'tabler:brand-linkedin-filled',
-      ],
-      scan: true,
-    }
-  },
-
   css: [
     '@/assets/styles/main.css',
     '@/assets/styles/variables.css',
