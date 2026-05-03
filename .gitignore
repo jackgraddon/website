@@ -18,10 +18,9 @@ logs
 .vscode
 .history
 
-# Local env files
+# Local development files
 .env
 .env.*
 !.env.example
-
-# Files I don't need yet
-modules/liquid-glass-js
+server.key
+server.crt
