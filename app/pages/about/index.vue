@@ -1,6 +1,6 @@
 <template>
   <div class="about-page">
-    <PagedContent>
+    <!-- <PagedContent> -->
       <!-- Bio Tabs Section -->
       <section class="bio-section">
         <div class="tab-pills" role="tablist">
@@ -251,7 +251,7 @@
 
         </div>
       </section>
-    </PagedContent>
+    <!-- </PagedContent> -->
   </div>
 </template>
 
@@ -512,6 +512,9 @@ onUnmounted(() => {
 
 /* ── Vibe Section ─────────────────────────────────────── */
 .vibe-section {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1100px;
   display: flex;
   flex-direction: column;
   gap: 2rem;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-    variant?: 'default' | 'glass' | 'outline' | 'ghost',
+    variant?: 'default' | 'glass' | 'outline' | 'ghost' | 'tab' | 'solid',
     to?: string,
     color?: 'primary' | 'accent' | string,
     bg?: string,
@@ -46,28 +46,21 @@ const buttonColor = computed(() => {
 });
 
 const isLight = computed(() => {
-    // If a specific background color is provided, use that to determine text contrast
     if (props.bg) {
         const p = parseColor(props.bg);
         if (p) return getLuminance(p.r, p.g, p.b) > 0.45;
     }
-    
-    // Check for theme variables
     if (props.color === 'primary' || props.color === 'accent') return false; 
-
-    // Fallback to button color luminance
     const p = parseColor(buttonColor.value);
-    if (!p) return true; // Default to light if we can't parse
+    if (!p) return true; 
     return getLuminance(p.r, p.g, p.b) > 0.45;
 });
 
 const textColor = computed(() => {
     if (isLight.value) {
-        // Light Background: "Saturated Ink" - 75% brand color, 25% black for depth
-        return `color-mix(in srgb, ${buttonColor.value} 90%, white)`;
+        return `color-mix(in srgb, ${buttonColor.value} 15%, black)`;
     } else {
-        // Dark Background: "Bright Glow" - 85% white, 15% brand color for clarity
-        return `color-mix(in srgb, ${buttonColor.value} 10%, white)`;
+        return `color-mix(in srgb, ${buttonColor.value} 15%, white)`;
     }
 });
 
@@ -76,48 +69,36 @@ useGlassGlow(glassRef);
 </script>
 
 <template>
-    <NuxtLink
-        v-if="!props.variant || props.variant === 'default'"
-        :to="props.to"
+    <component
+        :is="to ? 'NuxtLink' : 'button'"
+        :to="to"
+        :type="!to ? 'button' : undefined"
         ref="glassRef"
-        class="button"
-        :class="{ 'is-light': isLight }"
+        :class="[
+            'button', 
+            variant ? `variant-${variant}` : 'variant-default', 
+            { 'is-active': active, 'is-light': isLight }
+        ]"
         :style="{ 
             '--button-color': buttonColor,
-            '--text-color': textColor
+            '--base-text-color': textColor
         }"
     >
         <slot />
-    </NuxtLink>
-
-    <div v-else-if="props.variant === 'glass'" class="button-glass-wrap" :style="{ 
-        '--button-color': buttonColor,
-        '--text-color': textColor
-    }">
-        <NuxtLink :to="props.to" class="button-glass" :class="{ 'is-light': isLight }">
-            <span><slot /></span>
-        </NuxtLink>
-    </div>
-
-    <button
-        v-else-if="props.variant === 'tab'"
-        :class="['button-tab', { active: props.active, 'is-light': isLight }]"
-        :style="{ 
-            '--button-color': buttonColor,
-            '--text-color': textColor 
-        }"
-        ref="glassRef"
-        type="button"
-    >
-        <slot />
-    </button>
+    </component>
 </template>
 
 <style scoped>
 .button {
+    /* Shared Glass Tokens (Consistent with Surface.vue) */
+    --_dark-fill:  rgba(0,   0,   0,   0.14);
+    --_light-fill: rgba(200, 200, 200, 0.09);
+    --_dark-border:  rgba(0,   0,   0,   0.22);
+    --_light-border: rgba(200, 200, 200, 0.18);
+
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
     padding: 0.45rem 1.2rem 0.55rem 1.2rem;
     cursor: pointer;
     position: relative;
@@ -129,36 +110,139 @@ useGlassGlow(glassRef);
     font-size: 1em;
     text-decoration: none;
 
-    /* Strongly tinted text, no shadow */
-    color: var(--text-color);
+    /* 
+     * GLOBAL REACTIVE GLASS LOGIC
+     * All buttons react to background brightness by default.
+     * We mix in a tiny bit of the brand color (4%) to anchor it.
+     */
+    background: color-mix(
+        in srgb,
+        var(--button-color) 4%,
+        color-mix(
+            in srgb,
+            var(--_dark-fill)  calc(var(--bg-is-light, 0) * 100%),
+            var(--_light-fill) calc((1 - var(--bg-is-light, 0)) * 100%)
+        )
+    );
 
-    /* Frosted Background with a 12% tint to anchor it to the color */
-    background: color-mix(in srgb, var(--button-color) 12%, rgba(255, 255, 255, 0.12));
-    backdrop-filter: blur(6px) saturate(150%);
+    border: 1.5px solid color-mix(
+        in srgb,
+        var(--button-color) 25%,
+        color-mix(
+            in srgb,
+            var(--_dark-border)  calc(var(--bg-is-light, 0) * 100%),
+            var(--_light-border) calc((1 - var(--bg-is-light, 0)) * 100%)
+        )
+    );
+
+    /* Text color: Light for legibility on dark/saturated backgrounds */
+    color: color-mix(in srgb, var(--button-color) 10%, white);
     
-    /* Branded Border: 35% mix ensures visibility on white backgrounds */
-    border: 1.5px solid color-mix(in srgb, var(--button-color) 35%, rgba(255, 255, 255, 0.2));
-    
+    backdrop-filter: blur(8px) saturate(130%);
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
 
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
 }
 
 .button:hover {
     transform: translateY(-2px);
-    /* Increase saturation/tint on hover instead of washing out */
-    color: color-mix(in srgb, var(--text-color) 80%, var(--button-color));
-    background: color-mix(in srgb, var(--button-color) 20%, rgba(255, 255, 255, 0.18));
+    background: color-mix(
+        in srgb,
+        var(--button-color) 15%,
+        color-mix(
+            in srgb,
+            rgba(0,   0,   0,   0.25) calc(var(--bg-is-light, 0) * 100%),
+            rgba(255, 255, 255, 0.15) calc((1 - var(--bg-is-light, 0)) * 100%)
+        )
+    );
     box-shadow:
         0 8px 24px rgba(0, 0, 0, 0.12),
         0 0 15px color-mix(in srgb, var(--button-color) 25%, transparent);
 }
 
-/* Remove separate is-light hover color overrides to keep the saturated mix uniform */
+.button.is-active {
+    background: color-mix(
+        in srgb,
+        var(--button-color) 25%,
+        color-mix(
+            in srgb,
+            rgba(0,   0,   0,   0.25) calc(var(--bg-is-light, 0) * 100%),
+            rgba(255, 255, 255, 0.25) calc((1 - var(--bg-is-light, 0)) * 100%)
+        )
+    );
+    border-color: color-mix(in srgb, var(--button-color) 50%, rgba(255, 255, 255, 0.4));
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
 
-/* --- Inherited Flashlight Effect --- */
+/* --- Variant: Glass (Pure transparency, no brand tint) --- */
+.variant-glass {
+    background: color-mix(
+        in srgb,
+        var(--_dark-fill)  calc(var(--bg-is-light, 0) * 100%),
+        var(--_light-fill) calc((1 - var(--bg-is-light, 0)) * 100%)
+    );
+}
+
+/* Premium Sheen for Glass & Default variants */
+.variant-glass::before, 
+.variant-default::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.22) 0%,
+        rgba(255, 255, 255, 0.05) 45%,
+        transparent 65%
+    );
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+/* --- Variant: Tab --- */
+.variant-tab {
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 0.4rem 1rem;
+    font-weight: 500;
+    backdrop-filter: none;
+    box-shadow: none;
+}
+
+.variant-tab.is-active {
+    background: color-mix(
+        in srgb,
+        var(--button-color) 12%,
+        color-mix(
+            in srgb,
+            rgba(0,   0,   0,   0.12) calc(var(--bg-is-light, 0) * 100%),
+            rgba(255, 255, 255, 0.12) calc((1 - var(--bg-is-light, 0)) * 100%)
+        )
+    );
+    border-color: color-mix(
+        in srgb,
+        var(--button-color) 30%,
+        rgba(255, 255, 255, 0.15)
+    );
+    backdrop-filter: blur(8px);
+}
+
+/* --- Variant: Solid (Non-glassy backup) --- */
+.variant-solid {
+    background: var(--button-color);
+    color: var(--base-text-color);
+    backdrop-filter: none;
+}
+
+/* --- Flashlight Effect --- */
 .button::after {
     content: '';
     position: absolute;
@@ -186,39 +270,9 @@ useGlassGlow(glassRef);
     opacity: 1;
 }
 
-/* --- Variant Overrides --- */
-.button-glass span {
-    color: var(--text-color);
-    font-weight: 500;
-    padding: 0.45rem 1.2rem 0.55rem 1.2rem;
-    display: block;
-}
-
-.button-glass {
-    background-color: color-mix(in srgb, var(--button-color) 12%, rgba(255, 255, 255, 0.1));
-    border-radius: 999px;
-    backdrop-filter: blur(6px) saturate(150%);
-    border: 1px solid color-mix(in srgb, var(--button-color) 40%, rgba(255, 255, 255, 0.2));
-    transition: all 0.4s ease;
-    text-decoration: none;
-}
-
-.button-glass:hover span {
-    color: color-mix(in srgb, var(--text-color) 80%, var(--button-color));
-}
-
-.button-tab {
-    background: transparent;
-    border: 1px solid transparent;
-    padding: 0.4rem 1rem;
-    font-weight: 500;
-    color: color-mix(in srgb, var(--text-color) 60%, transparent);
-    transition: 0.3s ease;
-}
-
-.button-tab.active {
-    color: var(--text-color);
-    background: color-mix(in srgb, var(--button-color) 10%, rgba(255, 255, 255, 0.1));
-    border-color: color-mix(in srgb, var(--button-color) 30%, rgba(255, 255, 255, 0.2));
+/* Ensure slot content stays above sheen/flashlight */
+.button > * {
+    position: relative;
+    z-index: 5;
 }
 </style>

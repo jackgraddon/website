@@ -1,3 +1,11 @@
+<!-- 
+  This needs to be fixed/remade. It kindof works but it's not great at all, the UI overlay is way too big and it doesn't work on mobile
+  Goal is to make each section take up the full screen and have buttons on the top and bottom to navigate between them
+  Should feel like 'falling' or flying through the sky to get to the next page rather than scrolling. Cloud passing by each section as you scroll.
+  What do we even do about mobile? eek. Maybe we just remove PagedContent entirely and just make a normal scrollable page?
+  Somehow need to make it not feel like mobile was an afterthought.
+-->
+
 <script setup lang="ts">
 import { motion, useScroll, useTransform, useSpring } from 'motion-v'
 
@@ -9,7 +17,9 @@ onMounted(async () => {
   await nextTick()
   const el = wrapperRef.value?.$el || wrapperRef.value
   if (el && el.children) {
-    sectionCount.value = el.children.length
+    // Only count SECTION tags to avoid counting helper elements
+    const sections = Array.from(el.children).filter(c => (c as HTMLElement).tagName === 'SECTION')
+    sectionCount.value = sections.length || el.children.length
   }
 })
 
@@ -25,30 +35,20 @@ const smoothProgress = useSpring(scrollYProgress, {
 })
 
 function calculateYOffset(val: number, n: number, multiplier: number = 1) {
-  if (n <= 1) return 0
+  if (!n || n <= 1) return 0
   
-  const clampedIndex = Math.min(Math.floor(val * n), n - 1)
-  const localProgress = (val - (clampedIndex / n)) * n
+  // Linear step-based transition with a cubic curve for a "sticky then fly" feel
+  const step = 120
+  const progress = val * (n - 1)
+  const index = Math.floor(progress)
+  const localProgress = progress - index
   
-  const driftEnd = 0.70 
-  const maxDrift = 12   
+  // Cubic ease gives immediate feedback but stays near the top for the first half of the transition
+  const easedProgress = Math.pow(localProgress, 3)
   
-  let yOffset = clampedIndex * 100 
-  
-  if (clampedIndex === n - 1) {
-    const t = localProgress
-    const easeOutWithMomentum = t * (2 - t) 
-    yOffset += easeOutWithMomentum * maxDrift
-  } 
-  else {
-    if (localProgress <= driftEnd) {
-      const driftPcnt = localProgress / driftEnd
-      yOffset += driftPcnt * maxDrift
-    } else {
-      const flyPcnt = (localProgress - driftEnd) / (1 - driftEnd)
-      const easedFly = Math.pow(flyPcnt, 3) 
-      yOffset += maxDrift + (easedFly * (100 - maxDrift))
-    }
+  let yOffset = index * step
+  if (index < n - 1) {
+    yOffset += easedProgress * step
   }
   
   return yOffset * multiplier
@@ -59,11 +59,11 @@ const y = useTransform(smoothProgress, (val) => {
 })
 
 const yBgClouds = useTransform(smoothProgress, (val) => {
-  return `-${calculateYOffset(val, sectionCount.value, 0.6)}vh`
+  return `-${calculateYOffset(val, sectionCount.value, 0.4)}vh`
 })
 
 const yFgClouds = useTransform(smoothProgress, (val) => {
-  return `-${calculateYOffset(val, sectionCount.value, 1.5)}vh`
+  return `-${calculateYOffset(val, sectionCount.value, 1.8)}vh`
 })
 
 const getCloudSrc = (index: number) => {
@@ -80,109 +80,49 @@ watch(sectionCount, (n) => {
   const md = []
   const fg = []
 
-  for (let i = 1; i < n; i++) {
+  for (let i = 0; i < n; i++) {
+    // Ambient Background Clouds (one per page)
     bg.push({
-      id: `bg-${i}-1`,
-      src: getCloudSrc(i * 3),
+      id: `bg-${i}`,
+      src: getCloudSrc(i),
       style: {
-        top: `${i * 60 - 20}vh`,
-        left: `${(i % 2 === 0) ? -5 : -10}vw`,
-        width: '120vw',
-        opacity: 0.3,
-        filter: 'blur(6px)',
-        animationDelay: `${i * 0.5}s`
-      }
-    })
-    bg.push({
-      id: `bg-${i}-2`,
-      src: getCloudSrc(i * 3 + 1),
-      style: {
-        top: `${i * 60 + 60}vh`,
-        right: `${(i % 2 === 0) ? -10 : -5}vw`,
-        width: '115vw',
-        opacity: 0.2,
-        filter: 'blur(8px)',
-        animationDelay: `${i * 0.7}s`
-      }
-    })
-
-    md.push({
-      id: `md-${i}-1`,
-      src: getCloudSrc(i * 3 + 2),
-      style: {
-        top: `${i * 100 - 40}vh`,
-        left: `${(i % 2 === 0) ? -5 : -10}vw`,
-        width: '125vw',
-        opacity: 0.6,
-        filter: 'none',
-        animationDelay: `${i * 0.2}s`
-      }
-    })
-    md.push({
-      id: `md-${i}-2`,
-      src: getCloudSrc(i * 3 + 3),
-      style: {
-        top: `${i * 100 + 60}vh`,
-        right: `${(i % 2 === 0) ? -10 : -5}vw`,
+        top: `${i * 120 + 20}vh`,
+        left: `${(i % 2 === 0) ? -10 : 10}vw`,
         width: '130vw',
-        opacity: 0.7,
-        filter: 'none',
-        animationDelay: `${i * 0.9}s`
-      }
-    })
-
-    fg.push({
-      id: `fg-${i}-1`,
-      src: getCloudSrc(i * 3 + 4),
-      style: {
-        top: `${i * 150 - 50}vh`,
-        left: `${(i % 2 === 0) ? -10 : -15}vw`,
-        width: '135vw',
-        opacity: 0.8,
-        filter: 'blur(8px)',
-        animationDelay: `${i * 0.1}s`
-      }
-    })
-    fg.push({
-      id: `fg-${i}-2`,
-      src: getCloudSrc(i * 3 + 5),
-      style: {
-        top: `${i * 150 + 60}vh`,
-        right: `${(i % 2 === 0) ? -15 : -10}vw`,
-        width: '140vw',
-        opacity: 0.9,
-        filter: 'blur(6px)',
-        animationDelay: `${i * 0.4}s`
-      }
-    })
-  }
-
-  // Add "outro" clouds to transition smoothly to the footer
-  if (n > 1) {
-    bg.push({
-      id: 'bg-outro',
-      src: getCloudSrc(n * 3),
-      style: {
-        top: `${(n - 1) * 60 + 80}vh`,
-        left: '-10vw',
-        width: '130vw',
-        opacity: 0.2,
-        filter: 'none',
-        animationDelay: '0s'
-      }
-    })
-    fg.push({
-      id: 'fg-outro',
-      src: getCloudSrc(n * 3 + 1),
-      style: {
-        top: `${(n - 1) * 150 + 100}vh`,
-        right: '-15vw',
-        width: '150vw',
-        opacity: 0.4,
+        opacity: 0.15,
         filter: 'blur(12px)',
-        animationDelay: '0s'
+        animationDelay: `${i * 0.8}s`
       }
     })
+
+    // Divider Clouds
+    if (i < n - 1) {
+      md.push({
+        id: `md-${i}`,
+        src: getCloudSrc(i + 4),
+        style: {
+          top: `${i * 120 + 105}vh`,
+          left: '-5vw',
+          width: '120vw',
+          opacity: 0.4,
+          filter: 'none',
+        }
+      })
+
+      // Foreground clouds move much faster, so they need to be positioned 
+      // further away from the current page to not overlap it.
+      fg.push({
+        id: `fg-${i}`,
+        src: getCloudSrc(i + 7),
+        style: {
+          top: `${i * 120 + 180}vh`, 
+          right: '-10vw',
+          width: '150vw',
+          opacity: 0.6,
+          filter: 'blur(8px)',
+        }
+      })
+    }
   }
 
   bgClouds.value = bg
@@ -210,12 +150,12 @@ smoothProgress.on('change', (val) => {
 const scrollToPage = (index: number) => {
   if (!targetRef.value) return
   
-  const totalHeight = sectionCount.value * 180
+  const totalHeight = (sectionCount.value - 1) * 120 + 100
   const vh = window.innerHeight / 100
   const totalPx = totalHeight * vh
   const viewportPx = window.innerHeight
   
-  const targetVal = index / sectionCount.value
+  const targetVal = index / (sectionCount.value - 1 || 1)
   const targetScroll = targetVal * (totalPx - viewportPx)
   
   const top = targetRef.value.offsetTop + targetScroll
@@ -242,7 +182,7 @@ const prevPage = () => {
   <div 
     class="scroll-track" 
     ref="targetRef" 
-    :style="{ height: sectionCount > 0 ? `${sectionCount * 180}vh` : '100vh' }"
+    :style="{ height: sectionCount > 1 ? `${(sectionCount - 1) * 120 + 100}vh` : '100vh' }"
   >
     <div class="sticky-window">
       <!-- Background Clouds -->
@@ -335,7 +275,6 @@ const prevPage = () => {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  will-change: transform;
   contain: layout style;
 }
 
@@ -359,21 +298,24 @@ const prevPage = () => {
 .sections-wrapper {
   display: flex;
   flex-direction: column;
+  gap: 20vh;
   width: 100%;
-  will-change: transform;
+  max-width: 1600px;
+  height: auto;
+  margin: 0 auto;
   position: relative;
   z-index: 10;
 }
 
 :deep(section) {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 0 10%;
+  padding: 16vh 10% 12vh 10%;
   box-sizing: border-box;
   contain: layout;
   content-visibility: auto;

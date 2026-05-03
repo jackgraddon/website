@@ -35,11 +35,12 @@ const isOverResize = ref(false)
 const isPressed = ref(false)
 
 const isVisible = computed(() => !isOutside.value && !isOverResize.value)
+const shouldShow = computed(() => isVisible.value && isLoaded.value)
 
 let lastPointer = { x: 0, y: 0, t: 0 }
 let edgeTimer: ReturnType<typeof setTimeout> | null = null
 let safetyInterval: ReturnType<typeof setInterval> | null = null
-const EDGE_THRESHOLD = 2
+const EDGE_THRESHOLD = 1 // tighter threshold for explicit movement checks
 
 let lastTarget: HTMLElement | null = null
 let isResizable = false
@@ -92,15 +93,20 @@ const updateCursorState = (e: PointerEvent) => {
     e.clientY >= window.innerHeight - EDGE_THRESHOLD
 
   if (atEdge) {
-    isOutside.value = true
-    if (edgeTimer) clearTimeout(edgeTimer)
-    edgeTimer = setTimeout(() => {
-      const dt = Date.now() - lastPointer.t
-      if (dt > 100) isOutside.value = true
-    }, 120)
+    if (!edgeTimer) {
+      edgeTimer = setTimeout(() => {
+        const dt = Date.now() - lastPointer.t
+        // If we're at the edge and haven't moved for a bit, 
+        // it's likely we left without a pointerleave event
+        if (dt > 150) isOutside.value = true
+      }, 200)
+    }
   } else {
     isOutside.value = false
-    if (edgeTimer) clearTimeout(edgeTimer)
+    if (edgeTimer) {
+      clearTimeout(edgeTimer)
+      edgeTimer = null
+    }
   }
 
   if (cachedCustomCursor && cursorMap.value[cachedCustomCursor]) {
@@ -154,18 +160,15 @@ const handleVisibility = () => {
 }
 
 const runSafetyCheck = () => {
-  if (!document.hasFocus()) {
-    isOutside.value = true
-    return
-  }
-  
   const now = Date.now()
-  if (now - lastPointer.t > 500) {
+  // Only hide if we haven't seen movement for a while AND we're at the very edge
+  // This catches cases where pointerleave might have missed a fast exit
+  if (now - lastPointer.t > 2000) {
     const atEdge = 
-      lastPointer.x <= EDGE_THRESHOLD || 
-      lastPointer.x >= window.innerWidth - EDGE_THRESHOLD || 
-      lastPointer.y <= EDGE_THRESHOLD || 
-      lastPointer.y >= window.innerHeight - EDGE_THRESHOLD
+      lastPointer.x <= 1 || 
+      lastPointer.x >= window.innerWidth - 1 || 
+      lastPointer.y <= 1 || 
+      lastPointer.y >= window.innerHeight - 1
     
     if (atEdge) isOutside.value = true
   }
@@ -200,7 +203,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('pointermove', updateMouse, { capture: true })
+  window.removeEventListener('pointermove', updateMouse, { capture: true, passive: true })
   window.removeEventListener('pointerdown', handleMouseDown, { capture: true })
   window.removeEventListener('pointerup', handleMouseUp, { capture: true })
   window.removeEventListener('blur', handleBlur)
@@ -221,7 +224,7 @@ onUnmounted(() => {
     <motion.div
       class="cursor-follower"
       :animate="{
-        opacity: (isVisible && isLoaded) ? 1 : 0,
+        opacity: shouldShow ? 1 : 0,
       }"
       :style="{
         x: smoothX,

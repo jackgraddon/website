@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   future: {
@@ -26,10 +25,16 @@ export default defineNuxtConfig({
     server: {
       allowedHosts: true,
       hmr: {
-        protocol: 'ws',
+        protocol: 'wss',
       },
     },
+  },
 
+  devServer: {
+    https: {
+      key: './server.key',
+      cert: './server.crt'
+    }
   },
 
   modules: [
