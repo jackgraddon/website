@@ -1,8 +1,8 @@
 <template>
   <div class="about-page">
-    <!-- <PagedContent> -->
+    <PagedContent>
       <!-- Bio Tabs Section -->
-      <section class="bio-section">
+      <section class="bio-section snap-section">
         <div class="tab-pills" role="tablist">
           <motion.div
             v-for="(tab, i) in tabs"
@@ -108,7 +108,7 @@
 
 
       <!-- Tech Stack -->
-      <section class="layout-container">
+      <section class="layout-container snap-section">
         <header class="section-header">
           <h2>
             <Icon name="solar:code-square-line-duotone" />
@@ -135,7 +135,7 @@
       </section>
 
       <!-- Right Now Section -->
-      <section class="vibe-section">
+      <section class="vibe-section snap-section">
         <div class="vibe-header">
           <Icon name="solar:compass-big-line-duotone" class="vibe-header-icon" />
           <h2 class="vibe-title">Right now</h2>
@@ -251,7 +251,7 @@
 
         </div>
       </section>
-    <!-- </PagedContent> -->
+    </PagedContent>
   </div>
 </template>
 
