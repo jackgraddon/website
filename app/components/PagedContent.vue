@@ -1,482 +1,515 @@
-<!-- 
-  This needs to be fixed/remade. It kindof works but it's not great at all, the UI overlay is way too big and it doesn't work on mobile
-  Goal is to make each section take up the full screen and have buttons on the top and bottom to navigate between them
-  Should feel like 'falling' or flying through the sky to get to the next page rather than scrolling. Cloud passing by each section as you scroll.
-  What do we even do about mobile? eek. Maybe we just remove PagedContent entirely and just make a normal scrollable page?
-  Somehow need to make it not feel like mobile was an afterthought.
+<!--
+  PagedContent.vue
+
+  Architecture: Native Window Scroll
+  ────────────────────────────────────
+  This component uses the native window scroll position to drive page
+  transitions and parallax effects. By linking directly to the DOM's 
+  page scroll, we avoid common issues with nested scroll hijacking 
+  and ensure smooth, native behavior across all devices.
+
+  • .scroll-track: Defines the total scrollable height.
+  • .snap-point: Provides anchor points for CSS scroll-snap.
+  • .snap-container: Sticky wrapper that holds the current viewport.
+
+  Usage:
+    <PagedContent>
+      <section class="snap-section">Page 1</section>
+      <section class="snap-section">Page 2</section>
+    </PagedContent>
+
+  Each direct child with class="snap-section" becomes a full-screen page.
 -->
 
 <script setup lang="ts">
-import { motion, useScroll, useTransform, useSpring } from 'motion-v'
+// ─── Refs ─────────────────────────────────────────────────────────────────────
 
-const targetRef = ref<HTMLElement | null>(null)
-const wrapperRef = ref<any>(null)
-const sectionCount = ref(0)
+const trackRef      = ref<HTMLElement | null>(null)
+const stickyRef     = ref<HTMLElement | null>(null)
+const sectionRefs   = ref<HTMLElement[]>([])
+const currentPage   = ref(0)
+const sectionCount  = ref(0)
+const currentScroll = ref(0)
+
+// ─── Section discovery ────────────────────────────────────────────────────────
 
 onMounted(async () => {
   await nextTick()
-  const el = wrapperRef.value?.$el || wrapperRef.value
-  if (el && el.children) {
-    // Only count SECTION tags to avoid counting helper elements
-    const sections = Array.from(el.children).filter(c => (c as HTMLElement).tagName === 'SECTION')
-    sectionCount.value = sections.length || el.children.length
-  }
+  const track = trackRef.value
+  if (!track) return
+
+  // Find sections within the track (they are passed via slot)
+  const sections = Array.from(
+    track.querySelectorAll<HTMLElement>('.snap-section')
+  )
+  sectionRefs.value  = sections
+  sectionCount.value = sections.length
+
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('resize', handleScroll, { passive: true })
+  handleScroll()
+
+  generateClouds(sections.length)
 })
 
-const { scrollYProgress } = useScroll({
-  target: targetRef,
-  offset: ["start start", "end end"]
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', handleScroll)
+  clearGlobalStyles()
+  if (rafId) cancelAnimationFrame(rafId)
 })
 
-const smoothProgress = useSpring(scrollYProgress, {
-  stiffness: 100,
-  damping: 40,
-  restDelta: 0.0001
-})
+// ─── Style Management ────────────────────────────────────────────────────────
 
-function calculateYOffset(val: number, n: number, multiplier: number = 1) {
-  if (!n || n <= 1) return 0
-  
-  // Linear step-based transition with a cubic curve for a "sticky then fly" feel
-  const step = 120
-  const progress = val * (n - 1)
-  const index = Math.floor(progress)
-  const localProgress = progress - index
-  
-  // Cubic ease gives immediate feedback but stays near the top for the first half of the transition
-  const easedProgress = Math.pow(localProgress, 3)
-  
-  let yOffset = index * step
-  if (index < n - 1) {
-    yOffset += easedProgress * step
-  }
-  
-  return yOffset * multiplier
+function clearGlobalStyles() {
+  document.documentElement.style.scrollSnapType = ''
+  document.documentElement.style.scrollBehavior = ''
 }
 
-const y = useTransform(smoothProgress, (val) => {
-  return `-${calculateYOffset(val, sectionCount.value)}vh`
-})
-
-const yBgClouds = useTransform(smoothProgress, (val) => {
-  return `-${calculateYOffset(val, sectionCount.value, 0.4)}vh`
-})
-
-const yFgClouds = useTransform(smoothProgress, (val) => {
-  return `-${calculateYOffset(val, sectionCount.value, 1.8)}vh`
-})
-
-const getCloudSrc = (index: number) => {
-  const num = (index % 3) + 1;
-  return `/images/clouds/cloud-00${num}.webp`;
+function updateGlobalStyles(isActive: boolean) {
+  if (isActive) {
+    document.documentElement.style.scrollSnapType = 'y mandatory'
+    // Snapping works best with auto scroll behavior
+    document.documentElement.style.scrollBehavior = 'auto'
+  } else {
+    clearGlobalStyles()
+  }
 }
 
-const bgClouds = ref<any[]>([])
-const mdClouds = ref<any[]>([])
-const fgClouds = ref<any[]>([])
+// ─── Scroll Handling ─────────────────────────────────────────────────────────
 
-watch(sectionCount, (n) => {
-  const bg = []
-  const md = []
-  const fg = []
+function handleScroll() {
+  if (!trackRef.value) return
+
+  const rect = trackRef.value.getBoundingClientRect()
+  const vh   = window.innerHeight
+
+  // Active check: is the track currently occupying the viewport?
+  // We use a small threshold to enable snapping just before/at the top.
+  const isActive = rect.top <= 5 && rect.bottom >= vh - 5
+  updateGlobalStyles(isActive)
+
+  // st is how many pixels the top of the track has moved above the viewport top
+  const st = -rect.top
+  const maxScroll = Math.max(0, (sectionCount.value - 1) * vh)
+
+  // Clamp scroll between 0 and the end of the track
+  currentScroll.value = Math.max(0, Math.min(maxScroll, st))
+
+  // Update currentPage for indicators and UI
+  currentPage.value = Math.min(
+    sectionCount.value - 1,
+    Math.max(0, Math.floor(st / vh + 0.5))
+  )
+
+  // Update clouds
+  updateClouds(currentScroll.value)
+}
+
+// ─── Navigation ───────────────────────────────────────────────────────────────
+
+function scrollToPage(index: number) {
+  if (!trackRef.value) return
+  const vh = window.innerHeight
+  // Calculate global scroll position
+  const targetY = trackRef.value.offsetTop + index * vh
+  window.scrollTo({ top: targetY, behavior: 'smooth' })
+}
+
+function nextPage() {
+  if (currentPage.value < sectionCount.value - 1) scrollToPage(currentPage.value + 1)
+}
+
+function prevPage() {
+  if (currentPage.value > 0) scrollToPage(currentPage.value - 1)
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); nextPage() }
+  if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); prevPage() }
+}
+
+// ─── Cloud parallax ───────────────────────────────────────────────────────────
+
+interface Cloud {
+  id:      string
+  src:     string
+  layer:   'bg' | 'mid' | 'fg'
+  baseTop: number   // vh, absolute within the sections-host height
+  left?:   string
+  right?:  string
+  width:   string
+  opacity: number
+  blur:    number
+}
+
+const clouds   = ref<Cloud[]>([])
+const cloudY   = ref<Record<string, number>>({})
+const PARALLAX = { bg: 0.55, mid: 1.0, fg: 1.6 }
+let   rafId    = 0
+
+function updateClouds(st: number) {
+  clouds.value.forEach((c) => {
+    // Math adjustment for sticky container parallax:
+    // In a sticky container, to move with the sections (1:1), 
+    // a child would need to be translated by -st.
+    // So parallax math becomes: st * (PARALLAX - 2.0)
+    cloudY.value[c.id] = st * (PARALLAX[c.layer] - 2.0)
+  })
+}
+
+function getCloudSrc(index: number) {
+  return `/images/clouds/cloud-00${(index % 3) + 1}.webp`
+}
+
+function generateClouds(n: number) {
+  const result: Cloud[] = []
+  const init: Record<string, number> = {}
 
   for (let i = 0; i < n; i++) {
-    // Ambient Background Clouds (one per page)
-    bg.push({
-      id: `bg-${i}`,
-      src: getCloudSrc(i),
-      style: {
-        top: `${i * 120 + 20}vh`,
-        left: `${(i % 2 === 0) ? -10 : 10}vw`,
-        width: '130vw',
-        opacity: 0.15,
-        filter: 'blur(12px)',
-        animationDelay: `${i * 0.8}s`
-      }
+    const pageTop = i * 100
+
+    result.push({
+      id: `bg-${i}`, src: getCloudSrc(i), layer: 'bg',
+      baseTop: pageTop + 15,
+      left: i % 2 === 0 ? '-8vw' : '10vw',
+      width: '120vw', opacity: 0.12, blur: 14,
     })
 
-    // Divider Clouds
     if (i < n - 1) {
-      md.push({
-        id: `md-${i}`,
-        src: getCloudSrc(i + 4),
-        style: {
-          top: `${i * 120 + 105}vh`,
-          left: '-5vw',
-          width: '120vw',
-          opacity: 0.4,
-          filter: 'none',
-        }
+      result.push({
+        id: `mid-${i}`, src: getCloudSrc(i + 4), layer: 'mid',
+        baseTop: pageTop + 80, left: '-5vw',
+        width: '115vw', opacity: 0.45, blur: 0,
       })
-
-      // Foreground clouds move much faster, so they need to be positioned 
-      // further away from the current page to not overlap it.
-      fg.push({
-        id: `fg-${i}`,
-        src: getCloudSrc(i + 7),
-        style: {
-          top: `${i * 120 + 180}vh`, 
-          right: '-10vw',
-          width: '150vw',
-          opacity: 0.6,
-          filter: 'blur(8px)',
-        }
+      result.push({
+        id: `fg-${i}`, src: getCloudSrc(i + 7), layer: 'fg',
+        baseTop: pageTop + 88, right: '-8vw',
+        width: '140vw', opacity: 0.65, blur: 6,
       })
     }
   }
 
-  bgClouds.value = bg
-  mdClouds.value = md
-  fgClouds.value = fg
-}, { immediate: true })
-
-const currentPage = ref(0)
-
-// Throttle currentPage updates to one per animation frame
-let _progressRafId = 0
-smoothProgress.on('change', (val) => {
-  if (_progressRafId) return
-  _progressRafId = requestAnimationFrame(() => {
-    _progressRafId = 0
-    if (sectionCount.value > 0) {
-      currentPage.value = Math.min(
-        Math.floor(val * sectionCount.value + 0.1),
-        sectionCount.value - 1
-      )
-    }
-  })
-})
-
-const scrollToPage = (index: number) => {
-  if (!targetRef.value) return
-  
-  const totalHeight = (sectionCount.value - 1) * 120 + 100
-  const vh = window.innerHeight / 100
-  const totalPx = totalHeight * vh
-  const viewportPx = window.innerHeight
-  
-  const targetVal = index / (sectionCount.value - 1 || 1)
-  const targetScroll = targetVal * (totalPx - viewportPx)
-  
-  const top = targetRef.value.offsetTop + targetScroll
-  window.scrollTo({
-    top,
-    behavior: 'smooth'
-  })
+  result.forEach((c) => (init[c.id] = 0))
+  clouds.value = result
+  cloudY.value  = init
+  // Initial position
+  if (trackRef.value) handleScroll()
 }
 
-const nextPage = () => {
-  if (currentPage.value < sectionCount.value - 1) {
-    scrollToPage(currentPage.value + 1)
-  }
-}
-
-const prevPage = () => {
-  if (currentPage.value > 0) {
-    scrollToPage(currentPage.value - 1)
+function cloudStyle(cloud: Cloud) {
+  const offset = cloudY.value[cloud.id] ?? 0
+  return {
+    top:           `calc(${cloud.baseTop}vh + ${offset}px)`,
+    left:          cloud.left,
+    right:         cloud.right,
+    width:         cloud.width,
+    opacity:       cloud.opacity,
+    filter:        cloud.blur > 0 ? `blur(${cloud.blur}px)` : 'none',
+    zIndex:        cloud.layer === 'bg' ? 0 : cloud.layer === 'mid' ? 5 : 20,
+    position:      'absolute' as const,
+    pointerEvents: 'none'     as const,
+    willChange:    'top',
   }
 }
 </script>
 
 <template>
-  <div 
-    class="scroll-track" 
-    ref="targetRef" 
-    :style="{ height: sectionCount > 1 ? `${(sectionCount - 1) * 120 + 100}vh` : '100vh' }"
+  <!--
+    Outer track: establishes the scroll "budget". The browser keeps the user
+    here until they've scrolled through N * 100vh of it. Our wheel/touch
+    intercepts drain this budget page by page.
+  -->
+  <div
+    ref="trackRef"
+    class="scroll-track"
+    :style="{ height: sectionCount > 0 ? `${sectionCount * 100}vh` : '100vh' }"
   >
-    <div class="sticky-window">
-      <!-- Background Clouds -->
-      <motion.div class="clouds-wrapper bg-clouds" :style="{ y: yBgClouds }">
-        <img v-for="c in bgClouds" :key="c.id" :src="c.src" :style="c.style" class="cloud" alt="" aria-hidden="true" loading="lazy" />
-      </motion.div>
+    <!-- Snap Points for native CSS snapping -->
+    <div
+      v-for="i in sectionCount"
+      :key="`snap-${i}`"
+      class="snap-point"
+      :style="{ top: `${(i - 1) * 100}vh` }"
+    />
+    <!--
+      Inner sticky container: always fills the viewport while the track is in view.
+      overflow: hidden clips clouds; paging is driven entirely by scrollIntoView.
+    -->
+    <div
+      ref="stickyRef"
+      class="snap-container"
+      tabindex="0"
+      @keydown="onKeydown"
+    >
+      <!-- Cloud layers -->
+      <img
+        v-for="cloud in clouds"
+        :key="cloud.id"
+        :src="cloud.src"
+        :style="cloudStyle(cloud)"
+        class="cloud-img"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+      />
 
-      <!-- Mid Clouds -->
-      <motion.div class="clouds-wrapper md-clouds" :style="{ y }">
-        <img v-for="c in mdClouds" :key="c.id" :src="c.src" :style="c.style" class="cloud" alt="" aria-hidden="true" loading="lazy" />
-      </motion.div>
+      <!-- Sections Viewport: This handles the internal clipping -->
+      <div class="sections-viewport">
+        <div
+          class="sections-host"
+          :style="{ transform: `translateY(-${currentScroll}px)` }"
+        >
+          <slot />
+        </div>
+      </div>
 
-      <motion.div
-        class="sections-wrapper"
-        ref="wrapperRef"
-        :style="{ y }"
-      >
-        <slot />
-      </motion.div>
-
-      <!-- Foreground Clouds -->
-      <motion.div class="clouds-wrapper fg-clouds" :style="{ y: yFgClouds }">
-        <img v-for="c in fgClouds" :key="c.id" :src="c.src" :style="c.style" class="cloud" alt="" aria-hidden="true" loading="lazy" />
-      </motion.div>
-
-      <!-- UI Overlays -->
-      <div class="ui-overlay">
-        <!-- Page Indicators -->
-        <div class="page-indicators" v-if="sectionCount > 1">
-          <button 
-            v-for="i in sectionCount" 
+      <!-- UI overlay -->
+      <div class="ui-overlay" aria-hidden="true">
+        <!-- Side dot indicators -->
+        <div v-if="sectionCount > 1" class="page-indicators" role="tablist">
+          <button
+            v-for="i in sectionCount"
             :key="i"
             class="dot-btn"
             :class="{ active: currentPage === i - 1 }"
-            @click="scrollToPage(i - 1)"
+            role="tab"
+            :aria-selected="currentPage === i - 1"
             :aria-label="`Go to page ${i}`"
+            @click="scrollToPage(i - 1)"
           >
-            <span class="dot-inner"></span>
+            <span class="dot-inner" />
           </button>
         </div>
 
-        <!-- Previous Page Hint -->
-        <transition name="fade-down">
-          <Button 
+        <!-- Previous -->
+        <Transition name="hint-down">
+          <Button
             v-if="currentPage > 0"
-            class="scroll-hint top"
+            variant="default"
+            class="page-hint top"
             @click="prevPage"
-            variant="glass"
+            aria-label="Previous page"
           >
-            Previous Page
+            Previous
           </Button>
-        </transition>
+        </Transition>
 
-        <!-- Next Page Hint -->
-        <transition name="fade-up">
-          <Button 
+        <!-- Next -->
+        <Transition name="hint-up">
+          <Button
             v-if="currentPage < sectionCount - 1"
-            class="scroll-hint bottom"
+            class="page-hint bottom"
             @click="nextPage"
-            variant="glass"
+            aria-label="Next page"
           >
-            Next Page
+            Next
           </Button>
-        </transition>
+        </Transition>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+/* ── Outer track ────────────────────────────────────────────────────── */
+
 .scroll-track {
   position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  margin-top: -3rem;
-  margin-bottom: -3rem;
+  /* Enable snapping on the track if it's the scroll container, 
+     but for window scroll, snapping must be on html/body. */
 }
 
-.sticky-window {
+.snap-point {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  scroll-snap-align: start;
+  pointer-events: none;
+}
+
+/* ── Sticky snap container ──────────────────────────────────────────── */
+
+.snap-container {
   position: sticky;
   top: 0;
   height: 100vh;
   width: 100%;
+  overflow: visible;
+  outline: none;
 }
 
-.clouds-wrapper {
+/* ── Sections viewport ─────────────────────────────────────────────── */
+
+.sections-viewport {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  height: 100vh;
   width: 100%;
-  height: 100%;
-  pointer-events: none;
-  contain: layout style;
-}
-
-.bg-clouds {
-  z-index: 0;
-}
-
-.md-clouds {
-  z-index: 5;
-}
-
-.fg-clouds {
-  z-index: 20;
-}
-
-.cloud {
-  position: absolute;
-  pointer-events: none;
-}
-
-.sections-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20vh;
-  width: 100%;
-  max-width: 1600px;
-  height: auto;
-  margin: 0 auto;
-  position: relative;
+  overflow: hidden;
   z-index: 10;
 }
 
-:deep(section) {
-  min-height: 100vh;
+/* ── Sections host ──────────────────────────────────────────────────── */
+
+.sections-host {
+  position: relative;
+  z-index: 10;
+  /* height bound in template via :style so clouds span the full height */
+}
+
+/* ── Snap sections ──────────────────────────────────────────────────── */
+
+:deep(.snap-section) {
+  height: 100vh;
   width: 100%;
-  flex-shrink: 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 16vh 10% 12vh 10%;
-  box-sizing: border-box;
-  contain: layout;
-  content-visibility: auto;
+  padding: max(4rem, 10vh) 10% max(3rem, 8vh);
+  overflow: hidden;
+  position: relative;
 }
+
+/* ── Cloud images ───────────────────────────────────────────────────── */
+
+.cloud-img {
+  pointer-events: none;
+  user-select: none;
+  position: absolute;
+}
+
+/* ── UI overlay ─────────────────────────────────────────────────────── */
 
 .ui-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  height: 100vh;  /* overlay spans viewport only, not full scroll height */
   pointer-events: none;
   z-index: 30;
 }
 
+/* ── Dot indicators ─────────────────────────────────────────────────── */
+
 .page-indicators {
   position: absolute;
-  right: 2rem;
+  right: clamp(0.75rem, 2vw, 2rem);
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
   pointer-events: auto;
 }
 
 .dot-btn {
   background: none;
   border: none;
-  padding: 0;
-  margin: 0;
+  padding: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 1rem;
-  color: white;
-  transition: all 0.3s ease;
+  justify-content: center;
 }
 
 .dot-inner {
-  width: 10px;
-  height: 10px;
+  display: block;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  transition: all 0.3s ease;
-}
-
-.dot-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0;
-  transform: translateX(10px);
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.dot-btn:hover .dot-label {
-  opacity: 1;
-  transform: translateX(0);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
 }
 
 .dot-btn:hover .dot-inner {
-  border-color: white;
-  transform: scale(1.2);
+  border-color: rgba(255, 255, 255, 0.85);
+  transform: scale(1.25);
 }
 
 .dot-btn.active .dot-inner {
   background: white;
   border-color: white;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
-  transform: scale(1.3);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  transform: scale(1.35);
 }
 
-.dot-btn.active .dot-label {
-  opacity: 0.6;
-  transform: translateX(0);
-}
+/* ── Prev / Next buttons ────────────────────────────────────────────── */
 
-.scroll-hint {
+.page-hint {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.3rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px) saturate(1.4);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2rem;
+  padding: 0.6rem 1.4rem;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   pointer-events: auto;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 40;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
 }
 
-.scroll-hint.top {
-  top: 6rem;
+.page-hint.top    { top:    clamp(1rem, 3vh, 2.5rem); }
+.page-hint.bottom { bottom: clamp(1rem, 3vh, 2.5rem); }
+
+.page-hint:hover { background: rgba(255, 255, 255, 0.2); box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+.page-hint.top:hover    { transform: translateX(-50%) translateY( 3px); }
+.page-hint.bottom:hover { transform: translateX(-50%) translateY(-3px); }
+
+/* ── Transitions ────────────────────────────────────────────────────── */
+
+.hint-up-enter-active, .hint-up-leave-active,
+.hint-down-enter-active, .hint-down-leave-active {
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.scroll-hint.bottom {
-  bottom: 2.5rem;
-}
-
-.scroll-hint:hover {
-  transform: translateX(-50%) translateY(-4px);
-}
-
-.scroll-hint.top:hover {
-  transform: translateX(-50%) translateY(4px);
-}
-
-.hint-text {
-  font-size: 0.6rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  opacity: 0.7;
-}
-
-.hint-icon {
-  animation: bounce 2.5s infinite;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(6px); }
-  60% { transform: translateY(3px); }
-}
-
-.fade-up-enter-active, .fade-up-leave-active {
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.fade-up-enter-from, .fade-up-leave-to {
+.hint-up-enter-from, .hint-up-leave-to {
   opacity: 0;
-  transform: translateX(-50%) translateY(20px);
+  transform: translateX(-50%) translateY(16px);
 }
 
-.fade-down-enter-active, .fade-down-leave-active {
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.fade-down-enter-from, .fade-down-leave-to {
+.hint-down-enter-from, .hint-down-leave-to {
   opacity: 0;
-  transform: translateX(-50%) translateY(-20px);
+  transform: translateX(-50%) translateY(-16px);
 }
+
+/* ── Mobile ─────────────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  .page-indicators {
-    right: 1rem;
-    gap: 1rem;
+  .page-indicators { gap: 1rem; }
+
+  .page-hint { padding: 0.7rem 1.2rem; }
+
+  :deep(.snap-section) {
+    padding: max(3rem, 8vh) 6% max(2.5rem, 6vh);
+    align-items: center;
+    text-align: center;
   }
-  .dot-label {
-    display: none;
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .hint-up-enter-active, .hint-up-leave-active,
+  .hint-down-enter-active, .hint-down-leave-active {
+    transition: opacity 0.2s ease;
   }
-  .scroll-hint {
-    bottom: 1.5rem;
+
+  .hint-up-enter-from, .hint-up-leave-to,
+  .hint-down-enter-from, .hint-down-leave-to {
+    transform: translateX(-50%);
   }
 }
 </style>

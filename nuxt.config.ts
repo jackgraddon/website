@@ -20,12 +20,12 @@ export default defineNuxtConfig({
     },
   },
 
-  devServer: {
-    https: {
-      key: './server.key',
-      cert: './server.crt'
-    }
-  },
+  // devServer: {
+  //   https: {
+  //     key: './server.key',
+  //     cert: './server.crt'
+  //   }
+  // },
 
   modules: [
     '@nuxt/a11y',
