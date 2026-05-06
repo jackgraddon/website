@@ -202,21 +202,21 @@ onMounted(() => {
   document.head.appendChild(style)
 })
 
-onUnmounted(() => {
-  window.removeEventListener('pointermove', updateMouse, { capture: true, passive: true })
-  window.removeEventListener('pointerdown', handleMouseDown, { capture: true })
-  window.removeEventListener('pointerup', handleMouseUp, { capture: true })
-  window.removeEventListener('blur', handleBlur)
-  document.removeEventListener('pointerenter', handleMouseEnter, { capture: true })
-  document.removeEventListener('pointerleave', handleMouseLeave, { capture: true })
-  document.removeEventListener('visibilitychange', handleVisibility)
+// onUnmounted(() => {
+//   window.removeEventListener('pointermove', updateMouse, { passive: true, capture: true })
+//   window.removeEventListener('pointerdown', handleMouseDown, { capture: true })
+//   window.removeEventListener('pointerup', handleMouseUp, { capture: true })
+//   window.removeEventListener('blur', handleBlur)
+//   document.removeEventListener('pointerenter', handleMouseEnter, { capture: true })
+//   document.removeEventListener('pointerleave', handleMouseLeave, { capture: true })
+//   document.removeEventListener('visibilitychange', handleVisibility)
   
-  if (edgeTimer) clearTimeout(edgeTimer)
-  if (safetyInterval) clearInterval(safetyInterval)
+//   if (edgeTimer) clearTimeout(edgeTimer)
+//   if (safetyInterval) clearInterval(safetyInterval)
   
-  document.documentElement.classList.remove('custom-cursor-active')
-  document.getElementById('cursor-none-styles')?.remove()
-})
+//   document.documentElement.classList.remove('custom-cursor-active')
+//   document.getElementById('cursor-none-styles')?.remove()
+// })
 </script>
 
 <template>
@@ -229,8 +229,8 @@ onUnmounted(() => {
       :style="{
         x: smoothX,
         y: smoothY,
-        translateX: '-50%',
-        translateY: '-50%'
+        translateX: (activeCursor !== 'pointer') ? '-50%' : '0%',
+        translateY: (activeCursor !== 'pointer') ? '-50%' : '0%'
       }"
       :transition="{
         opacity: { duration: 0.2 }
@@ -240,11 +240,10 @@ onUnmounted(() => {
         class="cursor-visual"
         :animate="{
           scale: isPressed ? 0.8 : (isHovering ? 1.2 : 1),
-          rotate: isHovering ? 0 : -25
+          rotate: isHovering ? 0 : -25,
         }"
         :transition="{ type: 'spring', damping: 5, stiffness: 300 }"
       >
-        <!-- Dynamic SVG from auto-imported assets -->
         <img 
           :src="cursorMap[activeCursor] || cursorMap['pointer']" 
           :alt="activeCursor"
