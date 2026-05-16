@@ -76,8 +76,6 @@ function updateGlobalStyles(isActive: boolean) {
   }
 }
 
-// ─── Scroll Handling ─────────────────────────────────────────────────────────
-
 function handleScroll() {
   if (!trackRef.value) return
 
@@ -106,8 +104,6 @@ function handleScroll() {
   updateClouds(currentScroll.value)
 }
 
-// ─── Navigation ───────────────────────────────────────────────────────────────
-
 function scrollToPage(index: number) {
   if (!trackRef.value) return
   const vh = window.innerHeight
@@ -129,13 +125,11 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); prevPage() }
 }
 
-// ─── Cloud parallax ───────────────────────────────────────────────────────────
-
 interface Cloud {
   id:      string
   src:     string
   layer:   'bg' | 'mid' | 'fg'
-  baseTop: number   // vh, absolute within the sections-host height
+  baseTop: number
   left?:   string
   right?:  string
   width:   string
@@ -159,7 +153,8 @@ function updateClouds(st: number) {
 }
 
 function getCloudSrc(index: number) {
-  return `/images/clouds/cloud-00${(index % 3) + 1}.webp`
+  const num = (index % 3) + 1
+  return `/images/clouds/cloud-${String(num).padStart(3, "0")}.webp`
 }
 
 function generateClouds(n: number) {
@@ -180,12 +175,12 @@ function generateClouds(n: number) {
       result.push({
         id: `mid-${i}`, src: getCloudSrc(i + 4), layer: 'mid',
         baseTop: pageTop + 80, left: '-5vw',
-        width: '115vw', opacity: 0.45, blur: 0,
+        width: '115vw', opacity: 0.45, blur: 4,
       })
       result.push({
         id: `fg-${i}`, src: getCloudSrc(i + 7), layer: 'fg',
         baseTop: pageTop + 88, right: '-8vw',
-        width: '140vw', opacity: 0.65, blur: 6,
+        width: '140vw', opacity: 0.65, blur: 10,
       })
     }
   }
@@ -215,27 +210,11 @@ function cloudStyle(cloud: Cloud) {
 </script>
 
 <template>
-  <!--
-    Outer track: establishes the scroll "budget". The browser keeps the user
-    here until they've scrolled through N * 100vh of it. Our wheel/touch
-    intercepts drain this budget page by page.
-  -->
   <div
     ref="trackRef"
     class="scroll-track"
     :style="{ height: sectionCount > 0 ? `${sectionCount * 100}vh` : '100vh' }"
   >
-    <!-- Snap Points for native CSS snapping -->
-    <div
-      v-for="i in sectionCount"
-      :key="`snap-${i}`"
-      class="snap-point"
-      :style="{ top: `${(i - 1) * 100}vh` }"
-    />
-    <!--
-      Inner sticky container: always fills the viewport while the track is in view.
-      overflow: hidden clips clouds; paging is driven entirely by scrollIntoView.
-    -->
     <div
       ref="stickyRef"
       class="snap-container"
@@ -254,59 +233,54 @@ function cloudStyle(cloud: Cloud) {
         loading="lazy"
       />
 
-      <!-- Sections Viewport: This handles the internal clipping -->
-      <div class="sections-viewport">
-        <div
-          class="sections-host"
-          :style="{ transform: `translateY(-${currentScroll}px)` }"
+    </div>
+
+    <!-- UI overlay -->
+    <div class="ui-overlay" aria-hidden="true">
+      <!-- Side dot indicators -->
+      <div v-if="sectionCount > 1" class="page-indicators" role="tablist">
+        <button
+          v-for="i in sectionCount"
+          :key="i"
+          class="dot-btn"
+          :class="{ active: currentPage === i - 1 }"
+          role="tab"
+          :aria-selected="currentPage === i - 1"
+          :aria-label="`Go to page ${i}`"
+          @click="scrollToPage(i - 1)"
         >
-          <slot />
-        </div>
+          <span class="dot-inner" />
+        </button>
       </div>
 
-      <!-- UI overlay -->
-      <div class="ui-overlay" aria-hidden="true">
-        <!-- Side dot indicators -->
-        <div v-if="sectionCount > 1" class="page-indicators" role="tablist">
-          <button
-            v-for="i in sectionCount"
-            :key="i"
-            class="dot-btn"
-            :class="{ active: currentPage === i - 1 }"
-            role="tab"
-            :aria-selected="currentPage === i - 1"
-            :aria-label="`Go to page ${i}`"
-            @click="scrollToPage(i - 1)"
-          >
-            <span class="dot-inner" />
-          </button>
-        </div>
+      <!-- Previous -->
+      <Transition name="hint-down">
+        <Button
+          v-if="currentPage > 0"
+          variant="default"
+          class="page-hint top"
+          @click="prevPage"
+          aria-label="Previous page"
+        >
+          Previous
+        </Button>
+      </Transition>
 
-        <!-- Previous -->
-        <Transition name="hint-down">
-          <Button
-            v-if="currentPage > 0"
-            variant="default"
-            class="page-hint top"
-            @click="prevPage"
-            aria-label="Previous page"
-          >
-            Previous
-          </Button>
-        </Transition>
-
-        <!-- Next -->
-        <Transition name="hint-up">
-          <Button
-            v-if="currentPage < sectionCount - 1"
-            class="page-hint bottom"
-            @click="nextPage"
-            aria-label="Next page"
-          >
-            Next
-          </Button>
-        </Transition>
-      </div>
+      <!-- Next -->
+      <Transition name="hint-up">
+        <Button
+          v-if="currentPage < sectionCount - 1"
+          class="page-hint bottom"
+          @click="nextPage"
+          aria-label="Next page"
+        >
+          Next
+        </Button>
+      </Transition>
+    </div>
+    
+    <div class="sections-host">
+      <slot />
     </div>
   </div>
 </template>
@@ -318,47 +292,31 @@ function cloudStyle(cloud: Cloud) {
   position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  /* Enable snapping on the track if it's the scroll container, 
-     but for window scroll, snapping must be on html/body. */
-}
-
-.snap-point {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  scroll-snap-align: start;
-  pointer-events: none;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 /* ── Sticky snap container ──────────────────────────────────────────── */
 
 .snap-container {
+  grid-area: 1 / 1;
   position: sticky;
   top: 0;
   height: 100vh;
   width: 100%;
   overflow: visible;
   outline: none;
-}
-
-/* ── Sections viewport ─────────────────────────────────────────────── */
-
-.sections-viewport {
-  position: absolute;
-  inset: 0;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  z-index: 10;
+  z-index: 1;
+  pointer-events: none; /* Let clicks pass through to sections if needed, but clouds are pointer-events: none anyway. Actually UI needs pointer-events. */
 }
 
 /* ── Sections host ──────────────────────────────────────────────────── */
 
 .sections-host {
+  grid-area: 1 / 1;
   position: relative;
   z-index: 10;
-  /* height bound in template via :style so clouds span the full height */
+  /* Natural height based on slot contents */
 }
 
 /* ── Snap sections ──────────────────────────────────────────────────── */
@@ -366,6 +324,8 @@ function cloudStyle(cloud: Cloud) {
 :deep(.snap-section) {
   height: 100vh;
   width: 100%;
+  max-width: var(--breakpoint-xl);
+  margin: 0 auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -374,6 +334,8 @@ function cloudStyle(cloud: Cloud) {
   padding: max(4rem, 10vh) 10% max(3rem, 8vh);
   overflow: hidden;
   position: relative;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 /* ── Cloud images ───────────────────────────────────────────────────── */
@@ -382,14 +344,17 @@ function cloudStyle(cloud: Cloud) {
   pointer-events: none;
   user-select: none;
   position: absolute;
+  max-width: none;
 }
 
 /* ── UI overlay ─────────────────────────────────────────────────────── */
 
 .ui-overlay {
-  position: absolute;
-  inset: 0;
-  height: 100vh;  /* overlay spans viewport only, not full scroll height */
+  grid-area: 1 / 1;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
   pointer-events: none;
   z-index: 30;
 }

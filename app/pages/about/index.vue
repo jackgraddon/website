@@ -108,12 +108,14 @@
 
 
       <!-- Tech Stack -->
-      <section class="layout-container snap-section">
+      <section class="layout-container snap-section" style="align-items: center;">
         <header class="section-header">
-          <h2>
-            <Icon name="solar:code-square-line-duotone" />
-            My Tech Stack
-          </h2>
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <Icon name="solar:code-square-line-duotone" size="2rem"/>
+            <h2>
+              My Tech Stack
+            </h2>
+          </div>
         </header>
 
         <div class="tech-stack-outer">
@@ -195,7 +197,7 @@
             </div>
             <p class="vibe-card-title">Tumult</p>
             <p class="vibe-card-body">A Matrix-based chat & media client. Vue, Tauri, and a lot of late nights.</p>
-            <Button variant="default" to="/projects/260203">See the project <Icon name="solar:alt-arrow-right-linear"/></Button>
+            <Button variant="default" to="/projects/260203">Check it out <Icon name="solar:alt-arrow-right-linear"/></Button>
           </Surface>
 
           <!-- Current Obsession -->
@@ -299,26 +301,22 @@ const skills = [
   { icon: 'solar:global-line-duotone',         label: 'Performance',        desc: 'Building a fast, resilient, intuitive web experience.' },
 ]
 
-// ── Interests ─────────────────────────────────────────────
 const interests = [
+  { icon: 'solar:sun-line-duotone',                 label: 'The Sky',        desc: 'Clouds, weather, that liminal golden hour light.' },
   { icon: 'solar:music-note-2-line-duotone',        label: 'Music',          desc: 'All genres, all hours. Music is always on.' },
-  { icon: 'solar:sky-line-duotone',                 label: 'The Sky',        desc: 'Clouds, weather, that liminal golden hour light. Obviously.' },
   { icon: 'solar:cpu-bolt-line-duotone',            label: 'Open Protocols', desc: 'Matrix, ActivityPub — the decentralised web is fascinating.' },
   { icon: 'solar:book-bookmark-line-duotone',       label: 'Craft',          desc: 'Obsessed with things made with intention — code, design, or otherwise.' },
-  { icon: 'solar:camera-minimalistic-line-duotone', label: 'Photography',    desc: 'Mostly sky and architecture. Surprise surprise.' },
+  { icon: 'solar:camera-minimalistic-line-duotone', label: 'Photography',    desc: 'Mostly sky and architecture.' },
   { icon: 'solar:gamepad-line-duotone',             label: 'Games',          desc: 'Indie games with strong aesthetics. Story over mechanics.' },
 ]
 
-// ── Last.fm ───────────────────────────────────────────────
 const { track: lfmTrack, loading: lfmLoading, error: lfmError } = useLastFm()
 
-// ── Current Obsession (update manually) ───────────────────
 const currentObsession = {
   title: 'Glassmorphism',
   body: 'The physics and beauty of frosted glass as a design element in user interfaces.',
 }
 
-// ── Local Time ────────────────────────────────────────────
 const localTime = ref('')
 let clockInterval: ReturnType<typeof setInterval>
 
@@ -342,7 +340,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ── Tech Stack Dock ──────────────────────────────────── */
 .tech-stack-outer {
   width: 100%;
   display: flex;
@@ -377,14 +374,12 @@ onUnmounted(() => {
   filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
 }
 
-/* ── Page ─────────────────────────────────────────────── */
 .about-page {
   display: flex;
   flex-direction: column;
   gap: 6rem;
 }
 
-/* ── Bio Section ──────────────────────────────────────── */
 .bio-section {
   min-height: 80vh;
   margin: 0 auto;
@@ -509,9 +504,8 @@ onUnmounted(() => {
   line-height: 1.5;
 }
 
-
-/* ── Vibe Section ─────────────────────────────────────── */
 .vibe-section {
+  position: relative;
   margin: 0 auto;
   width: 100%;
   max-width: 1100px;
@@ -546,24 +540,19 @@ onUnmounted(() => {
   color: var(--color-text-muted);
 }
 
-/* ── Vibe Grid ────────────────────────────────────────── */
 .vibe-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
 }
 
-/* Now Playing spans 2 of 3 columns */
 .vibe-card--wide {
   grid-column: span 2;
 }
-
-/* Get in touch spans full width */
 .vibe-card--contact {
   grid-column: span 3;
 }
 
-/* ── Vibe Card Typography ─────────────────────────────── */
 .vibe-card-label {
   display: flex;
   align-items: center;
@@ -594,7 +583,6 @@ onUnmounted(() => {
   font-size: 0.8rem;
 }
 
-/* ── Now Playing ──────────────────────────────────────── */
 .now-playing {
   height: 100%;
   display: flex;
@@ -699,7 +687,6 @@ onUnmounted(() => {
   display: block;
 }
 
-/* ── Contact Links ────────────────────────────────────── */
 .contact-links {
   display: flex;
   gap: 0.6rem;
@@ -707,7 +694,6 @@ onUnmounted(() => {
   margin-top: 0.25rem;
 }
 
-/* ── Responsive ───────────────────────────────────────── */
 @media (max-width: 768px) {
   .vibe-grid {
     grid-template-columns: 1fr 1fr;

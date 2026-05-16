@@ -7,13 +7,10 @@ export default <RouterConfig>{
         }
 
         if (to.hash) {
-            return {
-                el: to.hash,
-                behavior: 'smooth',
-            }
+            return { el: to.hash, behavior: 'smooth' }
         }
 
-        // Return valid position but let middleware handle the scroll
-        return { top: 0 }
+        // Default to top for all other cases
+        return { top: 0, left: 0 }
     }
 }

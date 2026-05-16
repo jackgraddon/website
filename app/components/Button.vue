@@ -69,10 +69,9 @@ useGlassGlow(glassRef);
 </script>
 
 <template>
-    <component
-        :is="to ? 'NuxtLink' : 'button'"
+    <NuxtLink
+        v-if="to"
         :to="to"
-        :type="!to ? 'button' : undefined"
         ref="glassRef"
         :class="[
             'button', 
@@ -85,7 +84,23 @@ useGlassGlow(glassRef);
         }"
     >
         <slot />
-    </component>
+    </NuxtLink>
+    <button
+        v-else
+        type="button"
+        ref="glassRef"
+        :class="[
+            'button', 
+            variant ? `variant-${variant}` : 'variant-default', 
+            { 'is-active': active, 'is-light': isLight }
+        ]"
+        :style="{ 
+            '--button-color': buttonColor,
+            '--base-text-color': textColor
+        }"
+    >
+        <slot />
+    </button>
 </template>
 
 <style scoped>

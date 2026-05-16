@@ -92,6 +92,9 @@ let heroVariant = computed(() => {
       <NuxtPage :key="$route.path" />
     </main>
     <Footer />
+
+    <!-- Cloud stinger overlay — sits above everything via z-index:9999, teleported to <body> -->
+    <CloudStinger />
   </div>
 </template>
 
@@ -109,4 +112,3 @@ let heroVariant = computed(() => {
   transition: none !important;
 }
 </style>
-
