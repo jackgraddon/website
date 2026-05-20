@@ -6,16 +6,21 @@
 }
 
 html {
-    overflow-x: hidden;
     font-size: 1.2rem;
+    overflow-x: clip;
 }
 
 /* Body Styles */
 body {
     font-family: 'Outfit', sans-serif;
-    background-color: var(--color-bg);
+    background-color: transparent;
     color: var(--color-text);
     line-height: 1.6;
+    overflow-x: clip;
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+    min-height: -webkit-fill-available;
 
     & *::selection {
         background-color: var(--color-primary);

@@ -5,6 +5,7 @@ const props = defineProps<{
     color?: 'primary' | 'accent' | string,
     bg?: string,
     active?: boolean,
+    type?: 'button' | 'submit' | 'reset',
 }>();
 
 // --- Reactive State & Color Logic ---
@@ -87,7 +88,7 @@ useGlassGlow(glassRef);
     </NuxtLink>
     <button
         v-else
-        type="button"
+        :type="type || 'button'"
         ref="glassRef"
         :class="[
             'button', 

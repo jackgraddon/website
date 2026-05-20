@@ -38,7 +38,7 @@
                   <p class="bio-text">
                     Hey, I'm Jack — a
                     <Annotated label="Design Engineer" note="I sit at the intersection of design and code. I care deeply about how things look AND how they work." />
-                    based in Spokane, WA. I've been building for the web since I was a kid, and I still get the same kick out of shipping something that looks and feels just right.
+                    based in Spokane Valley, WA. I've been building for the web since I was a kid, and I still get the same kick out of shipping something that looks and feels just right.
                   </p>
                   <p class="bio-text">
                     I believe technology should feel
@@ -263,7 +263,7 @@ import { motion, AnimatePresence } from 'motion-v'
 definePageMeta({
   layout: 'default',
   title: 'About',
-  description: "Learn more about me!",
+  description: "Nice to meet you!",
   icon: 'solar:user-broken',
 })
 
@@ -394,7 +394,10 @@ onUnmounted(() => {
 /* ── Tab Pills ────────────────────────────────────────── */
 .tab-pills {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 0.5rem;
+  padding: 0 0.5rem;
   flex-wrap: wrap;
 }
 

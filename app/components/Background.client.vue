@@ -1,8 +1,5 @@
 <script setup lang="ts">
-
-
 const now = ref(new Date().getHours());
-// now.value = 12;
 
 const img = useImage();
 
@@ -73,8 +70,8 @@ onUnmounted(() => {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0;
+    bottom: 0;
     z-index: -999;
     background-size: cover;
     background-position: center;

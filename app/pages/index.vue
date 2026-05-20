@@ -7,7 +7,7 @@ definePageMeta({
 </script>
 
 <template>
-  <main>
+  <div class="landing-page">
     <PagedContent>
       <section id="intro" class="snap-section">
         <h1>Hello!</h1>
@@ -20,7 +20,7 @@ definePageMeta({
         <Button variant="default" to="/projects">View Projects</Button>
       </section>
     </PagedContent>
-  </main>
+  </div>
 </template>
 
 <style scoped>

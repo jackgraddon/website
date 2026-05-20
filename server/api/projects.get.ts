@@ -18,7 +18,9 @@ export default defineEventHandler(async (event) => {
         }
     }
 
-    // Sort by date (id is likely YYYYMMDD or similar date format as noted)
-    // Assuming descending order for timeline (newest first)
-    return projects.sort((a, b) => b.id - a.id)
+    // Filter out id '0' (GitHub profile README — not a portfolio piece)
+    const filtered = projects.filter((p) => String(p.id) !== '0')
+
+    // Sort by date (id is YYMMDD or similar date format) — newest first
+    return filtered.sort((a, b) => b.id - a.id)
 })

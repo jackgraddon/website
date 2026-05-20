@@ -82,6 +82,17 @@ function changeLandingHeroTitle() {
     landingSubtitle.value = "Design Engineer";
 }
 
+function getWordsWithCharIndices(text: string) {
+    if (!text) return [];
+    let charIndex = 0;
+    return text.split(' ').map((word, index, array) => {
+        const chars = word.split('').map(char => ({ char, index: charIndex++ }));
+        const hasSpace = index < array.length - 1;
+        if (hasSpace) charIndex++;
+        return { chars, hasSpace };
+    });
+}
+
 </script>
 
 
@@ -115,15 +126,20 @@ function changeLandingHeroTitle() {
                             :animate="isLoaded ? { opacity: 1, transition: { duration: 0.5 } } : { opacity: 0 }"
                             :exit="{ opacity: 0, transition: { duration: 0.2 } }" 
                         >
-                            <motion.span
-                                v-for="(char, index) in landingTitle.split('')"
-                                :key="index"
-                                :initial="{ opacity: 0, y: 12 }"
-                                :animate="isLoaded ? { opacity: 1, y: 0, transition: { delay: 0.3 + (index * 0.04), duration: 0.4, ease: 'easeOut' } } : { opacity: 0, y: 12 }"
-                                style="display: inline-block; white-space: pre;"
-                            >
-                                {{ char }}
-                            </motion.span>
+                            <template v-for="(wordObj, wIndex) in getWordsWithCharIndices(landingTitle)" :key="wIndex">
+                                <span style="display: inline-block; white-space: nowrap;">
+                                    <motion.span
+                                        v-for="charObj in wordObj.chars"
+                                        :key="charObj.index"
+                                        :initial="{ opacity: 0, y: 12 }"
+                                        :animate="isLoaded ? { opacity: 1, y: 0, transition: { delay: 0.3 + (charObj.index * 0.04), duration: 0.4, ease: 'easeOut' } } : { opacity: 0, y: 12 }"
+                                        style="display: inline-block;"
+                                    >
+                                        {{ charObj.char }}
+                                    </motion.span>
+                                </span>
+                                <template v-if="wordObj.hasSpace">{{ ' ' }}</template>
+                            </template>
                         </motion.div>
                     </AnimatePresence>
                 </h1>
@@ -156,20 +172,25 @@ function changeLandingHeroTitle() {
                     <h1 class="hero-title">
                         <AnimatePresence mode="wait">
                             <motion.div
-                                :key="props.title || 'Add Title'"
+                                :key="props.title || ''"
                                 :initial="{ opacity: 0 }"
                                 :animate="isLoaded ? { opacity: 1, transition: { duration: 0.5 } } : { opacity: 0 }"
                                 :exit="{ opacity: 0, transition: { duration: 0.2 } }" 
                             >
-                                <motion.span
-                                    v-for="(char, index) in (props.title || 'Add Title').split('')"
-                                    :key="index"
-                                    :initial="{ opacity: 0, y: 12 }"
-                                    :animate="isLoaded ? { opacity: 1, y: 0, transition: { delay: 0.3 + (index * 0.04), duration: 0.4, ease: 'easeOut' } } : { opacity: 0, y: 12 }"
-                                    style="display: inline-block; white-space: pre;"
-                                >
-                                    {{ char }}
-                                </motion.span>
+                                <template v-for="(wordObj, wIndex) in getWordsWithCharIndices(props.title || '')" :key="wIndex">
+                                    <span style="display: inline-block; white-space: nowrap;">
+                                        <motion.span
+                                            v-for="charObj in wordObj.chars"
+                                            :key="charObj.index"
+                                            :initial="{ opacity: 0, y: 12 }"
+                                            :animate="isLoaded ? { opacity: 1, y: 0, transition: { delay: 0.3 + (charObj.index * 0.04), duration: 0.4, ease: 'easeOut' } } : { opacity: 0, y: 12 }"
+                                            style="display: inline-block;"
+                                        >
+                                            {{ charObj.char }}
+                                        </motion.span>
+                                    </span>
+                                    <template v-if="wordObj.hasSpace">{{ ' ' }}</template>
+                                </template>
                             </motion.div>
                         </AnimatePresence>
                     </h1>
@@ -191,39 +212,51 @@ function changeLandingHeroTitle() {
             </div>
         </motion.div>
         
-        <motion.div
-            class="hero-cloud-wrapper"
-            :initial="{ y: 100, opacity: 0, filter: 'blur(20px)' }"
-            :animate="isLoaded ? { y: 0, opacity: 1, filter: 'blur(0px)' } : { y: 100, opacity: 0, filter: 'blur(20px)' }"
-            :transition="{ duration: 1.2, ease: 'easeOut' }"
-        >
-            <motion.img
-                class="hero-cloud-img"
-                alt="Decorative image of a fluffy cloud"
-                :src="'images/splash-cloud.webp'"
-                :style="{ y }"
-            />
-        </motion.div>
+        <div class="hero-cloud-container">
+            <motion.div
+                class="hero-cloud-wrapper"
+                :initial="{ y: 100, opacity: 0, filter: 'blur(20px)' }"
+                :animate="isLoaded ? { y: 0, opacity: 1, filter: 'blur(0px)' } : { y: 100, opacity: 0, filter: 'blur(20px)' }"
+                :transition="{ duration: 1.2, ease: 'easeOut' }"
+            >
+                <motion.img
+                    class="hero-cloud-img"
+                    alt="Decorative image of a fluffy cloud"
+                    :src="'images/splash-cloud.webp'"
+                    :style="{ y }"
+                />
+            </motion.div>
+        </div>
     </section>
 </template>
 
 <style scoped>
 .hero {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 75vh;
+    height: 75dvh;
     margin-bottom: 25vh;
+    margin-bottom: 25dvh;
 }
 
 #floating-ctas {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
+    height: 100dvh;
     pointer-events: none;
     z-index: 100;
+}
+
+@media screen and (max-width: 768px) {
+    #floating-ctas {
+        height: 100%;
+    }
 }
 
 .hero-content {
@@ -232,6 +265,7 @@ function changeLandingHeroTitle() {
     align-items: center;
     text-align: center;
     width: 100vw;
+    padding: 0 1rem;
 }
 
 .hero-icon {
@@ -239,7 +273,7 @@ function changeLandingHeroTitle() {
 }
 
 .hero-title {
-    font-size: 3rem;
+    font-size: clamp(1rem, 400px, 3rem);
     line-height: 1;
     color: var(--color-text);
 }
@@ -250,16 +284,30 @@ function changeLandingHeroTitle() {
     color: var(--color-text-muted);
 }
 
+.hero-cloud-container {
+    position: absolute;
+    bottom: -70%;
+    left: 0;
+    right: 0;
+    height: 150vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+
+    @media screen and (max-width: 500px) {
+        bottom: -80%;
+    }
+}
+
 .hero-cloud-wrapper {
-    min-width: 1560px;
-    width: 100%;
+    width: 1560px;
     height: auto;
     position: absolute;
-    bottom: -30%;
+    bottom: 0;
+    left: 50%;
+    margin-left: -780px;
     z-index: 2;
     pointer-events: none;
-    display: flex;
-    justify-content: center;
 }
 
 .hero-cloud-img {

@@ -18,9 +18,8 @@ useHead({
   },
   meta: [
     { charset: 'utf-8' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
     { name: 'author', content: 'Jack Graddon' },
-    { name: 'theme-color', content: backgroundStyle.value },
   ],
 })
 
@@ -62,6 +61,8 @@ const effectiveMeta = computed(() => {
 })
 
 // Reactive head management
+const siteUrl = 'https://jackgraddon.com'
+
 useHead({
   title: computed(() => {
     const meta = effectiveMeta.value
@@ -72,8 +73,46 @@ useHead({
     return `${meta.title} | Jack Graddon`
   }),
   meta: [
-    { name: 'description', content: computed(() => effectiveMeta.value.description) }
-  ]
+    // Standard
+    { name: 'description', content: computed(() => effectiveMeta.value.description) },
+
+    // Open Graph
+    { property: 'og:site_name', content: 'Jack Graddon' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: computed(() => `${siteUrl}${route.path}`) },
+    {
+      property: 'og:title',
+      content: computed(() => {
+        const meta = effectiveMeta.value
+        if (!meta.title || meta.title === 'Home' || meta.title === 'Jack Graddon') {
+          return 'Jack Graddon'
+        }
+        return `${meta.title} | Jack Graddon`
+      }),
+    },
+    { property: 'og:description', content: computed(() => effectiveMeta.value.description || 'Design Engineer, Web Developer, and Graphic Designer based in Spokane, WA.') },
+    { property: 'og:image', content: `${siteUrl}/images/og-default.jpg` },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+    { property: 'og:image:alt', content: 'Jack Graddon — Design Engineer' },
+
+    // Twitter / X
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:site', content: '@jackgraddon' },
+    { name: 'twitter:creator', content: '@jackgraddon' },
+    {
+      name: 'twitter:title',
+      content: computed(() => {
+        const meta = effectiveMeta.value
+        if (!meta.title || meta.title === 'Home' || meta.title === 'Jack Graddon') {
+          return 'Jack Graddon'
+        }
+        return `${meta.title} | Jack Graddon`
+      }),
+    },
+    { name: 'twitter:description', content: computed(() => effectiveMeta.value.description || 'Design Engineer, Web Developer, and Graphic Designer based in Spokane, WA.') },
+    { name: 'twitter:image', content: `${siteUrl}/images/og-default.jpg` },
+  ],
 })
 
 // If landing page, make sure Hero is variant landing

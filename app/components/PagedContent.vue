@@ -30,6 +30,8 @@ const sectionRefs   = ref<HTMLElement[]>([])
 const currentPage   = ref(0)
 const sectionCount  = ref(0)
 const currentScroll = ref(0)
+const isAutoScrolling = ref(false)
+let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 
 // ─── Section discovery ────────────────────────────────────────────────────────
 
@@ -57,6 +59,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleScroll)
   clearGlobalStyles()
   if (rafId) cancelAnimationFrame(rafId)
+  if (scrollTimeout) clearTimeout(scrollTimeout)
 })
 
 // ─── Style Management ────────────────────────────────────────────────────────
@@ -67,6 +70,7 @@ function clearGlobalStyles() {
 }
 
 function updateGlobalStyles(isActive: boolean) {
+  if (isAutoScrolling.value) return
   if (isActive) {
     document.documentElement.style.scrollSnapType = 'y mandatory'
     // Snapping works best with auto scroll behavior
@@ -109,7 +113,17 @@ function scrollToPage(index: number) {
   const vh = window.innerHeight
   // Calculate global scroll position
   const targetY = trackRef.value.offsetTop + index * vh
+  
+  isAutoScrolling.value = true
+  document.documentElement.style.scrollSnapType = 'none'
+  
   window.scrollTo({ top: targetY, behavior: 'smooth' })
+  
+  if (scrollTimeout) clearTimeout(scrollTimeout)
+  scrollTimeout = setTimeout(() => {
+    isAutoScrolling.value = false
+    handleScroll()
+  }, 800)
 }
 
 function nextPage() {
@@ -303,6 +317,7 @@ function cloudStyle(cloud: Cloud) {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   overflow: visible;
   outline: none;
@@ -323,6 +338,7 @@ function cloudStyle(cloud: Cloud) {
 
 :deep(.snap-section) {
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   max-width: var(--breakpoint-xl);
   margin: 0 auto;
@@ -354,6 +370,7 @@ function cloudStyle(cloud: Cloud) {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   pointer-events: none;
   z-index: 30;

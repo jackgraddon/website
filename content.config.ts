@@ -6,7 +6,12 @@ export default defineContentConfig({
             type: 'page',
             source: 'projects/**/*.md',
             schema: z.object({
-                icon: z.string()
+                title: z.string().optional(),
+                description: z.string().optional(),
+                buttonColor: z.string().optional(),
+                backgroundColor: z.string().optional(),
+                status: z.string().optional(),
+                icon: z.string().optional(),
             })
         })
     }

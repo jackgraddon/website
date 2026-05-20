@@ -3,7 +3,24 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  devtools: { enabled: true },
+  devtools: { enabled: process.env.NODE_ENV !== 'production' },
+
+  app: {
+    head: {
+      viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
+    }
+  },
+
+  hooks: {
+    'build:before': async () => {
+      try {
+        const { generateScreenshots } = await import('./scripts/generate-screenshots')
+        await generateScreenshots()
+      } catch (error) {
+        console.error('[Nuxt Config] Failed to run build-time screenshot generator:', error)
+      }
+    }
+  },
 
   css: [
     '@/assets/styles/main.css',
@@ -28,7 +45,6 @@ export default defineNuxtConfig({
   // },
 
   modules: [
-    '@nuxt/a11y',
     '@nuxt/content',
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -36,6 +52,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     'nuxt-studio',
+    'motion-v/nuxt',
   ],
 
   studio: {

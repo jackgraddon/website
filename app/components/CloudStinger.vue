@@ -82,7 +82,6 @@ const clouds = computed<Cloud[]>(() =>
             rotate:  sr(i * 5, -12, 12),
             scale:   sr(i * 6, 0.85, 1.3),
             flip:    sr(i * 7, 0, 1) > 0.5 ? -1 : 1,
-            // Maintain strong blurs as requested, but performance is better due to fewer clouds
             blur:    indexInEdge % 2 === 0 ? sr(i * 8, 16, 28) : sr(i * 9, 4, 10)
         }
     })
@@ -109,7 +108,7 @@ watch(phase, async (p) => {
         await sleep(RISE_MS + 30)
         
         // Hold the cover
-        await sleep(200)
+        await sleep(20)
         
         notifyCovered()
     }
@@ -180,6 +179,7 @@ const isVisible = computed(() => phase.value !== 'idle')
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 9999;
     pointer-events: none;
     /* Single GPU layer for the whole stinger */

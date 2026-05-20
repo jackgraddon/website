@@ -8,9 +8,6 @@ export interface LastFmTrack {
   nowPlaying: boolean
 }
 
-const LASTFM_API_KEY = 'dcaa05f4938fc2d2b68d6e2055fb5f54'
-const LASTFM_USER = 'jackgraddon'
-
 export function useLastFm() {
   const track = ref<LastFmTrack | null>(null)
   const loading = ref(true)
@@ -18,20 +15,8 @@ export function useLastFm() {
 
   async function fetchRecentTrack() {
     try {
-      const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json&limit=2`
-      const res = await fetch(url)
-
-      if (!res.ok) {
-        error.value = `HTTP ${res.status}`
-        return
-      }
-
-      const data = await res.json()
-
-      if (data.error) {
-        error.value = `Last.fm error ${data.error}: ${data.message}`
-        return
-      }
+      // Call the server-side proxy — keeps the API key out of the client bundle
+      const data = await $fetch<any>('/api/lastfm')
 
       // Last.fm returns track as array normally, but can return a single object
       // when there's only one result — normalise to always be an array
@@ -64,7 +49,8 @@ export function useLastFm() {
       }
       error.value = null
     } catch (e: any) {
-      error.value = e?.message ?? 'fetch failed'
+      // Server route throws if env var is missing, or if Last.fm is down
+      error.value = e?.data?.statusMessage ?? e?.message ?? 'fetch failed'
     } finally {
       loading.value = false
     }

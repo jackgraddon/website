@@ -144,6 +144,12 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
     --orbit-duration: 360s;
 }
 
+@media screen and (max-width: 768px) {
+    .floating-cta-container {
+        position: absolute;
+    }
+}
+
 .cta-ring {
     position: absolute;
     width: 0;

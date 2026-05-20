@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <footer class="footer">
+    <footer class="footer" aria-label="Site footer">
         <h2>Jack Graddon</h2>
         <div class="footer-content">
             <div class="footer-info">
@@ -24,16 +24,21 @@
 .footer {
     position: relative;
     max-width: var(--breakpoint-lg);
-    padding: 3rem 1rem;
     margin-inline: auto;
+    padding: 3rem calc(1rem + env(safe-area-inset-right)) calc(3rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
     color: var(--color-text-light);
     z-index: 9999;
 }   
 .footer-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 1.5rem;
-    justify-items: start;
+    width: 100%;
+    justify-content: space-between;
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+    }
 }
 .footer-links {
     display: flex;
