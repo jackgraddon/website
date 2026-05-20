@@ -24,4 +24,4 @@ logs
 !.env.example
 server.key
 server.crt
-public/screenshots
+auth.json

@@ -1,98 +1,76 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import crypto from 'node:crypto'
+import fs from 'node:fs';
+import path from 'node:path';
+import { chromium, type Page } from 'playwright';
+import { spawn } from 'node:child_process';
 
-export async function generateScreenshots() {
-  console.log('[Screenshot Generator] Starting build-time screenshot generation...')
+const TIMES = [
+  { name: 'morning', hour: 8 },
+  { name: 'afternoon', hour: 14 },
+  { name: 'evening', hour: 20 },
+  { name: 'night', hour: 3 }
+];
 
-  const heroPath = path.join(process.cwd(), 'app/components/Hero.vue')
-  if (!fs.existsSync(heroPath)) {
-    console.warn(`[Screenshot Generator] Hero.vue not found at ${heroPath}, skipping.`)
-    return
-  }
+// Optimized resolutions: 720p base, portrait for mobile
+const ASPECT_RATIOS = {
+  '1-1': { width: 720, height: 720 },
+  '16-9': { width: 720, height: 405 },
+  '9-16': { width: 390, height: 844 } // Standard mobile size
+};
 
-  const heroContent = fs.readFileSync(heroPath, 'utf8')
-  // Match url: '/...' or url: 'https://...'
-  const urlRegex = /url:\s*['"]([^'"]+)['"]/g
-  const urls: string[] = []
-  let match
-  while ((match = urlRegex.exec(heroContent)) !== null) {
-    urls.push(match[1])
-  }
+const URLS = [
+  { path: '/', name: 'home' },
+  { path: '/projects', name: 'projects' },
+  { path: '/about', name: 'about' }
+];
 
-  // Deduplicate URLs
-  const uniqueUrls = Array.from(new Set(urls))
-  console.log(`[Screenshot Generator] Found ${uniqueUrls.length} URLs to process:`, uniqueUrls)
+async function generate() {
+  console.log('[Screenshot Generator] Spawning local dev server...');
+  // Adjust 'npm run dev' to your specific dev command if needed
+  const server = spawn('npm', ['run', 'dev'], { stdio: 'ignore' });
 
-  const aspectRatios = {
-    '1-1': { width: 1080, height: 1080 },
-    '16-9': { width: 1920, height: 1080 },
-    '9-16': { width: 1080, height: 1920 }
-  }
+  // Wait 10 seconds for the server to spin up
+  await new Promise(resolve => setTimeout(resolve, 10000));
 
-  const publicScreenshotsDir = path.join(process.cwd(), 'public/screenshots')
-  if (!fs.existsSync(publicScreenshotsDir)) {
-    fs.mkdirSync(publicScreenshotsDir, { recursive: true })
-  }
+  const browser = await chromium.launch();
+  const publicDir = path.join(process.cwd(), 'public/screenshots');
 
-  const siteUrl = 'https://jackgraddon.com'
+  for (const time of TIMES) {
+    console.log(`--- Capturing state: ${time.name.toUpperCase()} ---`);
+    const context = await browser.newContext();
 
-  for (const rawUrl of uniqueUrls) {
-    // Normalize URL
-    const normalizedUrl = rawUrl.startsWith('/') ? `${siteUrl}${rawUrl}` : rawUrl
+    // Mock the Date object to trigger your Background.client.vue logic
+    await context.addInitScript(`{
+      const date = new Date();
+      date.setHours(${time.hour}, 0, 0, 0);
+      Date = class extends Date {
+        constructor(...args) {
+          if (args.length === 0) return date;
+          return new Date(...args);
+        }
+      };
+    }`);
 
-    // Skip localhost/127.0.0.1
-    if (normalizedUrl.includes('localhost') || normalizedUrl.includes('127.0.0.1')) {
-      continue
-    }
+    for (const target of URLS) {
+      const page = await context.newPage();
+      await page.goto(`http://localhost:3000${target.path}`);
+      await page.waitForLoadState('networkidle');
 
-    const hash = crypto.createHash('sha256').update(normalizedUrl).digest('hex')
+      for (const [arName, vp] of Object.entries(ASPECT_RATIOS)) {
+        await page.setViewportSize(vp);
+        const dir = path.join(publicDir, time.name);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    for (const [arName, vp] of Object.entries(aspectRatios)) {
-      const filename = `${hash}_${arName}.png`
-      const filePath = path.join(publicScreenshotsDir, filename)
-
-      // Skip if file already exists
-      if (fs.existsSync(filePath)) {
-        console.log(`[Screenshot Generator] Cache hit for ${rawUrl} (${arName}), skipping.`)
-        continue
+        await page.screenshot({ path: path.join(dir, `${target.name}-${arName}.png`) });
+        console.log(`  ✓ Saved ${target.name} for ${time.name} (${arName})`);
       }
-
-      console.log(`[Screenshot Generator] Downloading ${rawUrl} (${arName}) [${vp.width}x${vp.height}]...`)
-
-      const screenshotServiceUrl = `https://api.microlink.io/?url=${encodeURIComponent(normalizedUrl)}&screenshot=true&meta=false&waitForTimeout=4000&width=${vp.width}&height=${vp.height}`
-
-      try {
-        const response = await fetch(screenshotServiceUrl)
-        if (!response.ok) {
-          throw new Error(`Failed to fetch microlink metadata: ${response.statusText}`)
-        }
-
-        const data = (await response.json()) as any
-        const imageUrl = data.data?.screenshot?.url
-
-        if (!imageUrl) {
-          throw new Error('Screenshot URL not found in microlink response')
-        }
-
-        const imageResponse = await fetch(imageUrl)
-        if (!imageResponse.ok) {
-          throw new Error(`Failed to download screenshot image: ${imageResponse.statusText}`)
-        }
-
-        const arrayBuffer = await imageResponse.arrayBuffer()
-        fs.writeFileSync(filePath, Buffer.from(arrayBuffer))
-        console.log(`[Screenshot Generator] Saved ${filename}`)
-      } catch (error: any) {
-        console.error(`[Screenshot Generator] Failed to generate screenshot for ${rawUrl} (${arName}):`, error.message)
-      }
+      await page.close();
     }
+    await context.close();
   }
 
-  console.log('[Screenshot Generator] Screenshot generation complete.')
+  await browser.close();
+  server.kill();
+  console.log('[Screenshot Generator] Done!');
 }
 
-// Enable running directly via node
-if (process.argv[1] === new URL(import.meta.url).pathname) {
-  generateScreenshots()
-}
+generate();

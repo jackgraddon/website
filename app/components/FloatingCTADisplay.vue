@@ -1,12 +1,7 @@
 <template>
     <div class="floating-cta-container" :class="{ 'is-loaded': isLoaded }" aria-label="Quick navigation">
         <div class="cta-ring">
-            <div
-                v-for="(cta, index) in ctas"
-                :key="cta.id"
-                class="cta-slot"
-                :style="getSlotStyle(index)"
-            >
+            <div v-for="(cta, index) in ctas" :key="cta.id" class="cta-slot" :style="getSlotStyle(index)">
                 <div class="cta-drift" :style="getDriftStyle(index)">
                     <NuxtLink :to="cta.url" class="cta-card" :aria-label="cta.title" :style="cardSizeStyle">
                         <Surface variant="glass" direction="column">
@@ -19,12 +14,8 @@
                             <!-- Portal: fills card on hover -->
                             <div class="cta-portal" :style="portalInnerStyle">
                                 <!-- Unified Snapshot -->
-                                <img 
-                                    :src="`/api/screenshot?url=${encodeURIComponent(cta.url)}&ar=${closestPreset.name}`" 
-                                    class="cta-screenshot"
-                                    loading="lazy"
-                                    alt=""
-                                />
+                                <img :src="`/screenshots/${currentTimeState}/${getHash(cta.url)}-${closestPreset.name}.png`"
+                                    class="cta-screenshot" loading="lazy" alt="" />
 
                                 <!-- Label: Floating in the center -->
                                 <div class="cta-portal-label">{{ cta.title }}</div>
@@ -47,18 +38,18 @@ const props = defineProps<{
 const { isLoaded } = useAppLoaded();
 
 const DRIFT_DURATIONS = [14.2, 16.8, 12.5, 18.4, 15.9, 16.1];
-const DRIFT_DELAYS    = [0, -4.6, -10.2, -3.4, -7.8, -12.4];
-const CARD_TILTS      = [-3, 2, -1, 3, -2, 1];
+const DRIFT_DELAYS = [0, -4.6, -10.2, -3.4, -7.8, -12.4];
+const CARD_TILTS = [-3, 2, -1, 3, -2, 1];
 
-const ICON_SIZE     = 52;
-const PORTAL_W      = 180;
+const ICON_SIZE = 52;
+const PORTAL_W = 180;
 const CAPTURE_SCALE = 0.2;
 
 const PRESETS = [
     { name: '16-9', ratio: 16 / 9 },
-    { name: '4-3',  ratio: 4 / 3 },
+    { name: '4-3', ratio: 4 / 3 },
     { name: '9-16', ratio: 9 / 16 },
-    { name: '1-1',  ratio: 1 / 1 }
+    { name: '1-1', ratio: 1 / 1 }
 ];
 
 const aspectRatio = computed(() =>
@@ -81,9 +72,9 @@ onUnmounted(() => {
 });
 
 const closestPreset = computed(() => {
-    resizeTrigger.value; 
+    resizeTrigger.value;
     const current = aspectRatio.value;
-    return PRESETS.reduce((prev, curr) => 
+    return PRESETS.reduce((prev, curr) =>
         Math.abs(curr.ratio - current) < Math.abs(prev.ratio - current) ? curr : prev
     );
 });
@@ -95,20 +86,30 @@ const portalH = computed(() => {
 
 const cardSizeStyle = computed(() => ({
     '--icon-size': `${ICON_SIZE}px`,
-    '--portal-w':  `${PORTAL_W}px`,
-    '--portal-h':  `${portalH.value}px`,
+    '--portal-w': `${PORTAL_W}px`,
+    '--portal-h': `${portalH.value}px`,
 }));
 
 const portalInnerStyle = computed(() => ({
-    width:  `${PORTAL_W}px`,
+    width: `${PORTAL_W}px`,
     height: `${portalH.value}px`,
 }));
 
 const screenshotStyle = computed(() => ({
-    width:     `${Math.round(PORTAL_W / CAPTURE_SCALE)}px`,
-    height:    `${Math.round(portalH.value / CAPTURE_SCALE)}px`,
+    width: `${Math.round(PORTAL_W / CAPTURE_SCALE)}px`,
+    height: `${Math.round(portalH.value / CAPTURE_SCALE)}px`,
     transform: `scale(${CAPTURE_SCALE})`,
 }));
+
+const getScreenshotPath = (url: string) => {
+    const hour = new Date().getHours();
+    let state = 'night';
+    if (hour >= 6 && hour < 10) state = 'morning';
+    else if (hour >= 10 && hour < 18) state = 'afternoon';
+    else if (hour >= 18 && hour < 21) state = 'evening';
+
+    return `/screenshots/${state}/...`;
+};
 
 function getSlotStyle(index: number): Record<string, string> {
     const count = props.ctas.length;
@@ -123,7 +124,7 @@ function getSlotStyle(index: number): Record<string, string> {
 function getDriftStyle(index: number): Record<string, string> {
     return {
         '--drift-duration': `${DRIFT_DURATIONS[index % DRIFT_DURATIONS.length]}s`,
-        '--drift-delay':    `${DRIFT_DELAYS[index % DRIFT_DELAYS.length]}s`,
+        '--drift-delay': `${DRIFT_DELAYS[index % DRIFT_DELAYS.length]}s`,
     };
 }
 
@@ -163,8 +164,13 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
 }
 
 @keyframes orbit {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .cta-slot {
@@ -180,8 +186,13 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
 }
 
 @keyframes counter-orbit {
-    from { transform: rotate(var(--angle)) translateX(38vmin) translateY(-10vmin) rotate(calc(-1 * var(--angle))) rotate(0deg); }
-    to   { transform: rotate(var(--angle)) translateX(38vmin) translateY(-10vmin) rotate(calc(-1 * var(--angle))) rotate(-360deg); }
+    from {
+        transform: rotate(var(--angle)) translateX(38vmin) translateY(-10vmin) rotate(calc(-1 * var(--angle))) rotate(0deg);
+    }
+
+    to {
+        transform: rotate(var(--angle)) translateX(38vmin) translateY(-10vmin) rotate(calc(-1 * var(--angle))) rotate(-360deg);
+    }
 }
 
 /* .cta-drift {
@@ -216,6 +227,7 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
         opacity: 0;
         transform: translate(-50%, -50%) scale(0.8);
     }
+
     to {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
@@ -232,7 +244,7 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
 }
 
 .cta-card:hover :deep(.surface-glass) {
-    width:  var(--portal-w);
+    width: var(--portal-w);
     height: var(--portal-h);
     backdrop-filter: blur(5px) saturate(140%);
 }
@@ -255,7 +267,9 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
     height: 32px;
 }
 
-.cta-card:hover .cta-icon-wrap { opacity: 0; }
+.cta-card:hover .cta-icon-wrap {
+    opacity: 0;
+}
 
 /* ── Portal Container ── */
 .cta-portal {
@@ -283,28 +297,33 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
     animation-play-state: paused;
 } */
 
-.cta-card:hover .cta-portal { opacity: 1; }
-.cta-card:hover .cta-portal::after { animation-play-state: running; }
+.cta-card:hover .cta-portal {
+    opacity: 1;
+}
+
+.cta-card:hover .cta-portal::after {
+    animation-play-state: running;
+}
 
 /* ── Distorted Image ── */
 .cta-screenshot {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%; 
+    width: 100%;
     height: 100%;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    z-index: 1; 
+    z-index: 1;
     filter: blur(2px) brightness(0.8);
     mix-blend-mode: screen;
-    opacity: 0.7; 
+    opacity: 0.7;
 }
 
 .cta-portal-label {
     position: absolute;
     inset: 0;
-    z-index: 10; 
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -313,17 +332,45 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
 }
 
 @keyframes grain-dance {
+
     /* Slowed to 0.8s to reduce the repaint frequency — visually imperceptible */
-    0%, 100% { transform: translate(0, 0); }
-    10% { transform: translate(-1%, -2%); }
-    30% { transform: translate(1%, 1%); }
-    50% { transform: translate(-2%, 2%); }
-    70% { transform: translate(2%, -1%); }
-    90% { transform: translate(-1%, 1%); }
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-1%, -2%);
+    }
+
+    30% {
+        transform: translate(1%, 1%);
+    }
+
+    50% {
+        transform: translate(-2%, 2%);
+    }
+
+    70% {
+        transform: translate(2%, -1%);
+    }
+
+    90% {
+        transform: translate(-1%, 1%);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .cta-ring, .cta-slot, .cta-drift { animation: none; }
-    .cta-card :deep(.surface-glass), .cta-portal { transition: none; }
+
+    .cta-ring,
+    .cta-slot,
+    .cta-drift {
+        animation: none;
+    }
+
+    .cta-card :deep(.surface-glass),
+    .cta-portal {
+        transition: none;
+    }
 }
 </style>
