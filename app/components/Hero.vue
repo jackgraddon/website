@@ -264,12 +264,12 @@ function getWordsWithCharIndices(text: string) {
 }
 
 .hero-cloud-wrapper {
-    width: 1560px;
+    width: max(1560px, 100vw);
     height: auto;
     position: absolute;
     bottom: 0;
     left: 50%;
-    margin-left: -780px;
+    margin-left: min(-780px, -50vw);
     z-index: 2;
     pointer-events: none;
 }
