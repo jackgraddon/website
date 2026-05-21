@@ -13,6 +13,7 @@ export default defineNuxtConfig({
 
   hooks: {
     'build:before': async () => {
+      if (process.env.NODE_ENV !== 'production') return;
       try {
         const { generateScreenshots } = await import('./scripts/generate-screenshots')
         await generateScreenshots()
