@@ -175,11 +175,7 @@ const isVisible = computed(() => phase.value !== 'idle')
 <style scoped>
 .stinger-wrap {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
+    inset: 0;
     z-index: 9999;
     pointer-events: none;
     /* Single GPU layer for the whole stinger */

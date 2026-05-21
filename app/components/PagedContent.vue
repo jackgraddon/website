@@ -24,11 +24,11 @@
 <script setup lang="ts">
 // ─── Refs ─────────────────────────────────────────────────────────────────────
 
-const trackRef      = ref<HTMLElement | null>(null)
-const stickyRef     = ref<HTMLElement | null>(null)
-const sectionRefs   = ref<HTMLElement[]>([])
-const currentPage   = ref(0)
-const sectionCount  = ref(0)
+const trackRef = ref<HTMLElement | null>(null)
+const stickyRef = ref<HTMLElement | null>(null)
+const sectionRefs = ref<HTMLElement[]>([])
+const currentPage = ref(0)
+const sectionCount = ref(0)
 const currentScroll = ref(0)
 const isAutoScrolling = ref(false)
 let scrollTimeout: ReturnType<typeof setTimeout> | null = null
@@ -44,7 +44,7 @@ onMounted(async () => {
   const sections = Array.from(
     track.querySelectorAll<HTMLElement>('.snap-section')
   )
-  sectionRefs.value  = sections
+  sectionRefs.value = sections
   sectionCount.value = sections.length
 
   window.addEventListener('scroll', handleScroll, { passive: true })
@@ -72,7 +72,7 @@ function clearGlobalStyles() {
 function updateGlobalStyles(isActive: boolean) {
   if (isAutoScrolling.value) return
   if (isActive) {
-    document.documentElement.style.scrollSnapType = 'y mandatory'
+    document.documentElement.style.scrollSnapType = 'y proximity'
     // Snapping works best with auto scroll behavior
     document.documentElement.style.scrollBehavior = 'auto'
   } else {
@@ -84,7 +84,7 @@ function handleScroll() {
   if (!trackRef.value) return
 
   const rect = trackRef.value.getBoundingClientRect()
-  const vh   = window.innerHeight
+  const vh = window.innerHeight
 
   // Active check: is the track currently occupying the viewport?
   // We use a small threshold to enable snapping just before/at the top.
@@ -113,12 +113,12 @@ function scrollToPage(index: number) {
   const vh = window.innerHeight
   // Calculate global scroll position
   const targetY = trackRef.value.offsetTop + index * vh
-  
+
   isAutoScrolling.value = true
   document.documentElement.style.scrollSnapType = 'none'
-  
+
   window.scrollTo({ top: targetY, behavior: 'smooth' })
-  
+
   if (scrollTimeout) clearTimeout(scrollTimeout)
   scrollTimeout = setTimeout(() => {
     isAutoScrolling.value = false
@@ -136,25 +136,25 @@ function prevPage() {
 
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); nextPage() }
-  if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); prevPage() }
+  if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); prevPage() }
 }
 
 interface Cloud {
-  id:      string
-  src:     string
-  layer:   'bg' | 'mid' | 'fg'
+  id: string
+  src: string
+  layer: 'bg' | 'mid' | 'fg'
   baseTop: number
-  left?:   string
-  right?:  string
-  width:   string
+  left?: string
+  right?: string
+  width: string
   opacity: number
-  blur:    number
+  blur: number
 }
 
-const clouds   = ref<Cloud[]>([])
-const cloudY   = ref<Record<string, number>>({})
+const clouds = ref<Cloud[]>([])
+const cloudY = ref<Record<string, number>>({})
 const PARALLAX = { bg: 0.55, mid: 1.0, fg: 1.6 }
-let   rafId    = 0
+let rafId = 0
 
 function updateClouds(st: number) {
   clouds.value.forEach((c) => {
@@ -201,7 +201,7 @@ function generateClouds(n: number) {
 
   result.forEach((c) => (init[c.id] = 0))
   clouds.value = result
-  cloudY.value  = init
+  cloudY.value = init
   // Initial position
   if (trackRef.value) handleScroll()
 }
@@ -209,43 +209,26 @@ function generateClouds(n: number) {
 function cloudStyle(cloud: Cloud) {
   const offset = cloudY.value[cloud.id] ?? 0
   return {
-    top:           `calc(${cloud.baseTop}vh + ${offset}px)`,
-    left:          cloud.left,
-    right:         cloud.right,
-    width:         cloud.width,
-    opacity:       cloud.opacity,
-    filter:        cloud.blur > 0 ? `blur(${cloud.blur}px)` : 'none',
-    zIndex:        cloud.layer === 'bg' ? 0 : cloud.layer === 'mid' ? 5 : 20,
-    position:      'absolute' as const,
-    pointerEvents: 'none'     as const,
-    willChange:    'top',
+    top: `calc(${cloud.baseTop}vh + ${offset}px)`,
+    left: cloud.left,
+    right: cloud.right,
+    width: cloud.width,
+    opacity: cloud.opacity,
+    filter: cloud.blur > 0 ? `blur(${cloud.blur}px)` : 'none',
+    zIndex: cloud.layer === 'bg' ? 0 : cloud.layer === 'mid' ? 5 : 20,
+    position: 'absolute' as const,
+    pointerEvents: 'none' as const,
+    willChange: 'top',
   }
 }
 </script>
 
 <template>
-  <div
-    ref="trackRef"
-    class="scroll-track"
-    :style="{ height: sectionCount > 0 ? `${sectionCount * 100}vh` : '100vh' }"
-  >
-    <div
-      ref="stickyRef"
-      class="snap-container"
-      tabindex="0"
-      @keydown="onKeydown"
-    >
+  <div ref="trackRef" class="scroll-track" :style="{ height: sectionCount > 0 ? `${sectionCount * 100}vh` : '100vh' }">
+    <div ref="stickyRef" class="snap-container" tabindex="0" @keydown="onKeydown">
       <!-- Cloud layers -->
-      <img
-        v-for="cloud in clouds"
-        :key="cloud.id"
-        :src="cloud.src"
-        :style="cloudStyle(cloud)"
-        class="cloud-img"
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-      />
+      <img v-for="cloud in clouds" :key="cloud.id" :src="cloud.src" :style="cloudStyle(cloud)" class="cloud-img" alt=""
+        aria-hidden="true" loading="lazy" />
 
     </div>
 
@@ -253,46 +236,28 @@ function cloudStyle(cloud: Cloud) {
     <div class="ui-overlay" aria-hidden="true">
       <!-- Side dot indicators -->
       <div v-if="sectionCount > 1" class="page-indicators" role="tablist">
-        <button
-          v-for="i in sectionCount"
-          :key="i"
-          class="dot-btn"
-          :class="{ active: currentPage === i - 1 }"
-          role="tab"
-          :aria-selected="currentPage === i - 1"
-          :aria-label="`Go to page ${i}`"
-          @click="scrollToPage(i - 1)"
-        >
+        <button v-for="i in sectionCount" :key="i" class="dot-btn" :class="{ active: currentPage === i - 1 }" role="tab"
+          :aria-selected="currentPage === i - 1" :aria-label="`Go to page ${i}`" @click="scrollToPage(i - 1)">
           <span class="dot-inner" />
         </button>
       </div>
 
       <!-- Previous -->
       <Transition name="hint-down">
-        <Button
-          v-if="currentPage > 0"
-          variant="default"
-          class="page-hint top"
-          @click="prevPage"
-          aria-label="Previous page"
-        >
+        <Button v-if="currentPage > 0" variant="default" class="page-hint top" @click="prevPage"
+          aria-label="Previous page">
           Previous
         </Button>
       </Transition>
 
       <!-- Next -->
       <Transition name="hint-up">
-        <Button
-          v-if="currentPage < sectionCount - 1"
-          class="page-hint bottom"
-          @click="nextPage"
-          aria-label="Next page"
-        >
+        <Button v-if="currentPage < sectionCount - 1" class="page-hint bottom" @click="nextPage" aria-label="Next page">
           Next
         </Button>
       </Transition>
     </div>
-    
+
     <div class="sections-host">
       <slot />
     </div>
@@ -322,7 +287,8 @@ function cloudStyle(cloud: Cloud) {
   overflow: visible;
   outline: none;
   z-index: 1;
-  pointer-events: none; /* Let clicks pass through to sections if needed, but clouds are pointer-events: none anyway. Actually UI needs pointer-events. */
+  pointer-events: none;
+  /* Let clicks pass through to sections if needed, but clouds are pointer-events: none anyway. Actually UI needs pointer-events. */
 }
 
 /* ── Sections host ──────────────────────────────────────────────────── */
@@ -351,7 +317,7 @@ function cloudStyle(cloud: Cloud) {
   overflow: hidden;
   position: relative;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
 }
 
 /* ── Cloud images ───────────────────────────────────────────────────── */
@@ -443,26 +409,44 @@ function cloudStyle(cloud: Cloud) {
   white-space: nowrap;
 }
 
-.page-hint.top    { top:    clamp(1rem, 3vh, 2.5rem); }
-.page-hint.bottom { bottom: clamp(1rem, 3vh, 2.5rem); }
+.page-hint.top {
+  top: clamp(1rem, 3vh, 2.5rem);
+}
 
-.page-hint:hover { background: rgba(255, 255, 255, 0.2); box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
-.page-hint.top:hover    { transform: translateX(-50%) translateY( 3px); }
-.page-hint.bottom:hover { transform: translateX(-50%) translateY(-3px); }
+.page-hint.bottom {
+  bottom: clamp(1rem, 3vh, 2.5rem);
+}
+
+.page-hint:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.page-hint.top:hover {
+  transform: translateX(-50%) translateY(3px);
+}
+
+.page-hint.bottom:hover {
+  transform: translateX(-50%) translateY(-3px);
+}
 
 /* ── Transitions ────────────────────────────────────────────────────── */
 
-.hint-up-enter-active, .hint-up-leave-active,
-.hint-down-enter-active, .hint-down-leave-active {
+.hint-up-enter-active,
+.hint-up-leave-active,
+.hint-down-enter-active,
+.hint-down-leave-active {
   transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.hint-up-enter-from, .hint-up-leave-to {
+.hint-up-enter-from,
+.hint-up-leave-to {
   opacity: 0;
   transform: translateX(-50%) translateY(16px);
 }
 
-.hint-down-enter-from, .hint-down-leave-to {
+.hint-down-enter-from,
+.hint-down-leave-to {
   opacity: 0;
   transform: translateX(-50%) translateY(-16px);
 }
@@ -470,9 +454,13 @@ function cloudStyle(cloud: Cloud) {
 /* ── Mobile ─────────────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  .page-indicators { gap: 1rem; }
+  .page-indicators {
+    gap: 1rem;
+  }
 
-  .page-hint { padding: 0.7rem 1.2rem; }
+  .page-hint {
+    padding: 0.7rem 1.2rem;
+  }
 
   :deep(.snap-section) {
     padding: max(3rem, 8vh) 6% max(2.5rem, 6vh);
@@ -484,13 +472,18 @@ function cloudStyle(cloud: Cloud) {
 /* ── Reduced motion ─────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .hint-up-enter-active, .hint-up-leave-active,
-  .hint-down-enter-active, .hint-down-leave-active {
+
+  .hint-up-enter-active,
+  .hint-up-leave-active,
+  .hint-down-enter-active,
+  .hint-down-leave-active {
     transition: opacity 0.2s ease;
   }
 
-  .hint-up-enter-from, .hint-up-leave-to,
-  .hint-down-enter-from, .hint-down-leave-to {
+  .hint-up-enter-from,
+  .hint-up-leave-to,
+  .hint-down-enter-from,
+  .hint-down-leave-to {
     transform: translateX(-50%);
   }
 }

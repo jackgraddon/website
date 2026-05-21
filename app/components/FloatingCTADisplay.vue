@@ -14,8 +14,7 @@
                             <!-- Portal: fills card on hover -->
                             <div class="cta-portal" :style="portalInnerStyle">
                                 <!-- Unified Snapshot -->
-                                <img :src="`/screenshots/${currentTimeState}/${getHash(cta.url)}-${closestPreset.name}.png`"
-                                    class="cta-screenshot" loading="lazy" alt="" />
+                                <img :src="screenshotPath(cta.url)" class="cta-screenshot" loading="lazy" alt="" />
 
                                 <!-- Label: Floating in the center -->
                                 <div class="cta-portal-label">{{ cta.title }}</div>
@@ -101,14 +100,41 @@ const screenshotStyle = computed(() => ({
     transform: `scale(${CAPTURE_SCALE})`,
 }));
 
-const getScreenshotPath = (url: string) => {
-    const hour = new Date().getHours();
-    let state = 'night';
-    if (hour >= 6 && hour < 10) state = 'morning';
-    else if (hour >= 10 && hour < 18) state = 'afternoon';
-    else if (hour >= 18 && hour < 21) state = 'evening';
+function normalizeLinkedInUrl(url: string) {
+    return url.replace(/^https:\/\/linkedin\.com\//, 'https://www.linkedin.com/');
+}
 
-    return `/screenshots/${state}/...`;
+const currentTimeState = computed(() => {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 10) return 'morning';
+    if (hour >= 10 && hour < 18) return 'afternoon';
+    if (hour >= 18 && hour < 21) return 'evening';
+    return 'night';
+});
+
+function getHash(value: string) {
+    let hash = 0;
+    for (let i = 0; i < value.length; i += 1) {
+        hash = ((hash << 5) - hash) + value.charCodeAt(i);
+        hash |= 0;
+    }
+    return Math.abs(hash).toString(36);
+}
+
+const screenshotPath = (url: string) => {
+    let normalizedUrl = url;
+    let screenshotDir = currentTimeState.value;
+
+    if (url.startsWith('/')) {
+        // Local URL - time-based
+        normalizedUrl = `https://jackgraddon.com${url}`;
+    } else {
+        // External URL - static
+        screenshotDir = 'static';
+        normalizedUrl = normalizeLinkedInUrl(url);
+    }
+
+    return `/screenshots/${screenshotDir}/${getHash(normalizedUrl)}-${closestPreset.value.name}.png`;
 };
 
 function getSlotStyle(index: number): Record<string, string> {

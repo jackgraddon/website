@@ -2,7 +2,7 @@
 import { motion, useScroll, useTransform, useMotionTemplate, useInView, AnimatePresence } from "motion-v"
 
 const { isLoaded } = useAppLoaded()
-    
+
 // Define props for the component
 const props = defineProps<{
     title?: string, // Title text
@@ -69,7 +69,7 @@ const landingTitle = ref<string>(greeting.value);
 const landingSubtitle = ref<string>(subtitle.value);
 
 // Change title when heroContent is out of view
-const inView = useInView(heroContent, { amount: 0 }) 
+const inView = useInView(heroContent, { amount: 0 })
 
 watch(inView, (visible) => {
     if (!visible) {
@@ -109,32 +109,22 @@ function getWordsWithCharIndices(text: string) {
         </div>
         <motion.div class="hero-content" ref="heroContent" :style="{ opacity, transform: scaleTransform }">
             <div v-if="props.variant === 'landing'">
-                <motion.div
-                    :key="props.iconName"
-                    :initial="{ rotate: 0, opacity: 0 }"
+                <motion.div :key="props.iconName" :initial="{ rotate: 0, opacity: 0 }"
                     :animate="isLoaded ? { rotate: [0, 12, -8, 12, 0], opacity: 1, transition: { duration: 1.8, repeat: Infinity, ease: 'easeInOut', opacity: { duration: 0.5, delay: 0.5, ease: 'easeOut', repeat: 0 } } } : { opacity: 0 }"
-                    :exit="{ opacity: 0 }"
-                    style="transform-origin: bottom center;"
-                >
-                    <Icon class="hero-icon" name="solar:hand-shake-line-duotone"/>
+                    :exit="{ opacity: 0 }" style="transform-origin: bottom center;">
+                    <Icon class="hero-icon" name="solar:hand-shake-line-duotone" />
                 </motion.div>
                 <h1 class="hero-title">
                     <AnimatePresence mode="wait">
-                        <motion.div
-                            :key="landingTitle"
-                            :initial="{ opacity: 0 }"
+                        <motion.div :key="landingTitle" :initial="{ opacity: 0 }"
                             :animate="isLoaded ? { opacity: 1, transition: { duration: 0.5 } } : { opacity: 0 }"
-                            :exit="{ opacity: 0, transition: { duration: 0.2 } }" 
-                        >
+                            :exit="{ opacity: 0, transition: { duration: 0.2 } }">
                             <template v-for="(wordObj, wIndex) in getWordsWithCharIndices(landingTitle)" :key="wIndex">
                                 <span style="display: inline-block; white-space: nowrap;">
-                                    <motion.span
-                                        v-for="charObj in wordObj.chars"
-                                        :key="charObj.index"
+                                    <motion.span v-for="charObj in wordObj.chars" :key="charObj.index"
                                         :initial="{ opacity: 0, y: 12 }"
                                         :animate="isLoaded ? { opacity: 1, y: 0, transition: { delay: 0.3 + (charObj.index * 0.04), duration: 0.4, ease: 'easeOut' } } : { opacity: 0, y: 12 }"
-                                        style="display: inline-block;"
-                                    >
+                                        style="display: inline-block;">
                                         {{ charObj.char }}
                                     </motion.span>
                                 </span>
@@ -145,14 +135,9 @@ function getWordsWithCharIndices(text: string) {
                 </h1>
                 <div style="position: relative; min-height: 1.5em; width: 100%;">
                     <AnimatePresence mode="popLayout">
-                        <motion.p
-                            class="hero-subtitle"
-                            :key="landingSubtitle"
-                            :initial="{ opacity: 0, y: 20 }"
+                        <motion.p class="hero-subtitle" :key="landingSubtitle" :initial="{ opacity: 0, y: 20 }"
                             :animate="isLoaded ? { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.8 } } : { opacity: 0, y: 20 }"
-                            :exit="{ opacity: 0 }"
-                            style="position: absolute; width: 100%; top: 0;"
-                        >
+                            :exit="{ opacity: 0 }" style="position: absolute; width: 100%; top: 0;">
                             {{ landingSubtitle }}
                         </motion.p>
                     </AnimatePresence>
@@ -160,32 +145,23 @@ function getWordsWithCharIndices(text: string) {
             </div>
             <div v-else>
                 <div class="hero-content" ref="heroContent">
-                    <motion.div
-                        :key="props.iconName"
-                        :initial="{ opacity: 0 }"
+                    <motion.div :key="props.iconName" :initial="{ opacity: 0 }"
                         :animate="isLoaded ? { opacity: 1 } : { opacity: 0 }"
-                        :transition="{ duration: 0.5, delay: 0.8 }"
-                        :exit="{ opacity: 0 }"
-                    >
-                        <Icon v-if="props.iconName" class="hero-icon" :name="props.iconName"/>
+                        :transition="{ duration: 0.5, delay: 0.8 }" :exit="{ opacity: 0 }">
+                        <Icon v-if="props.iconName" class="hero-icon" :name="props.iconName" />
                     </motion.div>
                     <h1 class="hero-title">
                         <AnimatePresence mode="wait">
-                            <motion.div
-                                :key="props.title || ''"
-                                :initial="{ opacity: 0 }"
+                            <motion.div :key="props.title || ''" :initial="{ opacity: 0 }"
                                 :animate="isLoaded ? { opacity: 1, transition: { duration: 0.5 } } : { opacity: 0 }"
-                                :exit="{ opacity: 0, transition: { duration: 0.2 } }" 
-                            >
-                                <template v-for="(wordObj, wIndex) in getWordsWithCharIndices(props.title || '')" :key="wIndex">
+                                :exit="{ opacity: 0, transition: { duration: 0.2 } }">
+                                <template v-for="(wordObj, wIndex) in getWordsWithCharIndices(props.title || '')"
+                                    :key="wIndex">
                                     <span style="display: inline-block; white-space: nowrap;">
-                                        <motion.span
-                                            v-for="charObj in wordObj.chars"
-                                            :key="charObj.index"
+                                        <motion.span v-for="charObj in wordObj.chars" :key="charObj.index"
                                             :initial="{ opacity: 0, y: 12 }"
                                             :animate="isLoaded ? { opacity: 1, y: 0, transition: { delay: 0.3 + (charObj.index * 0.04), duration: 0.4, ease: 'easeOut' } } : { opacity: 0, y: 12 }"
-                                            style="display: inline-block;"
-                                        >
+                                            style="display: inline-block;">
                                             {{ charObj.char }}
                                         </motion.span>
                                     </span>
@@ -196,14 +172,9 @@ function getWordsWithCharIndices(text: string) {
                     </h1>
                     <div style="position: relative; min-height: 1.5em; width: 100%;">
                         <AnimatePresence mode="popLayout">
-                            <motion.p
-                                class="hero-subtitle"
-                                :key="props.subtitle"
-                                :initial="{ opacity: 0, y: 20 }"
+                            <motion.p class="hero-subtitle" :key="props.subtitle" :initial="{ opacity: 0, y: 20 }"
                                 :animate="isLoaded ? { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.8 } } : { opacity: 0, y: 20 }"
-                                :exit="{ opacity: 0 }"
-                                style="position: absolute; width: 100%; top: 0;"
-                            >
+                                :exit="{ opacity: 0 }" style="position: absolute; width: 100%; top: 0;">
                                 {{ props.subtitle }}
                             </motion.p>
                         </AnimatePresence>
@@ -211,20 +182,13 @@ function getWordsWithCharIndices(text: string) {
                 </div>
             </div>
         </motion.div>
-        
+
         <div class="hero-cloud-container">
-            <motion.div
-                class="hero-cloud-wrapper"
-                :initial="{ y: 100, opacity: 0, filter: 'blur(20px)' }"
+            <motion.div class="hero-cloud-wrapper" :initial="{ y: 100, opacity: 0, filter: 'blur(20px)' }"
                 :animate="isLoaded ? { y: 0, opacity: 1, filter: 'blur(0px)' } : { y: 100, opacity: 0, filter: 'blur(20px)' }"
-                :transition="{ duration: 1.2, ease: 'easeOut' }"
-            >
-                <motion.img
-                    class="hero-cloud-img"
-                    alt="Decorative image of a fluffy cloud"
-                    :src="'images/splash-cloud.webp'"
-                    :style="{ y }"
-                />
+                :transition="{ duration: 1.2, ease: 'easeOut' }">
+                <motion.img class="hero-cloud-img" alt="Decorative image of a fluffy cloud"
+                    :src="'images/splash-cloud.webp'" :style="{ y }" />
             </motion.div>
         </div>
     </section>
