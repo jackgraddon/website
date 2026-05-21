@@ -1,0 +1,22 @@
+{
+  "name": "Nuxt 4 Dev Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  
+  // These extensions will automatically install inside your container
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Vue.volar",                // Vue Official Support
+        "Continue.continue",        // Local AI (Ollama Companion)
+        "dbaeumer.vscode-eslint"    // Linting code checks
+      ]
+    }
+  },
+
+  // Ensures port 3000 can be previewed seamlessly on your host Mac/Bluefin browser
+  "forwardPorts": [3000],
+
+  "postCreateCommand": "npm install"
+}

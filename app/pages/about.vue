@@ -4,18 +4,10 @@
       <!-- Bio Tabs Section -->
       <section class="bio-section snap-section">
         <div class="tab-pills" role="tablist">
-          <motion.div
-            v-for="(tab, i) in tabs"
-            :key="tab.id"
-            :initial="{ opacity: 0, y: -10 }"
-            :animate="{ opacity: 1, y: 0, transition: { delay: 0.1 * i, duration: 0.4 } }"
-          >
-            <Button
-              role="tab"
-              :aria-selected="activeTab === tab.id"
-              :active="activeTab === tab.id"
-              @click="activeTab = tab.id"
-            >
+          <motion.div v-for="(tab, i) in tabs" :key="tab.id" :initial="{ opacity: 0, y: -10 }"
+            :animate="{ opacity: 1, y: 0, transition: { delay: 0.1 * i, duration: 0.4 } }">
+            <Button role="tab" :aria-selected="activeTab === tab.id" :active="activeTab === tab.id"
+              @click="activeTab = tab.id">
               <Icon :name="tab.icon" />
               {{ tab.label }}
             </Button>
@@ -25,45 +17,40 @@
         <!-- Tab Content -->
         <div class="tab-content-wrapper">
           <AnimatePresence mode="wait">
-            <motion.div
-              :key="activeTab"
-              class="tab-content"
-              :initial="{ opacity: 0, y: 16 }"
+            <motion.div :key="activeTab" class="tab-content" :initial="{ opacity: 0, y: 16 }"
               :animate="{ opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }"
-              :exit="{ opacity: 0, y: -10, transition: { duration: 0.2 } }"
-            >
+              :exit="{ opacity: 0, y: -10, transition: { duration: 0.2 } }">
               <!-- WHO I AM -->
               <div v-if="activeTab === 'who'" class="tab-panel">
                 <div class="bio-text-wrap">
                   <p class="bio-text">
-                    Hey, I'm Jack — a
-                    <Annotated label="Design Engineer" note="I sit at the intersection of design and code. I care deeply about how things look AND how they work." />
-                    based in Spokane Valley, WA. I've been building for the web since I was a kid, and I still get the same kick out of shipping something that looks and feels just right.
+                    Hey, I'm Jack, a
+                    <Annotated label="Design Engineer"
+                      note="I work with both design and code, caring deeply about how things look and how they work." />
+                    based in Spokane Valley, WA. I've been building for the web since I was a kid, and I still get the
+                    same kick out of shipping something that looks and feels just right.
                   </p>
                   <p class="bio-text">
-                    I believe technology should feel
-                    <Annotated label="approachable" note="No unnecessary complexity. If it confuses people, it's not done yet." />
-                    — not intimidating. Whether I'm designing a UI or writing a
-                    <Annotated label="Vue component" note="Vue + TypeScript is my happy place. Nuxt 4 for anything that needs a full stack." />
-                    , I'm always asking: does this make someone's life a little easier?
+                    I believe technology should feel approachable, not intimidating. Whether I'm working in Penpot,
+                    Affinity, or VS Code, I'm always asking: does this make someone's life a little easier?
                   </p>
                   <p class="bio-text">
                     Outside of work, I'm usually obsessing over some new
-                    <Annotated label="side project" note="Like Tumult — a Matrix-based chat and media client I'm building from scratch." />
-                    , diving into music, or staring at the sky (hence the website).
+                    <Annotated label="side project"
+                      note="Like Tumult, a Matrix-based chat and media client I'm building from scratch." />,
+                    jamming out to music, reading a
+                    <Annotated label="book" note="Right now it's 'No_Coincidence' by Rafał Kosik." />, or just
+                    sitting outside in the warm sun when I have the chance.
                   </p>
                 </div>
               </div>
 
-              <!-- WHAT I BUILD -->
+              <!-- WHAT I DO -->
               <div v-else-if="activeTab === 'build'" class="tab-panel">
                 <div class="skills-grid">
-                  <motion.div
-                    v-for="(skill, i) in skills"
-                    :key="skill.label"
+                  <motion.div v-for="(skill, i) in skills" :key="skill.label"
                     :initial="{ opacity: 0, scale: 0.95, y: 10 }"
-                    :animate="{ opacity: 1, scale: 1, y: 0, transition: { delay: i * 0.05 + 0.1, duration: 0.4, ease: 'easeOut' } }"
-                  >
+                    :animate="{ opacity: 1, scale: 1, y: 0, transition: { delay: i * 0.05 + 0.1, duration: 0.4, ease: 'easeOut' } }">
                     <Surface variant="glass">
                       <div class="skill-card-inner">
                         <Icon :name="skill.icon" class="skill-icon" />
@@ -75,20 +62,20 @@
                     </Surface>
                   </motion.div>
                 </div>
-                <p class="build-note">
-                  I'm especially drawn to the <Annotated label="design-engineering gap" note="The place where design mockups become something that actually breathes, responds, and feels alive." />, making interfaces that feel crafted, not assembled.
-                </p>
+                <!-- <p class="build-note">
+                  I'm especially drawn to the
+                  <Annotated label="design-engineering gap"
+                    note="The place where design mockups become something that actually breathes, responds, and feels alive." />
+                  , making interfaces that feel crafted, not assembled.
+                </p> -->
               </div>
 
               <!-- WHAT I'M INTO -->
               <div v-else-if="activeTab === 'into'" class="tab-panel">
                 <div class="interests-grid">
-                  <motion.div
-                    v-for="(interest, i) in interests"
-                    :key="interest.label"
+                  <motion.div v-for="(interest, i) in interests" :key="interest.label"
                     :initial="{ opacity: 0, scale: 0.95, y: 10 }"
-                    :animate="{ opacity: 1, scale: 1, y: 0, transition: { delay: i * 0.05 + 0.1, duration: 0.4, ease: 'easeOut' } }"
-                  >
+                    :animate="{ opacity: 1, scale: 1, y: 0, transition: { delay: i * 0.05 + 0.1, duration: 0.4, ease: 'easeOut' } }">
                     <Surface variant="glass">
                       <div class="interest-inner">
                         <Icon :name="interest.icon" class="interest-icon" />
@@ -111,7 +98,7 @@
       <section class="layout-container snap-section" style="align-items: center;">
         <header class="section-header">
           <div style="display: flex; flex-direction: column; align-items: center;">
-            <Icon name="solar:code-square-line-duotone" size="2rem"/>
+            <Icon name="solar:code-square-line-duotone" size="2rem" />
             <h2>
               My Tech Stack
             </h2>
@@ -121,16 +108,8 @@
         <div class="tech-stack-outer">
           <Surface variant="glass" class="tech-stack-wrap">
             <div class="dock-container">
-              <NuxtImg
-                v-for="item in stack"
-                :key="item.name"
-                :src="item.image"
-                class="dock-item"
-                width="54"
-                height="54"
-                :alt="item.name"
-                :title="item.name"
-              />
+              <NuxtImg v-for="item in stack" :key="item.name" :src="item.image" class="dock-item" width="54" height="54"
+                :alt="item.name" :title="item.name" />
             </div>
           </Surface>
         </div>
@@ -156,14 +135,8 @@
               <!-- Album art -->
               <div class="now-playing-art">
                 <div class="album-art-placeholder">
-                  <NuxtImg
-                    v-if="lfmTrack?.albumArt"
-                    :src="lfmTrack.albumArt"
-                    :alt="lfmTrack.album"
-                    class="album-art-img"
-                    width="56"
-                    height="56"
-                  />
+                  <NuxtImg v-if="lfmTrack?.albumArt" :src="lfmTrack.albumArt" :alt="lfmTrack.album"
+                    class="album-art-img" width="56" height="56" />
                   <Icon v-else name="solar:music-library-2-line-duotone" class="album-placeholder-icon" />
                 </div>
                 <div v-if="lfmTrack?.nowPlaying" class="now-playing-bars" aria-hidden="true">
@@ -197,14 +170,16 @@
             </div>
             <p class="vibe-card-title">Tumult</p>
             <p class="vibe-card-body">A Matrix-based chat & media client. Vue, Tauri, and a lot of late nights.</p>
-            <Button variant="default" to="/projects/260203">Check it out <Icon name="solar:alt-arrow-right-linear"/></Button>
+            <Button variant="default" to="/projects/260203">Check it out
+              <Icon name="solar:alt-arrow-right-linear" />
+            </Button>
           </Surface>
 
           <!-- Current Obsession -->
           <Surface variant="glass">
             <div class="vibe-card-label">
               <Icon name="solar:star-shine-line-duotone" />
-              Current obsession
+              Obsession
             </div>
             <p class="vibe-card-title">{{ currentObsession.title }}</p>
             <p class="vibe-card-body">{{ currentObsession.body }}</p>
@@ -229,7 +204,9 @@
             </div>
             <p class="vibe-card-title">jackgraddon</p>
             <p class="vibe-card-body">Building in public. Mostly Tumult lately.</p>
-            <Button variant="default" to="https://github.com/jackgraddon">View profile <Icon name="solar:alt-arrow-right-linear"/></Button>
+            <Button variant="default" to="https://github.com/jackgraddon">View profile
+              <Icon name="solar:alt-arrow-right-linear" />
+            </Button>
           </Surface>
 
           <!-- Get In Touch -->
@@ -271,43 +248,45 @@ definePageMeta({
 const activeTab = ref('who')
 
 const tabs = [
-  { id: 'who',   label: 'Who I Am',      icon: 'solar:user-rounded-line-duotone' },
-  { id: 'build', label: 'What I Do',     icon: 'solar:code-square-line-duotone' },
-  { id: 'into',  label: "What I'm Into", icon: 'solar:heart-shine-line-duotone' },
+  { id: 'who', label: 'Who I Am', icon: 'solar:user-rounded-line-duotone' },
+  { id: 'build', label: 'What I Do', icon: 'solar:code-square-line-duotone' },
+  { id: 'into', label: "What I'm Into", icon: 'solar:heart-shine-line-duotone' },
 ]
 
 const stack = [
-  { name: 'Linux',        image: '/images/apps/fedora.png' },
-  { name: 'macOS',        image: '/images/apps/finder.png' },
-  { name: 'VS Code',      image: '/images/apps/vscode.png' },
-  { name: 'Nuxt 4',       image: '/images/apps/nuxt.png' },
-  { name: 'Vue 3',        image: '/images/apps/vue.png' },
+  { name: 'Linux', image: '/images/apps/fedora.png' },
+  { name: 'macOS', image: '/images/apps/finder.png' },
+  { name: 'VS Code', image: '/images/apps/vscode.png' },
+  { name: 'Nuxt 4', image: '/images/apps/nuxt.png' },
+  { name: 'Vue 3', image: '/images/apps/vue.png' },
   { name: 'Tailwind CSS', image: '/images/apps/tailwind.png' },
-  { name: 'TypeScript',   image: '/images/apps/typescript.png' },
-  { name: 'Motion',       image: '/images/apps/motion.png' },
-  { name: 'Tauri',        image: '/images/apps/tauri.png' },
-  { name: 'Affinity',     image: '/images/apps/affinity.png' },
-  { name: 'Figma',        image: '/images/apps/figma.png' },
-  { name: 'Final Cut',    image: '/images/apps/finalcut.png' },
+  { name: 'TypeScript', image: '/images/apps/typescript.png' },
+  { name: 'Motion', image: '/images/apps/motion.png' },
+  { name: 'Tauri', image: '/images/apps/tauri.png' },
+  { name: 'WordPress', image: '/images/apps/wordpress.png' },
+  { name: 'Affinity', image: '/images/apps/affinity.png' },
+  { name: 'Penpot', image: '/images/apps/penpot.png' },
+  { name: 'Final Cut', image: '/images/apps/finalcut.png' },
 ]
 
 
 // ── Skills ────────────────────────────────────────────────
 const skills = [
-  { icon: 'solar:palette-line-duotone',        label: 'Design Engineering', desc: 'Bridging design and production-ready systems with motion and care.' },
-  { icon: 'solar:sidebar-code-line-duotone',   label: 'Web',                desc: 'Building with Nuxt 4, creating smooth and intuitive user experiences.' },
-  { icon: 'solar:monitor-line-duotone',        label: 'Desktop',            desc: 'Shipping web apps as native desktop clients with Tauri.' },
-  { icon: 'solar:pen-new-square-line-duotone', label: 'Graphic Design',     desc: 'Crafting unique compositions in both digital and print.' },
-  { icon: 'solar:global-line-duotone',         label: 'Performance',        desc: 'Building a fast, resilient, intuitive web experience.' },
+  { icon: 'solar:palette-line-duotone', label: 'Design Engineering', desc: 'Bridging design and production-ready systems with attention to detail.' },
+  { icon: 'solar:sidebar-code-line-duotone', label: 'Web', desc: 'Building with Nuxt 4, creating smooth and intuitive user experiences.' },
+  { icon: 'solar:monitor-line-duotone', label: 'Desktop', desc: 'Shipping web apps as native desktop clients with Tauri.' },
+  { icon: 'solar:pen-new-square-line-duotone', label: 'Graphic Design', desc: 'Crafting unique compositions in both digital and print.' },
+  { icon: 'solar:global-line-duotone', label: 'Performance', desc: 'Building a fast, resilient, intuitive web experience.' },
+  { icon: 'solar:hand-stars-line-duotone', label: 'Support', desc: 'Enabling people to get the most out of the products they use.' },
 ]
 
 const interests = [
-  { icon: 'solar:sun-line-duotone',                 label: 'The Sky',        desc: 'Clouds, weather, that liminal golden hour light.' },
-  { icon: 'solar:music-note-2-line-duotone',        label: 'Music',          desc: 'All genres, all hours. Music is always on.' },
-  { icon: 'solar:cpu-bolt-line-duotone',            label: 'Open Protocols', desc: 'Matrix, ActivityPub — the decentralised web is fascinating.' },
-  { icon: 'solar:book-bookmark-line-duotone',       label: 'Craft',          desc: 'Obsessed with things made with intention — code, design, or otherwise.' },
-  { icon: 'solar:camera-minimalistic-line-duotone', label: 'Photography',    desc: 'Mostly sky and architecture.' },
-  { icon: 'solar:gamepad-line-duotone',             label: 'Games',          desc: 'Indie games with strong aesthetics. Story over mechanics.' },
+  { icon: 'solar:sun-line-duotone', label: 'The Sky', desc: 'The vastness of the sky and space, the way light interacts with it.' },
+  { icon: 'solar:music-note-2-line-duotone', label: 'Music', desc: 'City pop, jazz, electronic, indie. Music is always on.' },
+  { icon: 'solar:cpu-bolt-line-duotone', label: 'Open Source', desc: 'Community-driven development is fascinating, working together to build better software.' },
+  { icon: 'solar:book-bookmark-line-duotone', label: 'Craft', desc: 'Obsessed with things made with intention. Code, design, or otherwise.' },
+  { icon: 'solar:camera-minimalistic-line-duotone', label: 'Photography', desc: 'Capturing moments and landscapes, and my funny dog, Major.' },
+  { icon: 'solar:gamepad-line-duotone', label: 'Games', desc: 'Indie games with friends, sharing experiences and creating memories.' },
 ]
 
 const { track: lfmTrack, loading: lfmLoading, error: lfmError } = useLastFm()
@@ -371,7 +350,7 @@ onUnmounted(() => {
 
 .dock-item:hover {
   transform: translateY(-8px) scale(1.15);
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
 }
 
 .about-page {
@@ -439,8 +418,8 @@ onUnmounted(() => {
   display: block;
 }
 
-.skills-grid > *,
-.interests-grid > * {
+.skills-grid>*,
+.interests-grid>* {
   break-inside: avoid-column;
   margin-bottom: 0.75rem;
   display: inline-block;
@@ -552,6 +531,7 @@ onUnmounted(() => {
 .vibe-card--wide {
   grid-column: span 2;
 }
+
 .vibe-card--contact {
   grid-column: span 3;
 }
@@ -625,7 +605,7 @@ onUnmounted(() => {
   align-items: flex-end;
   gap: 2px;
   background: var(--color-bg);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   padding: 3px 4px;
 }
@@ -638,14 +618,36 @@ onUnmounted(() => {
   animation: bar-bounce 1.2s ease-in-out infinite;
 }
 
-.now-playing-bars span:nth-child(1) { height: 8px;  animation-delay: 0s; }
-.now-playing-bars span:nth-child(2) { height: 12px; animation-delay: 0.2s; }
-.now-playing-bars span:nth-child(3) { height: 6px;  animation-delay: 0.4s; }
-.now-playing-bars span:nth-child(4) { height: 10px; animation-delay: 0.1s; }
+.now-playing-bars span:nth-child(1) {
+  height: 8px;
+  animation-delay: 0s;
+}
+
+.now-playing-bars span:nth-child(2) {
+  height: 12px;
+  animation-delay: 0.2s;
+}
+
+.now-playing-bars span:nth-child(3) {
+  height: 6px;
+  animation-delay: 0.4s;
+}
+
+.now-playing-bars span:nth-child(4) {
+  height: 10px;
+  animation-delay: 0.1s;
+}
 
 @keyframes bar-bounce {
-  0%, 100% { transform: scaleY(0.4); }
-  50%       { transform: scaleY(1); }
+
+  0%,
+  100% {
+    transform: scaleY(0.4);
+  }
+
+  50% {
+    transform: scaleY(1);
+  }
 }
 
 .now-playing-track {

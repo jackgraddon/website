@@ -4,7 +4,7 @@
             <div v-for="(cta, index) in ctas" :key="cta.id" class="cta-slot" :style="getSlotStyle(index)">
                 <div class="cta-drift" :style="getDriftStyle(index)">
                     <NuxtLink :to="cta.url" class="cta-card" :aria-label="cta.title" :style="cardSizeStyle">
-                        <Surface variant="glass" direction="column">
+                        <Surface variant="glass" direction="column" class="cta-surface">
                             <!-- Icon: visible when collapsed -->
                             <div class="cta-icon-wrap">
                                 <Icon v-if="cta.icon && isNuxtIcon(cta.icon)" :name="cta.icon" class="cta-icon" />
@@ -260,19 +260,19 @@ const isNuxtIcon = (name?: string) => name?.includes(':');
     }
 }
 
-.cta-card :deep(.surface-glass) {
+.cta-surface {
     padding: 0;
     overflow: hidden;
     width: var(--icon-size);
     height: var(--icon-size);
-    backdrop-filter: blur(0px);
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.4s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0s;
+    backdrop-filter: blur(10px) saturate(1.2) brightness(0.9);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.4s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.3s ease;
 }
 
-.cta-card:hover :deep(.surface-glass) {
+.cta-card:hover .cta-surface {
     width: var(--portal-w);
     height: var(--portal-h);
-    backdrop-filter: blur(5px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(1.4) brightness(0.9);
 }
 
 .cta-icon-wrap {
