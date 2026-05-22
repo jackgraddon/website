@@ -154,7 +154,7 @@ useGlassGlow(glassRef);
     /* Text color: Light for legibility on dark/saturated backgrounds */
     color: color-mix(in srgb, var(--button-color) 10%, white);
     
-    backdrop-filter: blur(8px) saturate(130%);
+    backdrop-filter: blur(8px) saturate(130%) brightness(90%);
     box-shadow:
         0 4px 12px rgba(0, 0, 0, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -229,7 +229,7 @@ useGlassGlow(glassRef);
     border: 1px solid transparent;
     padding: 0.4rem 1rem;
     font-weight: 500;
-    backdrop-filter: none;
+    backdrop-filter: blur(8px) saturate(130%) brightness(90%);
     box-shadow: none;
 }
 

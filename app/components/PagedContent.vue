@@ -252,7 +252,7 @@ function cloudStyle(cloud: Cloud) {
 
       <!-- Next -->
       <Transition name="hint-up">
-        <Button v-if="currentPage < sectionCount - 1" class="page-hint bottom" @click="nextPage" aria-label="Next page">
+        <Button v-if="currentPage < sectionCount - 1" variant="default" class="page-hint bottom" @click="nextPage" aria-label="Next page">
           Next
         </Button>
       </Transition>
@@ -396,13 +396,7 @@ function cloudStyle(cloud: Cloud) {
   flex-direction: column;
   align-items: center;
   gap: 0.3rem;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px) saturate(1.4);
-  -webkit-backdrop-filter: blur(8px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 2rem;
   padding: 0.6rem 1.4rem;
-  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   pointer-events: auto;
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;

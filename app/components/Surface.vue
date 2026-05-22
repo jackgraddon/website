@@ -98,7 +98,7 @@ const surfaceStyles = computed(() => {
     flex-direction: column;
     gap: 0.5rem;
 
-    backdrop-filter: blur(30px) saturate(1.3) brightness(0.8);
+    backdrop-filter: blur(30px) saturate(1.3) brightness(0.9);
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.22),
         0 2px 8px rgba(0, 0, 0, 0.12),
