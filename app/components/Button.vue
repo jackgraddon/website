@@ -59,9 +59,9 @@ const isLight = computed(() => {
 
 const textColor = computed(() => {
     if (isLight.value) {
-        return `color-mix(in srgb, ${buttonColor.value} 15%, black)`;
+        return `color-mix(in srgb, ${buttonColor.value} 85%, black)`;
     } else {
-        return `color-mix(in srgb, ${buttonColor.value} 15%, white)`;
+        return `color-mix(in srgb, ${buttonColor.value} 25%, white)`;
     }
 });
 
@@ -152,7 +152,7 @@ useGlassGlow(glassRef);
     );
 
     /* Text color: Light for legibility on dark/saturated backgrounds */
-    color: color-mix(in srgb, var(--button-color) 10%, white);
+    color: var(--base-text-color);
     
     backdrop-filter: blur(8px) saturate(130%) brightness(90%);
     box-shadow:
