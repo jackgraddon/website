@@ -58,6 +58,14 @@ const isLight = computed(() => {
 });
 
 const textColor = computed(() => {
+    const isNeutral = !props.color || 
+                      props.color === 'white' || 
+                      props.color === '#fff' || 
+                      props.color === '#ffffff';
+
+    
+
+    if (isNeutral) return 'rgba(255, 255, 255, 0.92)';
     if (isLight.value) {
         return `color-mix(in srgb, ${buttonColor.value} 85%, black)`;
     } else {
