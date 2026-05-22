@@ -1,7 +1,6 @@
 <script setup lang="ts">
+import { computed, onMounted } from 'vue';
 import { motion, useScroll, scroll, animate } from 'motion-v';
-import ProjectTimeline from '~/components/Timeline/ProjectTimeline.vue';
-
 const { scrollYProgress } = useScroll();
 
 definePageMeta({
@@ -11,43 +10,18 @@ definePageMeta({
   keywords: 'projects, portfolio, work, design, development'
 })
 
-// Get all projects to display in the timeline
 const { data: projects } = await useFetch('/api/projects')
 
-// Scroll animations
-onMounted(() => {
-    // Favorite Projects
-    scroll(animate(document.querySelector('#favorites-title')!, { 
-        opacity: [0, 1, 1, 0],
-        filter: ["blur(10px)", "blur(0px)", "blur(0px)", "blur(10px)"],
-    }), {
-        target: document.querySelector('#favorites-title')!,
-        offset: ["start end", "start center", "end center", "end start"],
-    })
-    document.querySelectorAll("#favorites-stack > div").forEach((item, i) => {
-        scroll(animate(item, { 
-            opacity: [0, 1, 1, 0],
-            filter: ["blur(10px)", "blur(0px)", "blur(0px)", "blur(10px)"],
-            y: [20, 0, 0, -40],
-        }, {
-            delay: i * 0.05,
-        }), {
-            target: item,
-            offset: ["start end", "end end", "start start", "end start"],
-        })
-    })
-})
+// 1. Define the IDs of your featured projects
+const favoriteIds = ['230201', '221001', '230801'];
 </script>
 
 <template>
     <section id="favorites">
         <h2 id="favorites-title">My favorites</h2>
-        <Stack direction="horizontal" gap="1rem" justify="between" id="favorites-stack">
-            <Card project-id="230201"></Card>
-            <Card project-id="221001"></Card>
-            <Card project-id="230801"></Card>
-        </Stack>
+        <Carousel :projectIds="favoriteIds" />    
     </section>
+    
     <section>
         <h2>A history of my work</h2>
         <ProjectTimeline class="fit-short" :projects="projects as any[]" />
