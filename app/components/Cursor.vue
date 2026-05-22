@@ -248,6 +248,7 @@ onMounted(() => {
           :src="cursorMap[activeCursor] || cursorMap['pointer']" 
           :alt="activeCursor"
           class="cursor-svg"
+          style="border-radius: 0;"
         />
       </motion.div>
     </motion.div>
