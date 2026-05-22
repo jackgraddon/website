@@ -13,9 +13,10 @@ node_modules
 logs
 *.log
 
-# Misc
+# IDE / Misc
 .DS_Store
 .vscode
+.continue
 .history
 
 # Local development files

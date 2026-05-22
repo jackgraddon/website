@@ -54,6 +54,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'nuxt-studio',
     'motion-v/nuxt',
+    '@nuxtjs/mcp-toolkit'
   ],
 
   studio: {
