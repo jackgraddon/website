@@ -85,7 +85,7 @@ console.log('RIGHT HERE', activeProject);
     </transition>
     <div class="content-layer">
       <transition name="fade" mode="out-in">
-        <Card :project-id="activeId!" style="max-width: 300px" :key="activeId || 'empty'" />
+        <Card :project-id="activeId!" style="max-width: 300px; flex: 2;" :key="activeId || 'empty'" />
       </transition>
       <transition name="fade" mode="out-in">
         <div class="text-content" v-if="activeProject" :key="activeId || 'empty'">
@@ -154,9 +154,12 @@ console.log('RIGHT HERE', activeProject);
   gap: 0.5rem;
 
   .text-content {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0rem;
+    max-width: 550px;
+    margin-bottom: 10px;
   }
 
   .text-content h3 {
@@ -219,6 +222,17 @@ console.log('RIGHT HERE', activeProject);
 
   .carousel-nav::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .content-layer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .text-content {
+    margin: 0;
   }
 }
 </style>
