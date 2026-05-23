@@ -13,7 +13,7 @@ definePageMeta({
 const { data: projects } = await useFetch('/api/projects')
 
 // 1. Define the IDs of your featured projects
-const favoriteIds = ['230201', '221001', '230801'];
+const favoriteIds = ['230101', '240101', '230801'];
 </script>
 
 <template>
@@ -21,19 +21,18 @@ const favoriteIds = ['230201', '221001', '230801'];
         <h2 id="favorites-title">My favorites</h2>
         <Carousel :projectIds="favoriteIds" />    
     </section>
-    
     <section>
         <h2>A history of my work</h2>
-        <ProjectTimeline class="fit-short" :projects="projects as any[]" />
+        <TimelineProjects class="fit-short" :projects="projects as any[]" />
     </section>
 </template>
 
 <style scoped>
 section {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
+    margin: 2rem 0;
 }
 </style>
