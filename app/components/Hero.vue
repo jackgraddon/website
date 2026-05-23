@@ -188,7 +188,7 @@ function getWordsWithCharIndices(text: string) {
                 :animate="isLoaded ? { y: 0, opacity: 1, filter: 'blur(0px)' } : { y: 100, opacity: 0, filter: 'blur(20px)' }"
                 :transition="{ duration: 1.2, ease: 'easeOut' }">
                 <motion.img class="hero-cloud-img" alt="Decorative image of a fluffy cloud"
-                    :src="'images/splash-cloud.webp'" :style="{ y }" />
+                    src="/images/splash-cloud.webp" :style="{ y }" />
             </motion.div>
         </div>
     </section>
