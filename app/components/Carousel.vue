@@ -32,13 +32,11 @@ const activeId = computed(() => {
     return ids[activeIndex.value];
 });
 
-// Data for the currently active project (Main display)
 const buttonLink = computed(() => {
     const id = activeId.value;
     return id ? `/projects/${id}` : undefined;
 });
 
-// Bulletproof color extraction
 const buttonColor = computed(() => {
     const project = activeProject.value;
     if (!project) return 'primary';
@@ -72,31 +70,35 @@ console.log('RIGHT HERE', activeProject);
 <template>
   <Surface variant="glass" class="carousel-container">
     <transition name="fade" mode="out-in">
-      <div class="background-layer" :key="activeId || 'empty'">
-        <!-- <iframe 
-          v-if="buttonLink" 
-          :src="buttonLink" 
-          class="background-iframe"
-          tabindex="-1"
-          aria-hidden="true"
-        ></iframe> -->
-        <div class="iframe-overlay"></div>
-      </div>
+      <div
+        class="background-layer"
+        :key="activeId || 'empty'"
+        :style="{ backgroundImage: `url('${buttonLink}/screenshots/1-1.png')` }"
+      />
+    </transition>
+    <transition name="fade" mode="out-in">
+      <div
+        class="background-overlay"
+        :key="activeId || 'empty'"
+        :style="{ backgroundColor: `color-mix(in srgb, ${buttonColor} 15%, transparent)`}"
+      />
     </transition>
     <div class="content-layer">
       <transition name="fade" mode="out-in">
-        <Surface variant="glass" :style="{ backgroundImage: `url(${buttonLink}/ogImage.jpg)` }" class="info-panel" :key="activeId || 'empty'" />
+        <Card :project-id="activeId!" style="max-width: 300px" :key="activeId || 'empty'" />
       </transition>
     </div>
 
     <div class="carousel-nav">
       <Button 
         v-for="(project, index) in projectsData" 
-        :key="project!.id || index"
+        :key="projectIds[index] || index"
         @click="selectProject(index)"
         :color="getProjectColor(project)"
         variant="glass"
         class="nav-btn"
+        :style="{ '--color': getProjectColor(project) }"
+        :class="{ active: projectIds[index] === activeId }"
       >
         {{ project!.title }}
       </Button>
@@ -112,32 +114,26 @@ console.log('RIGHT HERE', activeProject);
   min-height: 600px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .background-layer {
   position: absolute;
   inset: 0;
-  z-index: 0;
-}
-
-.background-iframe {
   width: 100%;
   height: 100%;
-  border: none;
-  pointer-events: none;
-  user-select: none;
-  object-fit: cover;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+  filter: blur(5px);
 }
-
-.iframe-overlay {
+.background-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top, 
-    rgba(0, 0, 0, 0.2) 0%,
-    transparent 100%
-  );
-  backdrop-filter: blur(3px);
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
 .content-layer {
@@ -147,39 +143,36 @@ console.log('RIGHT HERE', activeProject);
   display: flex;
   align-items: flex-end;
   padding: 2rem;
-}
 
-.info-panel {
-  width: 100%;
-  max-width: 350px;
-  aspect-ratio: 1280/800;
-  background-position: center;
-  background-size: cover;
-  border-radius: 20px;
-}
+  .text-content h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+  }
 
-.text-content h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
-}
-
-.text-content p {
-  margin: 0;
-  line-height: 1.6;
-  opacity: 0.85;
+  .text-content p {
+    margin: 0;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
 }
 
 .carousel-nav {
   position: relative;
+  width: 100%;
   z-index: 1;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 0 2rem 2rem 2rem;
-}
 
-.nav-btn {
-  flex: 1;
-  justify-content: center;
+  .nav-btn {
+    flex-grow: 0;
+    min-width: fit-content;
+
+    &.active {
+      flex-grow: 1;
+      background: var(--color);
+    }
+  }
 }
 
 .fade-enter-active,
@@ -190,5 +183,30 @@ console.log('RIGHT HERE', activeProject);
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    min-height: 450px;
+  }
+  
+  .content-layer {
+    padding: 0.5rem;
+    justify-content: center;
+  }
+
+  .carousel-nav {
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    width: 100%;
+    
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .carousel-nav::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>
