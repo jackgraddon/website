@@ -51,10 +51,10 @@ main {
 }
 
 /* Viewport culling for page sections */
-main > section {
+/* main > section {
     content-visibility: auto;
-    contain-intrinsic-size: 0 600px; /* hint at expected height */
-}
+    contain-intrinsic-size: 0 600px;
+} */
 
 /* Typography */
 p,

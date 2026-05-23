@@ -7,7 +7,7 @@ export default defineContentConfig({
             source: 'projects/**/*.md',
             schema: z.object({
                 title: z.string().optional(),
-                description: z.string().optional(),
+                subtitle: z.string().optional(),
                 buttonColor: z.string().optional(),
                 backgroundColor: z.string().optional(),
                 status: z.string().optional(),

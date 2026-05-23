@@ -87,6 +87,14 @@ console.log('RIGHT HERE', activeProject);
       <transition name="fade" mode="out-in">
         <Card :project-id="activeId!" style="max-width: 300px" :key="activeId || 'empty'" />
       </transition>
+      <transition name="fade" mode="out-in">
+        <div class="text-content" v-if="activeProject" :key="activeId || 'empty'">
+          <h3>{{ activeProject.title }}</h3>
+          <p class="description" v-if="activeProject.description">
+            {{ activeProject.description }}
+          </p>
+        </div>
+      </transition>
     </div>
 
     <div class="carousel-nav">
@@ -114,7 +122,6 @@ console.log('RIGHT HERE', activeProject);
   min-height: 600px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .background-layer {
@@ -141,18 +148,23 @@ console.log('RIGHT HERE', activeProject);
   z-index: 1;
   flex: 1;
   display: flex;
+  flex-direction: row;
   align-items: flex-end;
   padding: 2rem;
+  gap: 0.5rem;
+
+  .text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0rem;
+  }
 
   .text-content h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 2rem;
+    margin: 0;
   }
 
   .text-content p {
     margin: 0;
-    line-height: 1.6;
-    opacity: 0.85;
   }
 }
 
