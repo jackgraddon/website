@@ -1,28 +1,9 @@
-<!--
-  PagedContent.vue
-
-  Architecture: Native Window Scroll
-  ────────────────────────────────────
-  This component uses the native window scroll position to drive page
-  transitions and parallax effects. By linking directly to the DOM's 
-  page scroll, we avoid common issues with nested scroll hijacking 
-  and ensure smooth, native behavior across all devices.
-
-  • .scroll-track: Defines the total scrollable height.
-  • .snap-point: Provides anchor points for CSS scroll-snap.
-  • .snap-container: Sticky wrapper that holds the current viewport.
-
-  Usage:
-    <PagedContent>
-      <section class="snap-section">Page 1</section>
-      <section class="snap-section">Page 2</section>
-    </PagedContent>
-
-  Each direct child with class="snap-section" becomes a full-screen page.
--->
-
 <script setup lang="ts">
-// ─── Refs ─────────────────────────────────────────────────────────────────────
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
+
+const props = defineProps({
+  disableOnMobile: { type: Boolean, default: false },
+})
 
 const trackRef = ref<HTMLElement | null>(null)
 const stickyRef = ref<HTMLElement | null>(null)
@@ -33,9 +14,36 @@ const currentScroll = ref(0)
 const isAutoScrolling = ref(false)
 let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 
+// ─── Mobile Detection ────────────────────────────────────────────────────────
+
+const isMobile = ref(false)
+
+function updateMobileState() {
+  isMobile.value = window.innerWidth <= 768
+}
+
+// Compute if the feature should currently be disabled
+const isDisabled = computed(() => props.disableOnMobile && isMobile.value)
+
+// If the device rotates or resizes past the breakpoint, gracefully clean up or re-init
+watch(isDisabled, (newVal) => {
+  if (newVal) {
+    clearGlobalStyles()
+    if (scrollTimeout) clearTimeout(scrollTimeout)
+  } else {
+    // Re-initialize if moving back to desktop
+    if (clouds.value.length === 0 && sectionCount.value > 0) {
+      generateClouds(sectionCount.value)
+    }
+    handleScroll()
+  }
+})
+
 // ─── Section discovery ────────────────────────────────────────────────────────
 
 onMounted(async () => {
+  updateMobileState() // Run initial check
+  
   await nextTick()
   const track = trackRef.value
   if (!track) return
@@ -47,14 +55,19 @@ onMounted(async () => {
   sectionRefs.value = sections
   sectionCount.value = sections.length
 
+  window.addEventListener('resize', updateMobileState, { passive: true })
   window.addEventListener('scroll', handleScroll, { passive: true })
   window.addEventListener('resize', handleScroll, { passive: true })
-  handleScroll()
 
-  generateClouds(sections.length)
+  // Only initialize intensive features if not disabled
+  if (!isDisabled.value) {
+    handleScroll()
+    generateClouds(sections.length)
+  }
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', updateMobileState)
   window.removeEventListener('scroll', handleScroll)
   window.removeEventListener('resize', handleScroll)
   clearGlobalStyles()
@@ -73,7 +86,6 @@ function updateGlobalStyles(isActive: boolean) {
   if (isAutoScrolling.value) return
   if (isActive) {
     document.documentElement.style.scrollSnapType = 'y proximity'
-    // Snapping works best with auto scroll behavior
     document.documentElement.style.scrollBehavior = 'auto'
   } else {
     clearGlobalStyles()
@@ -81,37 +93,34 @@ function updateGlobalStyles(isActive: boolean) {
 }
 
 function handleScroll() {
+  // BYPASS: Do nothing if the component is disabled on mobile
+  if (isDisabled.value) return
+  
   if (!trackRef.value) return
 
   const rect = trackRef.value.getBoundingClientRect()
   const vh = window.innerHeight
 
-  // Active check: is the track currently occupying the viewport?
-  // We use a small threshold to enable snapping just before/at the top.
   const isActive = rect.top <= 5 && rect.bottom >= vh - 5
   updateGlobalStyles(isActive)
 
-  // st is how many pixels the top of the track has moved above the viewport top
   const st = -rect.top
   const maxScroll = Math.max(0, (sectionCount.value - 1) * vh)
 
-  // Clamp scroll between 0 and the end of the track
   currentScroll.value = Math.max(0, Math.min(maxScroll, st))
 
-  // Update currentPage for indicators and UI
   currentPage.value = Math.min(
     sectionCount.value - 1,
     Math.max(0, Math.floor(st / vh + 0.5))
   )
 
-  // Update clouds
   updateClouds(currentScroll.value)
 }
 
 function scrollToPage(index: number) {
-  if (!trackRef.value) return
+  if (!trackRef.value || isDisabled.value) return
+  
   const vh = window.innerHeight
-  // Calculate global scroll position
   const targetY = trackRef.value.offsetTop + index * vh
 
   isAutoScrolling.value = true
@@ -135,6 +144,7 @@ function prevPage() {
 }
 
 function onKeydown(e: KeyboardEvent) {
+  if (isDisabled.value) return
   if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); nextPage() }
   if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); prevPage() }
 }
@@ -157,11 +167,9 @@ const PARALLAX = { bg: 0.55, mid: 1.0, fg: 1.6 }
 let rafId = 0
 
 function updateClouds(st: number) {
+  if (isDisabled.value) return
+  
   clouds.value.forEach((c) => {
-    // Math adjustment for sticky container parallax:
-    // In a sticky container, to move with the sections (1:1), 
-    // a child would need to be translated by -st.
-    // So parallax math becomes: st * (PARALLAX - 2.0)
     cloudY.value[c.id] = st * (PARALLAX[c.layer] - 2.0)
   })
 }
@@ -202,8 +210,6 @@ function generateClouds(n: number) {
   result.forEach((c) => (init[c.id] = 0))
   clouds.value = result
   cloudY.value = init
-  // Initial position
-  if (trackRef.value) handleScroll()
 }
 
 function cloudStyle(cloud: Cloud) {
@@ -224,39 +230,37 @@ function cloudStyle(cloud: Cloud) {
 </script>
 
 <template>
-  <div ref="trackRef" class="scroll-track" :style="{ height: sectionCount > 0 ? `${sectionCount * 100}vh` : '100vh' }">
-    <div ref="stickyRef" class="snap-container" tabindex="0" @keydown="onKeydown">
-      <!-- Cloud layers -->
-      <img v-for="cloud in clouds" :key="cloud.id" :src="cloud.src" :style="cloudStyle(cloud)" class="cloud-img" alt=""
-        aria-hidden="true" loading="lazy" />
-
-    </div>
-
-    <!-- UI overlay -->
-    <div class="ui-overlay" aria-hidden="true">
-      <!-- Side dot indicators -->
-      <div v-if="sectionCount > 1" class="page-indicators" role="tablist">
-        <button v-for="i in sectionCount" :key="i" class="dot-btn" :class="{ active: currentPage === i - 1 }" role="tab"
-          :aria-selected="currentPage === i - 1" :aria-label="`Go to page ${i}`" @click="scrollToPage(i - 1)">
-          <span class="dot-inner" />
-        </button>
+  <div 
+    ref="trackRef" 
+    class="scroll-track" 
+    :class="{ 'is-disabled': isDisabled }"
+    :style="!isDisabled && sectionCount > 0 ? { height: `${sectionCount * 100}vh` } : {}"
+  >
+    <template v-if="!isDisabled">
+      <div ref="stickyRef" class="snap-container" tabindex="0" @keydown="onKeydown">
+        <img v-for="cloud in clouds" :key="cloud.id" :src="cloud.src" :style="cloudStyle(cloud)" class="cloud-img" alt="" aria-hidden="true" loading="lazy" />
       </div>
 
-      <!-- Previous -->
-      <Transition name="hint-down">
-        <Button v-if="currentPage > 0" variant="default" class="page-hint top" @click="prevPage"
-          aria-label="Previous page">
-          Previous
-        </Button>
-      </Transition>
+      <div class="ui-overlay" aria-hidden="true">
+        <div v-if="sectionCount > 1" class="page-indicators" role="tablist">
+          <button v-for="i in sectionCount" :key="i" class="dot-btn" :class="{ active: currentPage === i - 1 }" role="tab" :aria-selected="currentPage === i - 1" :aria-label="`Go to page ${i}`" @click="scrollToPage(i - 1)">
+            <span class="dot-inner" />
+          </button>
+        </div>
 
-      <!-- Next -->
-      <Transition name="hint-up">
-        <Button v-if="currentPage < sectionCount - 1" variant="default" class="page-hint bottom" @click="nextPage" aria-label="Next page">
-          Next
-        </Button>
-      </Transition>
-    </div>
+        <Transition name="hint-down">
+          <Button v-if="currentPage > 0" variant="default" class="page-hint top" @click="prevPage" aria-label="Previous page">
+            Previous
+          </Button>
+        </Transition>
+
+        <Transition name="hint-up">
+          <Button v-if="currentPage < sectionCount - 1" variant="default" class="page-hint bottom" @click="nextPage" aria-label="Next page">
+            Next
+          </Button>
+        </Transition>
+      </div>
+    </template>
 
     <div class="sections-host">
       <slot />
@@ -275,6 +279,24 @@ function cloudStyle(cloud: Cloud) {
   grid-template-columns: 1fr;
 }
 
+/* ── Mobile Bypass Override Classes ─────────────────────────────────── */
+/* These classes reset the layout so the component "doesn't exist"  */
+
+.scroll-track.is-disabled {
+  display: block;
+  width: 100%;
+  margin-left: 0;
+  position: static;
+}
+
+/* Reset the strict 100vh snapping for inner sections so content can scroll normally */
+.scroll-track.is-disabled :deep(.snap-section) {
+  height: auto;
+  min-height: 100dvh;
+  scroll-snap-align: none;
+  padding: 4rem 6% 3rem; /* Fallback padding so the inner content still looks good */
+}
+
 /* ── Sticky snap container ──────────────────────────────────────────── */
 
 .snap-container {
@@ -288,7 +310,6 @@ function cloudStyle(cloud: Cloud) {
   outline: none;
   z-index: 1;
   pointer-events: none;
-  /* Let clicks pass through to sections if needed, but clouds are pointer-events: none anyway. Actually UI needs pointer-events. */
 }
 
 /* ── Sections host ──────────────────────────────────────────────────── */
@@ -297,7 +318,6 @@ function cloudStyle(cloud: Cloud) {
   grid-area: 1 / 1;
   position: relative;
   z-index: 10;
-  /* Natural height based on slot contents */
 }
 
 /* ── Snap sections ──────────────────────────────────────────────────── */
@@ -456,6 +476,7 @@ function cloudStyle(cloud: Cloud) {
     padding: 0.7rem 1.2rem;
   }
 
+  /* Note: this is overridden by .is-disabled :deep(.snap-section) when active */
   :deep(.snap-section) {
     padding: max(3rem, 8vh) 6% max(2.5rem, 6vh);
     align-items: center;
@@ -466,7 +487,6 @@ function cloudStyle(cloud: Cloud) {
 /* ── Reduced motion ─────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-
   .hint-up-enter-active,
   .hint-up-leave-active,
   .hint-down-enter-active,

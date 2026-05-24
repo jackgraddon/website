@@ -1,6 +1,6 @@
 <template>
   <div class="about-page">
-    <PagedContent>
+    <PagedContent disable-on-mobile>
       <!-- Bio Tabs Section -->
       <section class="bio-section snap-section">
         <div class="tab-pills" role="tablist">
