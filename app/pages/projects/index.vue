@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { motion, useScroll, scroll, animate } from 'motion-v';
-const { scrollYProgress } = useScroll();
-
 definePageMeta({
   title: 'Projects',
   description: 'A selection of my work.',
@@ -10,9 +6,10 @@ definePageMeta({
   keywords: 'projects, portfolio, work, design, development'
 })
 
-const { data: projects } = await useFetch('/api/projects')
+const { data: projects } = await useAsyncData('all-projects', () => {
+  return queryCollection('projects').all()
+})
 
-// 1. Define the IDs of your featured projects
 const favoriteIds = ['230101', '240101', '230801'];
 </script>
 
