@@ -7,12 +7,14 @@ definePageMeta({
 })
 
 const { data: projects } = await useAsyncData('all-projects', () => {
-  return queryCollection('projects').all()
+  return queryCollection('projects')
+    .order('stem', 'DESC')
+    .all()
 })
 
 const favoriteIds = ['230101', '240101', '230801'];
 </script>
-
+s
 <template>
     <section id="favorites">
         <h2 id="favorites-title">My favorites</h2>
