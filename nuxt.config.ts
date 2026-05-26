@@ -38,6 +38,10 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    preset: 'vercel'
+  },
+
   devServer: {
     https: {
       key: './server.key',
@@ -56,6 +60,17 @@ export default defineNuxtConfig({
     'motion-v/nuxt',
     '@nuxtjs/mcp-toolkit'
   ],
+
+  routeRules: {
+    '/projects/**': { prerender: true }
+  },
+
+  content: {
+    database: {
+      type: 'sqlite',
+      filename: '/tmp/nuxt-content.sqlite'
+    }
+  },
 
   studio: {
     repository: {
