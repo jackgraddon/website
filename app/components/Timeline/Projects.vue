@@ -1,15 +1,30 @@
+<script lang="ts" setup>
+const { data: projects } = await useAsyncData('timeline-projects', async () => {
+  const all = await queryCollection('projects').all();
+
+  return all
+    .map(p => {
+      return {
+        id: p.stem.includes('/') ? p.stem.split('/').pop() : p.stem // Isolate just the trailing id string, eg 'projects/240701' to '240701'
+      };
+    })
+    // Filter out the GitHub profile repo (where ID is string '0' or number 0)
+    .filter(p => p.id && String(p.id) !== '0')
+    // Explicitly sort greatest to least (Newest/Highest ID number first)
+    .sort((a, b) => Number(b.id) - Number(a.id));
+});
+</script>
+
 <template>
   <div class="timeline-container">
     <span id="line"></span>
-    <TimelineItem v-for="project in projects" :key="project.id" :project="project" />
+    <TimelineItem 
+        v-for="project in projects" 
+        :key="project.id" 
+        :project="project" 
+    />
   </div>
 </template>
-
-<script lang="ts" setup>
-defineProps<{
-  projects: any[]
-}>()
-</script>
 
 <style scoped>
 .timeline-container {
