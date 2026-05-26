@@ -33,7 +33,7 @@
           <div class="form-grid">
             <span style="grid-column: 1 / span 1;">
               <label for="name">Name</label>
-              <input id="name" name="name" type="text" placeholder="Name" required v-model="form.name" :disabled="status === 'submitting'" />
+              <input id="name" name="name" type="text" placeholder="Name" required v-model="form.name" :disabled="status === 'submitting'"/>
             </span>
             <span style="grid-column: 2 / span 1;">
               <label for="email">Email</label>
@@ -75,7 +75,8 @@ import { motion, AnimatePresence } from 'motion-v'
 definePageMeta({
   layout: 'default',
   title: 'Contact',
-  description: "Let's get in touch!",
+  subtitle: "Let's get in touch!",
+  description: 'Need a new website, brand, or just a refresh of what you have? We should chat!',
   icon: 'solar:mailbox-broken',
 })
 
@@ -156,7 +157,6 @@ function resetForm() {
         border-radius: 14pt;
         border: 2px solid transparent;
         outline: none;
-        resize: vertical;
         min-height: 2.75rem;
         background: rgba(255, 255, 255, 0.05);
         color: var(--color-text);
@@ -179,6 +179,7 @@ function resetForm() {
       }
 
       textarea {
+        resize: vertical;
         min-height: 8rem;
       }
     }

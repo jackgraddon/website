@@ -1,7 +1,8 @@
 <script setup lang="ts">
 definePageMeta({
   title: 'Projects',
-  description: 'A selection of my work.',
+  subtitle: 'A selection of my work.',
+  description: "A look back at my work, both personal and for hire. See something you like? Let's get in touch!",
   icon: 'solar:folder-broken',
   keywords: 'projects, portfolio, work, design, development'
 })

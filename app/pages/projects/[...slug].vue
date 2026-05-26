@@ -3,6 +3,10 @@ const route = useRoute()
 const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection('projects').path(route.path).first()
 })
+
+useSeoMeta({
+  ogImage: `/${page.value?.stem}/ogImage.jpg`
+})
 </script>
 
 <template>

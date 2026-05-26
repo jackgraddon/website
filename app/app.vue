@@ -28,7 +28,9 @@ const route = useRoute();
 const routeMeta = computed(() => ({
   title: (route.meta.title as string == 'Home') ? 'Jack Graddon' : route.meta.title as string,
   description: route.meta.description as string || '',
-  icon: route.meta.icon as string || ''
+  icon: route.meta.icon as string || '',
+  // Use bracket notation or 'as string' so TypeScript allows the custom property
+  subtitle: (route.meta.subtitle as string) || '' 
 }));
 
 // Fetch content metadata for content routes
@@ -50,69 +52,60 @@ const { data: contentPage } = await useAsyncData(
 // Compute effective metadata (from route meta or content)
 const effectiveMeta = computed(() => {
   if (contentPage.value) {
-    const page = contentPage.value as any
     return {
-      title: page.title || 'Project',
-      description: page.description || '',
-      icon: page.icon || page.meta?.icon || ''
+      title: contentPage.value.title || routeMeta.value.title,
+      description: contentPage.value.description || routeMeta.value.description, 
+      icon: contentPage.value.icon || routeMeta.value.icon,
+      // Prioritize the markdown subtitle, then fall back to the definePageMeta subtitle
+      subtitle: contentPage.value.subtitle || routeMeta.value.subtitle 
     }
   }
-  return routeMeta.value
+  return routeMeta.value;
 })
 
 // Reactive head management
 const siteUrl = 'https://jackgraddon.com'
 
+defineOgImage('Default.takumi', {
+  title: effectiveMeta.value.title,
+  subtitle: effectiveMeta.value.subtitle
+})
+
+// Helper for the dynamic title logic
+const computedTitle = computed(() => {
+  const meta = effectiveMeta.value
+  if (!meta.title || meta.title.includes('Jack Graddon')) {
+    return ''
+  }
+  return `${meta.title}`
+})
+
+// Standard Title
 useHead({
-  title: computed(() => {
-    const meta = effectiveMeta.value
-    // If title is missing, Home, or Jack Graddon, show just Jack Graddon
-    if (!meta.title || meta.title === 'Home' || meta.title === 'Jack Graddon') {
-      return 'Jack Graddon'
-    }
-    return `${meta.title} | Jack Graddon`
-  }),
-  meta: [
-    // Standard
-    { name: 'description', content: computed(() => effectiveMeta.value.description) },
+  title: computedTitle,
+  htmlAttrs: { lang: 'en' }
+})
 
-    // Open Graph
-    { property: 'og:site_name', content: 'Jack Graddon' },
-    { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: computed(() => `${siteUrl}${route.path}`) },
-    {
-      property: 'og:title',
-      content: computed(() => {
-        const meta = effectiveMeta.value
-        if (!meta.title || meta.title === 'Home' || meta.title === 'Jack Graddon') {
-          return 'Jack Graddon'
-        }
-        return `${meta.title} | Jack Graddon`
-      }),
-    },
-    { property: 'og:description', content: computed(() => effectiveMeta.value.description || 'Design Engineer, Web Developer, and Graphic Designer based in Spokane, WA.') },
-    { property: 'og:image', content: `${siteUrl}/images/og-default.jpg` },
-    { property: 'og:image:width', content: '1200' },
-    { property: 'og:image:height', content: '630' },
-    { property: 'og:image:alt', content: 'Jack Graddon — Design Engineer' },
+// SEO Meta Tags
+useSeoMeta({
+  description: computed(() => effectiveMeta.value.description),
+  
+  // Open Graph
+  ogSiteName: 'Jack Graddon',
+  ogType: 'website',
+  ogUrl: computed(() => `${siteUrl}${route.path}`),
+  ogTitle: computedTitle,
+  ogDescription: computed(() => effectiveMeta.value.description || 'Design Engineer, Web Developer, and Graphic Designer based in Spokane, WA.'),
+  ogImageWidth: '1200',
+  ogImageHeight: '630',
+  ogImageAlt: 'Jack Graddon: Design Engineer',
 
-    // Twitter / X
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:site', content: '@jackgraddon' },
-    { name: 'twitter:creator', content: '@jackgraddon' },
-    {
-      name: 'twitter:title',
-      content: computed(() => {
-        const meta = effectiveMeta.value
-        if (!meta.title || meta.title === 'Home' || meta.title === 'Jack Graddon') {
-          return 'Jack Graddon'
-        }
-        return `${meta.title} | Jack Graddon`
-      }),
-    },
-    { name: 'twitter:description', content: computed(() => effectiveMeta.value.description || 'Design Engineer, Web Developer, and Graphic Designer based in Spokane, WA.') },
-    { name: 'twitter:image', content: `${siteUrl}/images/og-default.jpg` },
-  ],
+  // Twitter
+  twitterCard: 'summary_large_image',
+  twitterSite: '@jackgraddon',
+  twitterCreator: '@jackgraddon',
+  twitterTitle: computedTitle,
+  twitterDescription: computed(() => effectiveMeta.value.description || 'Design Engineer, Web Developer, and Graphic Designer based in Spokane, WA.'),
 })
 
 // If landing page, make sure Hero is variant landing
@@ -126,7 +119,7 @@ let heroVariant = computed(() => {
     <Cursor />
     <Background />
     <NuxtRouteAnnouncer />
-    <Hero :title="effectiveMeta.title" :subtitle="effectiveMeta.description" :iconName="effectiveMeta.icon" :variant="heroVariant" />
+    <Hero :title="effectiveMeta.title" :subtitle="effectiveMeta.subtitle" :iconName="effectiveMeta.icon" :variant="heroVariant" />
     <main>
       <NuxtPage :key="$route.path" />
     </main>

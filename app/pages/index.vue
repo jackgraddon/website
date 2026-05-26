@@ -3,8 +3,9 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 definePageMeta({
   title: 'Home',
+  subtitle: 'Design Engineer',
   description: 'Design Engineer, Web Developer, and Graphic Designer',
-  keywords: 'home, jack graddon, design engineer, web developer, graphic designer'
+  keywords: 'jack graddon, design engineer, web developer, graphic designer'
 })
 
 // Track references for both sections

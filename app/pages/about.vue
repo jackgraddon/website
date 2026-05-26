@@ -240,7 +240,8 @@ import { motion, AnimatePresence } from 'motion-v'
 definePageMeta({
   layout: 'default',
   title: 'About',
-  description: "Nice to meet you!",
+  subtitle: 'Nice to meet you!',
+  description: "I am Jack Graddon, a Design Engineer based in Spokane, WA. I love designing and building for the people in my community.",
   icon: 'solar:user-broken',
 })
 
