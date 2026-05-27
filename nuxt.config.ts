@@ -35,7 +35,7 @@ export default defineNuxtConfig({
 
   fonts: {
     families: [
-      { name: 'Outfit', weights: [400, 700], global: true },
+      { name: 'Outfit', weights: ['100 900'], global: true },
       { name: 'Sunflower', src: '/fonts/sunflower.woff2', weights: [400], global: true },
     ],
   },
